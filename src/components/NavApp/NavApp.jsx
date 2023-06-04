@@ -16,29 +16,30 @@ function NavApp() {
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
             navbarScroll
+            defaultActiveKey="/"
           >
-            <Nav.Link href="#action1">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
+            <Nav.Link href="#action1">Inicio</Nav.Link>
+            <NavDropdown title="Pedidos" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">
+                Registrar Pedido
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Link
-            </Nav.Link>
+            <NavDropdown title="Gastos" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">
+                Registrar Gasto
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Clientes" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">
+                Regirstrar Cliente
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <Form className="d-flex">
             <Form.Control
               type="search"
-              placeholder="Search"
+              placeholder="Buscar Artículo"
               className="me-2"
               aria-label="Search"
             />
