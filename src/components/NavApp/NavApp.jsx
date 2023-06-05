@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function NavApp() {
   return (
-    <nav className="navbar navbar-expand-lg px-md-4 header__nav">
+    <nav className="navbar navbar-expand-lg px-md-4 header__nav navbar-dark">
       <div className="container-fluid">
         <div className="nav-item d-lg-none">
           <div className="btn-group bg-transparent align-items-center position-relative">

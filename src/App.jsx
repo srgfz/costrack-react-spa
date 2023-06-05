@@ -5,11 +5,14 @@ import Order from "./pages/Order/Order";
 import Bill from "./pages/Bill/Bill";
 import Customer from "./pages/Customer/Customer";
 import UserProfile from "./pages/UserProfile/UserProfile";
+// import { checkPrivateRoute } from "./utils/auth";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="orders" element={<Order />} />
