@@ -1,4 +1,6 @@
-.footer {}
+.footer {
+    max-width: 1800px;
+}
 
 .footer__logo {
     width: 80px;

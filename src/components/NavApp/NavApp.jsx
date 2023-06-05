@@ -10,21 +10,21 @@ function NavApp() {
           <div className="btn-group bg-transparent align-items-center position-relative">
             <div className="nav-item dropdown">
               <a
-                className="nav-link dropdown-toggle btn bg-transparent img-container p-0 nav__porfileimg"
+                className="nav-link dropdown-toggle btn bg-transparent img-container p-0 nav__profileimg"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <img
-                  src="./src/assets/images/porfile.jpg"
+                  src="./src/assets/images/profile.jpg"
                   alt="Imagen de perfil"
                   className="object-fit-contain img-fluid rounded-circle"
                 />
               </a>
               <ul className="dropdown-menu p-0">
                 <li>
-                  <Link to="/porfile" className="dropdown-item">
+                  <Link to="/profile" className="dropdown-item">
                     Editar Perfil
                   </Link>
                 </li>
@@ -240,21 +240,21 @@ function NavApp() {
             <div className="btn-group bg-transparent align-items-center position-relative">
               <div className="nav-item dropdown">
                 <a
-                  className="nav-link dropdown-toggle btn bg-transparent img-container p-0 nav__porfileimg"
+                  className="nav-link dropdown-toggle btn bg-transparent img-container p-0 nav__profileimg"
                   href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   <img
-                    src="./src/assets/images/porfile.jpg"
+                    src="./src/assets/images/profile.jpg"
                     alt="Imagen de perfil"
                     className="object-fit-contain img-fluid rounded-circle"
                   />
                 </a>
-                <ul className="dropdown-menu p-0 position-absolute porfile__items">
+                <ul className="dropdown-menu p-0 position-absolute profile__items">
                   <li>
-                    <Link to="/porfile" className="dropdown-item">
+                    <Link to="/profile" className="dropdown-item">
                       Editar Perfil
                     </Link>
                   </li>
