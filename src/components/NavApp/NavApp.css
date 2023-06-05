@@ -1,0 +1,49 @@
+.header__nav {
+    background-color: var(--primary-color);
+}
+
+.header__logo {
+    min-width: 130px;
+}
+
+.nav__porfileimg {
+    width: 35px;
+    height: 35px;
+}
+
+.header__search {
+    min-width: 240px;
+    max-width: 280px;
+}
+
+.search__input,
+.search__input:focus {
+    outline: none;
+    width: 100%;
+}
+
+.nav-link {
+    color: var(--secondary-color) !important;
+}
+
+.dropdown-toggle-split {
+    color: var(--tertiary-color) !important;
+}
+
+.dropdown-menu {
+    background-color: var(--tertiary-color) !important;
+    border-radius: 10px !important;
+}
+
+.dropdown-item:hover {
+    border-radius: 10px !important;
+}
+
+.dropdown-menu .nav-link {
+    color: var(--primary-color) !important;
+
+}
+
+.porfile__items {
+    left: -100px !important;
+}

@@ -7,14 +7,15 @@
 
 body {
     margin: 0 auto;
-    min-width: 300px;
+    min-width: 370px;
     max-width: 1600px;
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 ul {
-    list-style: none;
+    list-style: none !important;
+    padding: 0 !important;
 }
