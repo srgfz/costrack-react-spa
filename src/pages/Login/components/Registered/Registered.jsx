@@ -1,8 +1,34 @@
 import "./Registered.css";
-
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import useFetch from "./../../../../hooks/useFetch";
 const Registered = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { isLoading, data, fetchData } = useFetch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Aquí se llamará al servicio apiService para realizar la petición a la API
+    const apiEndpoint = "http://localhost:3000/costrack/users/login";
+    const requestData = {
+      email: email.trim(),
+      password: password,
+    };
+
+    fetchData(apiEndpoint, requestData);
+  };
+
+  //Redireccionar a la nueva ruta si el inicio de sesión es exitoso
+  if (data && data.token) {
+    sessionStorage.setItem("token", data.token);
+    return <Navigate to="/" replace />;
+  }
+
   return (
-    <div className="">
+    <form method="#" action="#" className="" onSubmit={handleSubmit}>
       <label htmlFor="email" className="login__label">
         <i className="bi bi-envelope me-2"></i>Email
       </label>
@@ -10,11 +36,13 @@ const Registered = () => {
         type="email"
         placeholder="Email"
         id="email"
-        name="email"
         autoComplete="username"
         className="login__input"
-      ></input>
-
+        name="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <label htmlFor="password" className="login__label">
         <i className="bi bi-key me-2"></i>Contraseña
       </label>
@@ -22,16 +50,23 @@ const Registered = () => {
         type="password"
         placeholder="Contraseña"
         id="password"
-        name="password"
         autoComplete="current-password"
         className="login__input"
-      ></input>
+        name="password"
+        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <input
         type="submit"
         className="login__submit"
         value="Iniciar Sesión"
-      ></input>
-    </div>
+        disabled={isLoading}
+      />
+      {data && data.error ? (
+        <p className="text-danger my-3">* {data.error}</p>
+      ) : null}
+    </form>
   );
 };
 

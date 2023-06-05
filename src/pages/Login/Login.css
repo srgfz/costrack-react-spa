@@ -26,7 +26,7 @@
     width: 290px;
 }
 
-form * {
+.form__container * {
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;

@@ -2,7 +2,7 @@ import "./Register.css";
 
 const Register = () => {
   return (
-    <div className="">
+    <form method="#" action="#" className="">
       <div className="">
         <label htmlFor="name" className="login__label mt-2">
           <span className="label__span">*</span> Nombre de la Empresa
@@ -64,7 +64,7 @@ const Register = () => {
         className="login__input"
       />
       <input type="submit" className="login__submit mt-3" value="Registrarse" />
-    </div>
+    </form>
   );
 };
 
