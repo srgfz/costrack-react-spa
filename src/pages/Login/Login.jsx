@@ -8,13 +8,7 @@ const Login = () => {
 
   return (
     <div className="login ">
-      <div
-        className={
-          registered
-            ? "col-11 col-md-8 col-lg-7 d-flex align-items-center justify-content-center login__container mx-auto py-3 pb-5 px-2 px-md-5 top-0 my-3 mt-5"
-            : "col-11 col-md-8 col-lg-7 d-flex align-items-center justify-content-center login__container mx-auto py-3 px-2 px-md-5 top-0 my-3 mt-5"
-        }
-      >
+      <div className="col-11 col-md-8 col-lg-7 d-flex align-items-center justify-content-center login__container mx-auto py-3 pb-5 px-2 px-md-5 top-0 my-3 mt-5">
         <form className=" col-11">
           <div className="mx-auto col-8 col-md-6 col-lg-5">
             <img

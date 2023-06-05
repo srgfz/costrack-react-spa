@@ -10,6 +10,7 @@ const Registered = () => {
         type="email"
         placeholder="Email"
         id="email"
+        name="email"
         autoComplete="username"
         className="login__input"
       ></input>
@@ -21,6 +22,7 @@ const Registered = () => {
         type="password"
         placeholder="Contraseña"
         id="password"
+        name="password"
         autoComplete="current-password"
         className="login__input"
       ></input>
