@@ -2,43 +2,39 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top position-absolute bottom-0 w-100 px-3">
-      <div className="col-md-4 d-flex align-items-center">
-        <a
-          href="/"
-          className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
-        >
-          logo
-        </a>
-        <div className="d-flex flex-column">
-          <span className="mb-3 mb-md-0 text-muted">
-            DAW - IES Ribera del Tajo
-          </span>
-          <span className="mb-3 mb-md-0 text-muted">
-            Sergio Fernández Nevado 2023
-          </span>
-        </div>
+    <footer className="d-flex flex-column flex-md-row justify-content-between align-items-center py-3 mt-4 border-top position-absolute bottom-0 w-100 px-5 me-0 bg-dark text-light">
+      <div className="footer__logo">
+        <img
+          src="./src/assets/images/logo/logo-nobg/icon1.png"
+          alt="Logo de CosTrack"
+          className="img-fluid "
+        />
+      </div>
+      <div className="d-flex flex-column flex-md-row aling-itmes-center justify-content-center text-center my-3">
+        <span className="  text-light">© Sergio Fernández Nevado 2023</span>
+        <span className="d-none d-md-flex mx-2"> | </span>
+        <span>IES Ribera del Tajo</span>
       </div>
 
-      <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li className="ms-3">
+      <ul className="d-flex fs-5">
+        <li className="">
           <a
-            className="text-muted"
+            className="mx-3"
             href="https://github.com/srgfz"
             target="_blank"
             rel="noreferrer"
           >
-            <i className="bi bi-github"></i>
+            <i className="bi bi-github text-light"></i>
           </a>
         </li>
-        <li className="ms-3">
+        <li className="">
           <a
-            className="text-muted"
+            className=""
             href="https://www.linkedin.com/in/srgfz/"
             target="_blank"
             rel="noreferrer"
           >
-            <i className="bi bi-linkedin"></i>
+            <i className="bi bi-linkedin text-light"></i>
           </a>
         </li>
       </ul>
