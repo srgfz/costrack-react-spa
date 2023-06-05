@@ -1,6 +1,7 @@
 import "./NavApp.css";
 //Importamos también el componente link de react-router-dom, que será el que utilizaremos para irigirnos
 import { Link } from "react-router-dom";
+import { logOut } from "./../../utils/auth";
 
 function NavApp() {
   return (
@@ -259,7 +260,11 @@ function NavApp() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/log-out" className="dropdown-item">
+                    <Link
+                      to="/log-out"
+                      className="dropdown-item"
+                      onClick={() => logOut()}
+                    >
                       Cerrar Sesión
                     </Link>
                   </li>

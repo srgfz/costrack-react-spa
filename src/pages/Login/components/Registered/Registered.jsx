@@ -57,15 +57,15 @@ const Registered = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {data && data.error ? (
+        <p className="text-danger mt-3 mb-0">* {data.error}</p>
+      ) : null}
       <input
         type="submit"
         className="login__submit"
         value="Iniciar Sesión"
         disabled={isLoading}
       />
-      {data && data.error ? (
-        <p className="text-danger my-3">* {data.error}</p>
-      ) : null}
     </form>
   );
 };

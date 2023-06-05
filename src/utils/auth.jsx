@@ -1,42 +1,28 @@
 /* eslint-disable react/prop-types */
 //*Archivo en el que incluiré las funciones de seguridad de las rutas
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
-export const checkPrivateRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      element={
-        checkTokenValidity() ? <Component /> : <Navigate to="/login" replace />
-      }
-    />
-  );
-};
-
-export const saveToken = (token) => {
-  // Lógica para guardar el token en el sessionStorage
-  sessionStorage.setItem("token", token);
-};
-
-export const getToken = () => {
-  // Lógica para obtener el token del sessionStorage
-  return sessionStorage.getItem("token");
-};
-
-export const removeToken = () => {
+export const logOut = () => {
   sessionStorage.removeItem("token");
+  return <Navigate to="/login" replace />;
 };
 
 const validateTokenLocally = (token) => {
-  // Aquí puedes implementar tu lógica de validación local del token
-  // Por ejemplo, puedes verificar la caducidad del token o su firma
-  // Devuelve true si el token es válido, de lo contrario, devuelve false
-  return true;
-};
-
-const handleInvalidToken = () => {
-  // Aquí puedes implementar las acciones necesarias cuando el token es inválido
-  // Por ejemplo, cerrar sesión y mostrar un mensaje de error
+  try {
+    //const decodedToken = jwt.verify(token, secretKey);
+    const decodedToken = jwt_decode(token);
+    console.log(decodedToken);
+    const currentTime = Date.now() / 1000; //tiempo actual en segundos
+    // Verificar la caducidad del token
+    if (decodedToken.exp < currentTime) {
+      return false;
+    }
+    // Verificar cualquier otra condición necesaria en el token
+    return true; // El token es válido
+  } catch (error) {
+    return false; // Error al decodificar el token o token inválido
+  }
 };
 
 export const checkTokenValidity = () => {
@@ -50,4 +36,14 @@ export const checkTokenValidity = () => {
     return false;
   }
   return true;
+};
+
+export const getUserId = () => {
+  const token = sessionStorage.getItem("token");
+  return jwt_decode(token).id;
+};
+
+export const getUserRol = () => {
+  const token = sessionStorage.getItem("token");
+  return jwt_decode(token).rol;
 };
