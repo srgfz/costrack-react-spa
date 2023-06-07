@@ -13,7 +13,6 @@ const useFetch = () => {
             const response = await apiService(endpoint, body, apiKey, method);
             const responseData = await response.json();
             console.log(responseData)
-
             if (response.ok) {
                 setData(responseData);
                 setError(null);

@@ -2,7 +2,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <footer className="d-flex flex-column flex-md-row justify-content-between align-items-center py-3 mt-4  px-0 px-md-5 bg-dark text-light container-fluid w-100 footer">
+    <footer className="d-flex flex-column flex-md-row justify-content-between align-items-center py-3 mt-4 position-relative bottom-0 px-0 px-md-5 bg-dark text-light container-fluid w-100 footer">
       <div className="footer__logo">
         <img
           src="./src/assets/images/logo/logo-nobg/icon1.png"
