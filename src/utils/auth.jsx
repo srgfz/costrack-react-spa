@@ -12,7 +12,6 @@ const validateTokenLocally = (token) => {
   try {
     //const decodedToken = jwt.verify(token, secretKey);
     const decodedToken = jwt_decode(token);
-    console.log(decodedToken);
     const currentTime = Date.now() / 1000; //tiempo actual en segundos
     // Verificar la caducidad del token
     if (decodedToken.exp < currentTime) {

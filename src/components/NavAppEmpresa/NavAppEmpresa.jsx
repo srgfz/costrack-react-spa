@@ -1,9 +1,9 @@
-import "./NavApp.css";
+import "./NavAppEmpresa.css";
 //Importamos también el componente link de react-router-dom, que será el que utilizaremos para irigirnos
 import { Link } from "react-router-dom";
 import { logOut } from "./../../utils/auth";
 
-function NavApp() {
+const NavAppEmpresa = () => {
   return (
     <nav className="navbar navbar-expand-lg px-md-4 header__nav navbar-dark">
       <div className="container-fluid">
@@ -80,10 +80,24 @@ function NavApp() {
                   <input
                     className="border-0 search__input"
                     type="search"
-                    placeholder="Buscar Producto"
+                    placeholder="Buscar Comercial"
                     aria-label="Search"
                   ></input>
                 </form>
+              </div>
+            </li>
+            <li className="nav-item d-lg-none w-75 text-center">
+              <Link className="nav-link" to="/orders">
+                Pedidos
+              </Link>
+            </li>
+            <li className="nav-item d-none d-lg-block">
+              <div className="btn-group">
+                <button type="button" className="btn pe-0">
+                  <Link to="/orders" className=" nav-link ">
+                    Pedidos
+                  </Link>
+                </button>
               </div>
             </li>
             <li className="nav-item dropdown d-lg-none w-75 text-center">
@@ -94,17 +108,17 @@ function NavApp() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Pedidos
+                Comerciales
               </a>
               <ul className="dropdown-menu text-center w-75 mx-auto">
                 <li>
-                  <Link to="/orders" className=" nav-link ">
-                    Mis Pedidos
+                  <Link to="/commercial" className=" nav-link ">
+                    Ver Comerciales
                   </Link>
                 </li>
                 <li>
-                  <Link to="/new-order" className="nav-link p-1">
-                    Registrar Pedido
+                  <Link to="/new-commercial" className="nav-link p-1">
+                    Registrar Comercial
                   </Link>
                 </li>
               </ul>
@@ -112,8 +126,8 @@ function NavApp() {
             <li className="nav-item d-none d-lg-block">
               <div className="btn-group">
                 <button type="button" className="btn pe-0">
-                  <Link to="/orders" className=" nav-link ">
-                    Mis Pedidos
+                  <Link to="/commercial" className=" nav-link ">
+                    Comerciales
                   </Link>
                 </button>
                 <button
@@ -126,60 +140,14 @@ function NavApp() {
                 </button>
                 <ul className="dropdown-menu p-0">
                   <li className="dropdown-item">
-                    <Link to="/new-order" className="nav-link p-1">
-                      Registrar Pedido
+                    <Link to="/new-commercial" className="nav-link p-1">
+                      Registrar Comercial
                     </Link>
                   </li>
                 </ul>
               </div>
             </li>
-            <li className="nav-item dropdown d-lg-none w-75 text-center">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Gastos
-              </a>
-              <ul className="dropdown-menu text-center w-75 mx-auto">
-                <li>
-                  <Link to="/bills" className="nav-link">
-                    Mis Gastos
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/new-bill" className="nav-link p-1">
-                    Registrar Gasto
-                  </Link>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item d-none d-lg-block">
-              <div className="btn-group">
-                <button type="button" className="btn pe-0">
-                  <Link to="/bills" className="nav-link">
-                    Mis Gastos
-                  </Link>
-                </button>
-                <button
-                  type="button"
-                  className="btn dropdown-toggle dropdown-toggle-split  border-0"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu p-0">
-                  <li className="dropdown-item">
-                    <Link to="/new-bill" className="nav-link p-1">
-                      Registrar Gasto
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
+
             <li className="nav-item dropdown d-lg-none w-75 text-center">
               <a
                 className="nav-link dropdown-toggle"
@@ -192,8 +160,8 @@ function NavApp() {
               </a>
               <ul className="dropdown-menu text-center w-75 mx-auto">
                 <li>
-                  <Link to="/customers" className="nav-link">
-                    Mis Clientes
+                  <Link to="/customers" className=" nav-link ">
+                    Ver Clientes
                   </Link>
                 </li>
                 <li>
@@ -206,13 +174,13 @@ function NavApp() {
             <li className="nav-item d-none d-lg-block">
               <div className="btn-group">
                 <button type="button" className="btn pe-0">
-                  <Link to="/customers" className="nav-link">
+                  <Link to="/customers" className=" nav-link ">
                     Clientes
                   </Link>
                 </button>
                 <button
                   type="button"
-                  className="btn dropdown-toggle dropdown-toggle-split  border-0"
+                  className="btn dropdown-toggle dropdown-toggle-split border-0"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
@@ -227,18 +195,52 @@ function NavApp() {
                 </ul>
               </div>
             </li>
+
             <li className="nav-item dropdown d-lg-none w-75 text-center">
-              <Link className="nav-link" to="/products">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 Productos
-              </Link>
+              </a>
+              <ul className="dropdown-menu text-center w-75 mx-auto">
+                <li>
+                  <Link to="/products" className=" nav-link ">
+                    Ver Productos
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/new-product" className="nav-link p-1">
+                    Registrar Producto
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li className="nav-item d-none d-lg-block">
               <div className="btn-group">
                 <button type="button" className="btn pe-0">
-                  <Link to="/products" className="nav-link">
+                  <Link to="/products" className=" nav-link ">
                     Productos
                   </Link>
                 </button>
+                <button
+                  type="button"
+                  className="btn dropdown-toggle dropdown-toggle-split border-0"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu p-0">
+                  <li className="dropdown-item">
+                    <Link to="/new-product" className="nav-link p-1">
+                      Registrar Producto
+                    </Link>
+                  </li>
+                </ul>
               </div>
             </li>
           </ul>
@@ -250,7 +252,7 @@ function NavApp() {
             <input
               className="border-0 search__input"
               type="search"
-              placeholder="Buscar Producto"
+              placeholder="Buscar Comercial"
               aria-label="Search"
             ></input>
           </form>
@@ -294,6 +296,6 @@ function NavApp() {
       </div>
     </nav>
   );
-}
+};
 
-export default NavApp;
+export default NavAppEmpresa;

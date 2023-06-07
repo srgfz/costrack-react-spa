@@ -11,9 +11,17 @@ import Order from "./pages/Order/Order";
 import Bill from "./pages/Bill/Bill";
 import Customer from "./pages/Customer/Customer";
 import UserProfile from "./pages/UserProfile/UserProfile";
-import { checkTokenValidity } from "./utils/auth";
+import { checkTokenValidity, getUserRol } from "./utils/auth";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
+import Product from "./pages/Product/Product";
+import NewCustomer from "./pages/Customer/components/NewCustomer";
+import NewProduct from "./pages/Product/components/NewProduct/NewProduct";
+import Commercial from "./pages/Commercial/Commercial";
+import NewCommercial from "./pages/Commercial/components/NewCommercial/NewCommercial";
+import NewOrder from "./pages/Order/components/NewOrder/NewOrder";
+import NewBill from "./pages/Bill/components/NewBill/NewBill";
+import NotAuth from "./pages/NotAuth/NotAuth";
 
 function App() {
   const location = useLocation();
@@ -29,9 +37,39 @@ function App() {
     <Routes>
       <Route path="/" element={checkTokenValidity() ? <Layout /> : <Login />}>
         <Route index element={<Home />} />
-        <Route path="orders" element={<Order />} />
-        <Route path="bills" element={<Bill />} />
-        <Route path="customers" element={<Customer />} />
+        <Route path="orders" element={<Order />}>
+          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
+        </Route>
+        <Route
+          path="new-order"
+          element={getUserRol() === 0 ? <NewOrder /> : <NotAuth />}
+        />
+        <Route path="bills" element={<Bill />}>
+          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
+        </Route>
+        <Route
+          path="new-bill"
+          element={getUserRol() === 0 ? <NewBill /> : <NotAuth />}
+        />
+        <Route
+          path="commercial"
+          element={getUserRol() === 1 ? <Commercial /> : <NotAuth />}
+        >
+          {/* <Route path=":commercialId" element={<NewCustomer />} /> */}
+        </Route>
+        <Route
+          path="new-commercial"
+          element={getUserRol() === 1 ? <NewCommercial /> : <NotAuth />}
+        />
+        <Route path="customers" element={<Customer />}>
+          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
+        </Route>
+        <Route path="new-customer" element={<NewCustomer />} />
+        <Route path="products" element={<Product />}>
+          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
+        </Route>
+        <Route path="new-product" element={<NewProduct />} />
+
         <Route path="profile" element={<UserProfile />} />
         {/* Otras rutas que no existen */}
         <Route

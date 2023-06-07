@@ -11,9 +11,9 @@ function Footer() {
         />
       </div>
       <div className="d-flex flex-column flex-md-row align-items-center justify-content-center text-center my-3">
-        <span className="text-light">© Sergio Fernández Nevado 2023</span>
+        <span className="text-light">© Sergio Fernández Nevado</span>
         <span className="d-none d-md-flex mx-2"> | </span>
-        <span>IES Ribera del Tajo</span>
+        <span>IES Ribera del Tajo 2023</span>
       </div>
 
       <ul className="d-flex fs-5">
