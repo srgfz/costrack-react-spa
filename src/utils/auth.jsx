@@ -25,21 +25,39 @@ const validateTokenLocally = (token) => {
 };
 
 export const checkTokenValidity = () => {
-  const token = sessionStorage.getItem("token");
-  if (token) {
-    const isValidToken = validateTokenLocally(token);
-    if (!isValidToken) {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const isValidToken = validateTokenLocally(token);
+      if (!isValidToken) {
+        return false;
+      }
+    } else {
       return false;
     }
-  } else {
+    return true;
+  } catch (error) {
     return false;
   }
-  return true;
 };
 
 export const getUserId = () => {
   const token = sessionStorage.getItem("token");
   return jwt_decode(token).id;
+};
+
+export const getIdCommercial = () => {
+  const token = sessionStorage.getItem("token");
+  if (getUserRol() === 0) {
+    return jwt_decode(token).idComercial;
+  }
+};
+
+export const getIdEmpresa = () => {
+  const token = sessionStorage.getItem("token");
+  if (getUserRol() === 1) {
+    return jwt_decode(token).idEmpresa;
+  }
 };
 
 export const getUserRol = () => {

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Chart from "chart.js";
 
+// eslint-disable-next-line react/prop-types
 const Graph = ({ data, options, chartType }) => {
   useEffect(() => {
     const ctx = document.getElementById("myChart").getContext("2d");

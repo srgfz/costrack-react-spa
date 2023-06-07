@@ -2,6 +2,7 @@ import "./Registered.css";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import useFetch from "./../../../../hooks/useFetch";
+
 const Registered = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +19,7 @@ const Registered = () => {
       password: password,
     };
 
-    fetchData(apiEndpoint, requestData);
+    fetchData(apiEndpoint, requestData, "POST");
   };
 
   //Redireccionar a la nueva ruta si el inicio de sesión es exitoso

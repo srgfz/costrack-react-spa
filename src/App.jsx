@@ -42,24 +42,48 @@ function App() {
         </Route>
         <Route
           path="new-order"
-          element={getUserRol() === 0 ? <NewOrder /> : <NotAuth />}
+          element={
+            checkTokenValidity() && getUserRol() === 0 ? (
+              <NewOrder />
+            ) : (
+              <NotAuth />
+            )
+          }
         />
         <Route path="bills" element={<Bill />}>
           {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
         </Route>
         <Route
           path="new-bill"
-          element={getUserRol() === 0 ? <NewBill /> : <NotAuth />}
+          element={
+            checkTokenValidity() && getUserRol() === 0 ? (
+              <NewBill />
+            ) : (
+              <NotAuth />
+            )
+          }
         />
         <Route
           path="commercial"
-          element={getUserRol() === 1 ? <Commercial /> : <NotAuth />}
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <Commercial />
+            ) : (
+              <NotAuth />
+            )
+          }
         >
           {/* <Route path=":commercialId" element={<NewCustomer />} /> */}
         </Route>
         <Route
           path="new-commercial"
-          element={getUserRol() === 1 ? <NewCommercial /> : <NotAuth />}
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <NewCommercial />
+            ) : (
+              <NotAuth />
+            )
+          }
         />
         <Route path="customers" element={<Customer />}>
           {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
