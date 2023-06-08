@@ -59,6 +59,11 @@ ul {
     transition: background-color 0.2s ease-in-out;
 }
 
+.addBtn--form {
+    background-color: whitesmoke !important;
+
+}
+
 .addBtn:hover {
     background-color: var(--primary-color) !important;
     color: var(--tertiary-color) !important;

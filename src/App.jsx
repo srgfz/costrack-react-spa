@@ -95,6 +95,7 @@ function App() {
         <Route path="new-product" element={<NewProduct />} />
 
         <Route path="profile" element={<UserProfile />} />
+
         {/* Otras rutas que no existen */}
         <Route
           path="/*"

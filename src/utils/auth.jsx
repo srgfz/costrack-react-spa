@@ -43,7 +43,7 @@ export const checkTokenValidity = () => {
 
 export const getUserId = () => {
   const token = sessionStorage.getItem("token");
-  return jwt_decode(token).id;
+  return jwt_decode(token).userId;
 };
 
 export const getIdCommercial = () => {
