@@ -1,5 +1,13 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
+
 const OrdersTable = ({ data }) => {
+  const itemsPerPage = 10; // Número de elementos por página
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
   const formatDate = (date) => {
     const formatDate = new Date(date);
     const year = formatDate.getFullYear();
@@ -13,6 +21,27 @@ const OrdersTable = ({ data }) => {
     return `${diaFormateado}/${mesFormateado}/${year}`;
   };
 
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
+
+  const renderData = () => {
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const slicedData = data.slice(startIndex, endIndex);
+
+    return slicedData.map((order, index) => (
+      <tr key={index}>
+        <td>{formatDate(order.fecha)}</td>
+        <td>{order.cliente}</td>
+        <td>{order.total} €</td>
+        <td>{order.comentarios}</td>
+      </tr>
+    ));
+  };
+
+  const shouldDisplayPagination = data.length > itemsPerPage;
+
   return (
     <div className="">
       <table className="table table-striped table-hover">
@@ -24,17 +53,23 @@ const OrdersTable = ({ data }) => {
             <th>Comentarios</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((order, index) => (
-            <tr key={index}>
-              <td>{formatDate(order.fecha)}</td>
-              <td>{order.cliente}</td>
-              <td>{order.total} €</td>
-              <td>{order.comentarios}</td>
-            </tr>
-          ))}
-        </tbody>
+        <tbody>{renderData()}</tbody>
       </table>
+      {shouldDisplayPagination && (
+        <div className="pagination-container">
+          <ReactPaginate
+            previousLabel={"← Anterior"}
+            nextLabel={"Siguiente →"}
+            pageCount={totalPages}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination-link"}
+            nextLinkClassName={"pagination-link"}
+            disabledClassName={"pagination-disabled"}
+            activeClassName={"pagination-active"}
+          />
+        </div>
+      )}
     </div>
   );
 };

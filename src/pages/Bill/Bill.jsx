@@ -9,6 +9,7 @@ import useFetch from "./../../hooks/useFetch";
 import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
 import BillsTable from "./components/BillsTable/BillsTable";
+import NewBill from "./components/NewBill/NewBill";
 
 const Bill = () => {
   const colors = [
@@ -41,6 +42,7 @@ const Bill = () => {
   const [chartData, setChartData] = useState();
   const [chartOptions, setChartOptions] = useState();
   const [dataSet, setDataSet] = useState({});
+  const [dataSetBillsFecha, setDataSetBillsFecha] = useState([]);
   const [chartType, setChartType] = useState("doughnut");
   const [date1, setDate1] = useState(formatDate(false));
   const [date2, setDate2] = useState(formatDate());
@@ -66,6 +68,29 @@ const Bill = () => {
     setDataSet(dataSet);
   };
 
+  const procesarDatosBillsFecha = () => {
+    // Crear un objeto Map para almacenar los sumatorios de gastos por fecha
+    const sumatoriosPorFecha = new Map();
+
+    data.gastos.forEach((gasto) => {
+      const fecha = gasto.fecha_gasto.substring(0, 10); // Obtener solo la fecha (YYYY-MM-DD)
+      const cuantia = gasto.cuantia;
+
+      if (sumatoriosPorFecha.has(fecha)) {
+        // Si la fecha ya existe en el Map, sumar la cuantía al sumatorio existente
+        const sumatorioActual = sumatoriosPorFecha.get(fecha);
+        sumatoriosPorFecha.set(fecha, sumatorioActual + cuantia);
+      } else {
+        // Si la fecha no existe en el Map, crear una nueva entrada con la cuantía actual
+        sumatoriosPorFecha.set(fecha, cuantia);
+      }
+    });
+
+    // Obtener el array con la fecha de los gastos y el sumatorio de gastos para ese día
+    const arraySumatorios = Array.from(sumatoriosPorFecha.entries());
+    setDataSetBillsFecha(arraySumatorios);
+  };
+
   const actualizarDatos = () => {
     const newEndpoint = `http://localhost:3000/costrack/comerciales/gastos/${commercialId}?date1=${date1}&date2=${date2}`;
     setEndpoint(newEndpoint);
@@ -78,39 +103,70 @@ const Bill = () => {
 
   useEffect(() => {
     if (data) {
-      procesarDatos(data);
+      procesarDatos();
+      procesarDatosBillsFecha();
     }
   }, [data]);
 
   useEffect(() => {
     if (dataSet.categorias != undefined) {
-      const chartData = {
-        labels: dataSet.categorias,
-        datasets: [
-          {
-            label: "Gráfico de Gastos",
-            data: dataSet.sumatorios,
-            backgroundColor: [],
-            borderColor: [],
-            borderWidth: 1,
-          },
-        ],
-      };
+      console.log(dataSetBillsFecha);
+      if (chartType === "line") {
+        // Obtener todas las fechas sin repetición
+        const fechasSet = new Set();
+        dataSetBillsFecha.forEach(([fecha]) => fechasSet.add(fecha));
+        // Ordenar las fechas de forma ascendente
+        const fechasOrdenadas = Array.from(fechasSet).sort();
+        const gastos = [];
+        // Recorrer las fechas ordenadas y obtener las cuantías correspondientes
+        fechasOrdenadas.forEach((fecha) => {
+          // Obtener cuantía de la primera estructura (array de arrays)
+          const gasto = dataSetBillsFecha.find(([f]) => f === fecha)?.[1] || 0;
+          gastos.push(gasto);
+        });
 
-      // Asignar los colores correspondientes a cada categoría en el chartData
-      chartData.datasets[0].backgroundColor = dataSet.categorias.map(
-        (categoria) => {
-          const colorObj = colors.find(
-            (color) => color.categoria === categoria
-          );
-          return colorObj ? colorObj.color : null;
-        }
-      );
-      setChartData(chartData);
-      const chartOptions = {};
-      setChartOptions(chartOptions);
+        console.log(gastos, fechasOrdenadas);
+        const chartData = {
+          labels: fechasOrdenadas,
+          datasets: [
+            {
+              label: `Importe Total de los Pedidos`,
+              data: gastos,
+              backgroundColor: "#496E81",
+              borderColor: "#496E81",
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        };
+        setChartData(chartData);
+      } else {
+        const chartData = {
+          labels: dataSet.categorias,
+          datasets: [
+            {
+              label: "Gráfico de Gastos",
+              data: dataSet.sumatorios,
+              backgroundColor: [],
+              borderColor: [],
+              borderWidth: 1,
+            },
+          ],
+        };
+
+        // Asignar los colores correspondientes a cada categoría en el chartData
+        chartData.datasets[0].backgroundColor = dataSet.categorias.map(
+          (categoria) => {
+            const colorObj = colors.find(
+              (color) => color.categoria === categoria
+            );
+            return colorObj ? colorObj.color : null;
+          }
+        );
+        setChartData(chartData);
+      }
     }
-  }, [dataSet]);
+  }, [dataSet, chartType]);
 
   return (
     <div>
@@ -125,29 +181,42 @@ const Bill = () => {
               Gastos de {data.nombre} {data.apellidos}
             </h2>
             {getUserRol() === 0 ? (
-              <Link className="btn btn-primary" to="/new-bill">
+              <Link className="btn btn-primary addBtn" to={"/new-bill"}>
                 Añadir Gasto
               </Link>
             ) : null}
           </div>
-          <div className="">
-            <label htmlFor="date1">Fecha Inicio</label>
-            <input
-              type="date"
-              id="date1"
-              max={formatDate()}
-              value={date1}
-              onChange={(e) => setDate1(e.target.value)}
-            />
-            <label htmlFor="date2">Fecha Fin</label>
-            <input
-              type="date"
-              id="date2"
-              min={date1}
-              max={formatDate()}
-              value={date2}
-              onChange={(e) => setDate2(e.target.value)}
-            />
+          <div className="d-flex my-4 gap-3 justify-content-evenly">
+            <div className="form-floating col-5">
+              <input
+                type="date"
+                id="date1"
+                className="form-control border border shadow-sm"
+                placeholder="Fecha Inicio"
+                max={formatDate()}
+                value={date1}
+                onChange={(e) => setDate1(e.target.value)}
+              ></input>
+              <label htmlFor="date1" className=" ">
+                Fecha Inicio
+              </label>
+            </div>
+
+            <div className="form-floating col-5">
+              <input
+                type="date"
+                id="date2"
+                className="form-control border border shadow-sm"
+                placeholder="Fecha Fin"
+                min={date1}
+                max={formatDate()}
+                value={date2}
+                onChange={(e) => setDate2(e.target.value)}
+              ></input>
+              <label htmlFor="date1" className="">
+                Fecha Fin
+              </label>
+            </div>
           </div>
           <div className=" bg-secondary bg-opacity-25 p-4">
             <label htmlFor="graphType">Tipo de gráfico</label>
@@ -159,6 +228,7 @@ const Bill = () => {
             >
               <option value="doughnut">Cilíndrico</option>
               <option value="pie">Circular</option>
+              <option value="line">Lineal (fechas)</option>
               <option value="bar">Barras</option>
               <option value="radar">Área Hexagonal</option>
               <option value="polarArea">Area Polar</option>

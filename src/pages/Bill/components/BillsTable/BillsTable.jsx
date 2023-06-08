@@ -1,6 +1,13 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
 
 const BillsTable = ({ data }) => {
+  const itemsPerPage = 10; // Número de elementos por página
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
   const formatDate = (date) => {
     const formatDate = new Date(date);
     const year = formatDate.getFullYear();
@@ -14,10 +21,30 @@ const BillsTable = ({ data }) => {
     return `${diaFormateado}/${mesFormateado}/${year}`;
   };
 
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
+
+  const renderData = () => {
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const slicedData = data.slice(startIndex, endIndex);
+
+    return slicedData.map((bill, index) => (
+      <tr key={index}>
+        <td>{formatDate(bill.fecha_gasto)}</td>
+        <td>{bill.nombre_emisor}</td>
+        <td>{bill.categoria}</td>
+        <td>{bill.cuantia.toFixed(2)} €</td>
+      </tr>
+    ));
+  };
+
+  const shouldDisplayPagination = data.length > itemsPerPage;
+
   return (
     <div className="">
       <table className="table table-striped table-hover">
-        {console.log(data)}
         <thead>
           <tr>
             <th>Fecha</th>
@@ -26,17 +53,23 @@ const BillsTable = ({ data }) => {
             <th>Cuantía</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((bill, index) => (
-            <tr key={index}>
-              <td>{formatDate(bill.fecha_gasto)}</td>
-              <td>{bill.nombre_emisor}</td>
-              <td>{bill.categoria}</td>
-              <td>{bill.cuantia.toFixed(2)} €</td>
-            </tr>
-          ))}
-        </tbody>
+        <tbody>{renderData()}</tbody>
       </table>
+      {shouldDisplayPagination && (
+        <div className="pagination-container">
+          <ReactPaginate
+            previousLabel={"← Anterior"}
+            nextLabel={"Siguiente →"}
+            pageCount={totalPages}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination-link"}
+            nextLinkClassName={"pagination-link"}
+            disabledClassName={"pagination-disabled"}
+            activeClassName={"pagination-active"}
+          />
+        </div>
+      )}
     </div>
   );
 };

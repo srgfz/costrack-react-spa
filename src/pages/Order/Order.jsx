@@ -54,7 +54,6 @@ const Order = () => {
       };
     });
     setDataSet(dataSet);
-    console.log(dataSet);
   };
 
   //useEffect de llamada a la api
@@ -81,14 +80,15 @@ const Order = () => {
           : dataSet.map((order) => order.fecha);
 
       const chartData = {
-        labels: labels,
+        labels: labels.reverse(),
         datasets: [
           {
             label: `Importe Total de los Pedidos`,
-            data: totals,
-            backgroundColor: "rgba(0, 123, 255, 0.5)",
-            borderColor: "rgba(0, 123, 255, 1)",
+            data: totals.reverse(),
+            backgroundColor: "#496E81",
+            borderColor: "#496E81",
             borderWidth: 1,
+            fill: true,
           },
         ],
       };
@@ -131,32 +131,45 @@ const Order = () => {
         <>
           <div className="d-flex justify-content-between">
             <h2>
-              Gastos de {data.nombre} {data.apellidos}
+              Pedidos de {data.nombre} {data.apellidos}
             </h2>
             {getUserRol() === 0 ? (
-              <Link className="btn btn-primary" to="/new-bill">
-                Añadir Gasto
+              <Link className="btn btn-primary addBtn" to="/new-order">
+                Añadir Pedido
               </Link>
             ) : null}
           </div>
-          <div className="">
-            <label htmlFor="date1">Fecha Inicio</label>
-            <input
-              type="date"
-              id="date1"
-              max={formatDate()}
-              value={date1}
-              onChange={(e) => setDate1(e.target.value)}
-            />
-            <label htmlFor="date2">Fecha Fin</label>
-            <input
-              type="date"
-              id="date2"
-              min={date1}
-              max={formatDate()}
-              value={date2}
-              onChange={(e) => setDate2(e.target.value)}
-            />
+          <div className="d-flex my-4 gap-3 justify-content-evenly">
+            <div className="form-floating col-5">
+              <input
+                type="date"
+                id="date1"
+                className="form-control border border shadow-sm"
+                placeholder="Fecha Inicio"
+                max={formatDate()}
+                value={date1}
+                onChange={(e) => setDate1(e.target.value)}
+              ></input>
+              <label htmlFor="date1" className=" ">
+                Fecha Inicio
+              </label>
+            </div>
+
+            <div className="form-floating col-5">
+              <input
+                type="date"
+                id="date2"
+                className="form-control border border shadow-sm"
+                placeholder="Fecha Fin"
+                min={date1}
+                max={formatDate()}
+                value={date2}
+                onChange={(e) => setDate2(e.target.value)}
+              ></input>
+              <label htmlFor="date1" className="">
+                Fecha Fin
+              </label>
+            </div>
           </div>
           <div className=" bg-secondary bg-opacity-25 p-4">
             <label htmlFor="graphType">Tipo de gráfico</label>
