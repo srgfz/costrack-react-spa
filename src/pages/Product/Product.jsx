@@ -66,8 +66,8 @@ const Product = () => {
         <div>
           <div className="d-flex justify-content-between">
             <h2>Artículos de {data.nombre}</h2>
-            {getUserRol === 1 ? (
-              <Link className="btn btn-primary addBtn" to={"/new-customer"}>
+            {getUserRol() === 1 ? (
+              <Link className="btn btn-primary addBtn" to={"/new-product"}>
                 Añadir Artículo
               </Link>
             ) : null}
@@ -77,7 +77,7 @@ const Product = () => {
               {renderData()}
             </div>
             {shouldDisplayPagination && (
-              <div className="pagination-container">
+              <div className="pagination-container my-4">
                 <ReactPaginate
                   previousLabel={"← Anterior"}
                   nextLabel={"Siguiente →"}

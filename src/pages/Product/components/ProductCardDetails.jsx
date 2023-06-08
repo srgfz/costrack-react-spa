@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -33,7 +34,7 @@ const ProductCardDetails = () => {
       ) : !data ? (
         <ErrorBD />
       ) : (
-        <div>
+        <div className="col-8 mx-auto my-4">
           <ProductCard data={data} />
         </div>
       )}

@@ -137,6 +137,7 @@ const NewBill = () => {
             className="form-control shadow-sm"
             placeholder="Observaciones del gasto"
             id="floatingTextarea"
+            maxLength={250}
             onChange={(e) => setObservaciones(e.target.value)}
           ></textarea>
           <label htmlFor="floatingTextarea">Observaciones</label>

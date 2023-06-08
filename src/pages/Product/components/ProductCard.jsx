@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ProductCard = ({ data }) => {
-  console.log(data);
+  const params = useParams();
+  const productId = params.productId;
 
   return (
     <div className="card">
@@ -32,21 +34,21 @@ const ProductCard = ({ data }) => {
         <div className="carousel-inner">
           <div className="carousel-item active">
             <img
-              src="./src/assets/images/profile.jpg"
+              src="/src/assets/images/products/product1.jpg"
               className="d-block w-100"
               alt={"Imagen 1 del producto " + data.nombre}
             />
           </div>
           <div className="carousel-item">
             <img
-              src="./src/assets/images/profile.jpg"
+              src="/src/assets/images/products/product2.jpg"
               className="d-block w-100"
               alt={"Imagen 2 del producto " + data.nombre}
             />
           </div>
           <div className="carousel-item">
             <img
-              src="./src/assets/images/profile.jpg"
+              src="/src/assets/images/products/product3.jpg"
               className="d-block w-100"
               alt={"Imagen 3 del producto " + data.nombre}
             />
@@ -97,9 +99,15 @@ const ProductCard = ({ data }) => {
           </div>
           <div className="mt-2">
             <span className="fw-bold text-uppercase">Stock: </span>
-            <span>{data.stock} unidades</span>
+            <span>{data.stock} uds</span>
           </div>
         </p>
+        {productId ? (
+          <div className="">
+            <p className="fw-bold text-uppercase mb-0">Descripción: </p>
+            <p className="ps-3">{data.descripcion}</p>
+          </div>
+        ) : null}
       </div>
     </div>
   );
