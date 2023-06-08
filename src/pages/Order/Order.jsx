@@ -9,11 +9,10 @@ import useFetch from "./../../hooks/useFetch";
 import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
 import OrdersTable from "./components/OrdersTable/OrdersTable";
+import SelectComerciales from "../../components/shared/SelectComerciales/SelectComerciales";
 
 const Order = () => {
-  const params = useParams();
-  const commercialId =
-    getUserRol() === 0 ? getIdCommercial() : params.commercialId;
+  const { commercialId } = useParams();
 
   const formatDate = (actual = true) => {
     const currentDate = new Date();
@@ -35,9 +34,11 @@ const Order = () => {
   const [chartType, setChartType] = useState("line");
   const [date1, setDate1] = useState(formatDate(false));
   const [date2, setDate2] = useState(formatDate());
-  const [endpoint, setEndpoint] = useState(
-    `http://localhost:3000/costrack/comerciales/pedidos/${commercialId}?date1=${date1}&date2=${date2}`
-  );
+
+  const firstEndpoint = getIdCommercial()
+    ? `http://localhost:3000/costrack/comerciales/pedidos/${getIdCommercial()}?date1=${date1}&date2=${date2}`
+    : `http://localhost:3000/costrack/comerciales/pedidos/${commercialId}?date1=${date1}&date2=${date2}`;
+  const [endpoint, setEndpoint] = useState(firstEndpoint);
 
   const procesarDatos = () => {
     const dataSet = data.pedidos.map((order) => {
@@ -52,6 +53,7 @@ const Order = () => {
         cliente: order.cliente.nombre,
         comentarios: order.comentarios,
         clienteId: order.clienteId,
+        direccion: order.cliente.direccion,
       };
     });
     setDataSet(dataSet);
@@ -59,9 +61,15 @@ const Order = () => {
 
   //useEffect de llamada a la api
   useEffect(() => {
-    const newEndpoint = `http://localhost:3000/costrack/comerciales/pedidos/${commercialId}?date1=${date1}&date2=${date2}`;
-    setEndpoint(newEndpoint);
-    fetchData(newEndpoint);
+    if (getIdCommercial()) {
+      const newEndpoint = `http://localhost:3000/costrack/comerciales/pedidos/${getIdCommercial()}?date1=${date1}&date2=${date2}`;
+      setEndpoint(newEndpoint);
+      fetchData(newEndpoint);
+    } else {
+      const newEndpoint = `http://localhost:3000/costrack/comerciales/pedidos/${commercialId}?date1=${date1}&date2=${date2}`;
+      setEndpoint(newEndpoint);
+      fetchData(newEndpoint);
+    }
   }, [date1, date2, commercialId]);
 
   useEffect(() => {
@@ -173,16 +181,60 @@ const Order = () => {
         <ErrorBD />
       ) : (
         <>
-          <div className="d-flex justify-content-between">
-            <h2>
-              Pedidos de {data.nombre} {data.apellidos}
-            </h2>
-            {getUserRol() === 0 ? (
-              <Link className="btn btn-primary addBtn" to="/new-order">
-                Añadir Pedido
-              </Link>
-            ) : null}
-          </div>
+          {getUserRol() === 1 ? (
+            <div className="d-flex justify-content-between">
+              <h2 className="d-flex  gap-md-3 align-items-baseline col-12 mb-0 fs-3 gap-1 flex-column flex-md-row">
+                <span>Pedidos</span>
+                {getUserRol() === 1 ? (
+                  <div className="col-md-6 ms-0 col-12">
+                    <SelectComerciales bills={false} />
+                  </div>
+                ) : (
+                  <span>
+                    {data.nombre} {data.apellidos}
+                  </span>
+                )}
+                {getUserRol() === 1 ? (
+                  <Link
+                    className="addBtn fs-5 btn me-md-5 ms-md-auto mx-auto"
+                    to={"/bills/" + commercialId}
+                  >
+                    Ver Gastos
+                  </Link>
+                ) : null}
+              </h2>
+              {getUserRol() === 0 ? (
+                <Link className="btn btn-primary addBtn" to={"/new-order"}>
+                  Añadir Pedido
+                </Link>
+              ) : null}
+            </div>
+          ) : (
+            <div className="d-flex justify-content-between justify-content-center ">
+              <h2 className="d-flex gap-md-3 align-items-baseline mb-0 fs-3 gap-1 flex-wrap flex-column flex-md-row gap-3 text-center col-9 col-md-auto col justify-content-center">
+                <span>Pedidos </span>
+                {getUserRol() === 1 ? (
+                  <div className="col-md-4 ms-auto ms-md-0 col-12">
+                    <SelectComerciales bills={false} />
+                  </div>
+                ) : null}
+                {getUserRol() === 1 ? (
+                  <Link
+                    className="addBtn fs-5 btn me-md-5 ms-md-auto mx-auto"
+                    to={"/bills/" + commercialId}
+                  >
+                    Ver Gastos
+                  </Link>
+                ) : null}
+              </h2>
+              {getUserRol() === 0 ? (
+                <Link className="btn btn-primary addBtn" to={"/new-order"}>
+                  Añadir Pedido
+                </Link>
+              ) : null}
+            </div>
+          )}
+
           <div className="d-flex my-4 gap-3 justify-content-evenly">
             <div className="form-floating col-5">
               <input

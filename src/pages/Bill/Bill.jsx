@@ -10,8 +10,11 @@ import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
 import BillsTable from "./components/BillsTable/BillsTable";
 import NewBill from "./components/NewBill/NewBill";
+import SelectComerciales from "../../components/shared/SelectComerciales/SelectComerciales";
 
 const Bill = () => {
+  const { commercialId } = useParams();
+
   const colors = [
     { categoria: "Transporte", color: "#7C8CF0" },
     { categoria: "Alojamiento", color: "#7CEFA2" },
@@ -20,10 +23,6 @@ const Bill = () => {
     { categoria: "Equipamiento", color: "#8AE9D1" },
     { categoria: "Sin categoría", color: "#B5B2B2" },
   ];
-
-  const params = useParams();
-  const commercialId =
-    getUserRol() === 0 ? getIdCommercial() : params.commercialId;
 
   const formatDate = (actual = true) => {
     const currentDate = new Date();
@@ -40,15 +39,18 @@ const Bill = () => {
 
   const { isLoading, data, fetchData } = useFetch();
   const [chartData, setChartData] = useState();
+
   const [chartOptions, setChartOptions] = useState();
   const [dataSet, setDataSet] = useState({});
   const [dataSetBillsFecha, setDataSetBillsFecha] = useState([]);
   const [chartType, setChartType] = useState("doughnut");
   const [date1, setDate1] = useState(formatDate(false));
   const [date2, setDate2] = useState(formatDate());
-  const [endpoint, setEndpoint] = useState(
-    `http://localhost:3000/costrack/comerciales/gastos/${commercialId}?date1=${date1}&date2=${date2}`
-  );
+
+  const firstEndpoint = getIdCommercial()
+    ? `http://localhost:3000/costrack/comerciales/gastos/${getIdCommercial()}?date1=${date1}&date2=${date2}`
+    : `http://localhost:3000/costrack/comerciales/gastos/${commercialId}?date1=${date1}&date2=${date2}`;
+  const [endpoint, setEndpoint] = useState(firstEndpoint);
 
   const procesarDatos = () => {
     const dataSet = data.gastos.reduce(
@@ -92,9 +94,15 @@ const Bill = () => {
   };
 
   const actualizarDatos = () => {
-    const newEndpoint = `http://localhost:3000/costrack/comerciales/gastos/${commercialId}?date1=${date1}&date2=${date2}`;
-    setEndpoint(newEndpoint);
-    fetchData(newEndpoint);
+    if (getIdCommercial()) {
+      const newEndpoint = `http://localhost:3000/costrack/comerciales/gastos/${getIdCommercial()}?date1=${date1}&date2=${date2}`;
+      setEndpoint(newEndpoint);
+      fetchData(newEndpoint);
+    } else {
+      const newEndpoint = `http://localhost:3000/costrack/comerciales/gastos/${commercialId}?date1=${date1}&date2=${date2}`;
+      setEndpoint(newEndpoint);
+      fetchData(newEndpoint);
+    }
   };
 
   useEffect(() => {
@@ -174,16 +182,60 @@ const Bill = () => {
         <ErrorBD />
       ) : (
         <>
-          <div className="d-flex justify-content-between">
-            <h2>
-              Gastos de {data.nombre} {data.apellidos}
-            </h2>
-            {getUserRol() === 0 ? (
-              <Link className="btn btn-primary addBtn" to={"/new-bill"}>
-                Añadir Gasto
-              </Link>
-            ) : null}
-          </div>
+          {getUserRol() === 1 ? (
+            <div className="d-flex justify-content-between">
+              <h2 className="d-flex  gap-md-3 align-items-baseline col-12 mb-0 fs-3 gap-1 flex-column flex-md-row">
+                <span>Gastos de</span>
+                {getUserRol() === 1 ? (
+                  <div className="col-md-6 ms-0 col-12">
+                    <SelectComerciales />
+                  </div>
+                ) : (
+                  <span>
+                    {data.nombre} {data.apellidos}
+                  </span>
+                )}
+                {getUserRol() === 1 ? (
+                  <Link
+                    className="addBtn fs-5 btn me-md-5 ms-md-auto mx-auto"
+                    to={"/orders/" + commercialId}
+                  >
+                    Ver Pedidos
+                  </Link>
+                ) : null}
+              </h2>
+              {getUserRol() === 0 ? (
+                <Link className="btn btn-primary addBtn" to={"/new-bill"}>
+                  Añadir Gasto
+                </Link>
+              ) : null}
+            </div>
+          ) : (
+            <div className="d-flex justify-content-between justify-content-center ">
+              <h2 className="d-flex gap-md-3 align-items-baseline mb-0 fs-3 gap-1 flex-wrap flex-column flex-md-row gap-3 text-center col-9 col-md-auto col justify-content-center">
+                <span>Gastos </span>
+                {getUserRol() === 1 ? (
+                  <div className="col-md-4 ms-auto ms-md-0 col-12">
+                    <SelectComerciales />
+                  </div>
+                ) : null}
+                {getUserRol() === 1 ? (
+                  <Link
+                    className="addBtn fs-5 btn me-md-5 ms-md-auto mx-auto"
+                    to={"/orders/" + commercialId}
+                  >
+                    Ver Pedidos
+                  </Link>
+                ) : null}
+              </h2>
+              {getUserRol() === 0 ? (
+                <Link className="btn btn-primary addBtn" to={"/new-bill"}>
+                  Añadir Gasto
+                </Link>
+              ) : null}
+            </div>
+          )}
+
           <div className="d-flex my-4 gap-3 justify-content-evenly">
             <div className="form-floating col-5">
               <input

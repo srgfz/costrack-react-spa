@@ -38,9 +38,15 @@ function App() {
     <Routes>
       <Route path="/" element={checkTokenValidity() ? <Layout /> : <Login />}>
         <Route index element={<Home />} />
-        <Route path="orders" element={<Order />}>
-          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
-        </Route>
+        <Route path="orders" element={<Order />} />
+
+        <Route
+          path="orders/:commercialId"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? <Order /> : <NotAuth />
+          }
+        />
+
         <Route
           path="new-order"
           element={
@@ -51,9 +57,14 @@ function App() {
             )
           }
         />
-        <Route path="bills" element={<Bill />}>
-          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
-        </Route>
+        <Route path="bills" element={<Bill />} />
+        <Route
+          path="bills/:commercialId"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? <Bill /> : <NotAuth />
+          }
+        />
+
         <Route
           path="new-bill"
           element={

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useParams, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Graph from "../../components/shared/Graph/Graph";
@@ -10,6 +10,8 @@ import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const colors = [
     { categoria: "Transporte", color: "#7C8CF0" },
     { categoria: "Alojamiento", color: "#7CEFA2" },
@@ -134,6 +136,11 @@ const Home = () => {
   useEffect(() => {
     if (dataOrders) {
       procesarDatosOrders();
+      console.log(dataOrders);
+      //Si es comercial y es la primera vez que entra le mando a editar perfil para que cambie la contraseña
+      // if (getUserRol() === 0 && dataOrders.createdAt === dataOrders.updatedAt) {
+      //   navigate("/profile");
+      // }
     }
     if (dataBills) {
       procesarDatosBills();
@@ -486,7 +493,7 @@ const Home = () => {
       ) : (
         <>
           <h2>
-            Panel de control de {dataOrders.nombre} {dataOrders.apellidos}
+            Panel de {dataOrders.nombre} {dataOrders.apellidos}
           </h2>
           <div className="d-flex my-4 gap-3 justify-content-evenly">
             <div className="form-floating col-5">

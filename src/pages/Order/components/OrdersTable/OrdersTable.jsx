@@ -32,9 +32,12 @@ const OrdersTable = ({ data }) => {
 
     return slicedData.map((order, index) => (
       <tr key={index}>
+        {console.log(order)}
+
         <td>{formatDate(order.fecha)}</td>
         <td>{order.cliente}</td>
         <td>{order.total.toFixed(2)} €</td>
+        <td>{order.direccion}</td>
         <td>{order.comentarios}</td>
       </tr>
     ));
@@ -46,10 +49,11 @@ const OrdersTable = ({ data }) => {
     <div className="">
       <table className="table table-striped table-hover">
         <thead>
-          <tr>
+          <tr className=" align-top">
             <th>Fecha</th>
             <th>Cliente</th>
             <th>Importe Total</th>
+            <th>Dirección</th>
             <th>Comentarios</th>
           </tr>
         </thead>

@@ -7,7 +7,7 @@ const ProductCard = ({ data }) => {
   const productId = params.productId;
 
   return (
-    <div className="card">
+    <div className="card shadow-sm">
       <div id={"carouselImgsProducto" + data.id} className="carousel slide">
         <div className="carousel-indicators">
           <button

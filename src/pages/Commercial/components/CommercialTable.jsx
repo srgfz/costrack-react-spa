@@ -2,24 +2,11 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
-const BillsTable = ({ data }) => {
+const CommercialTable = ({ data }) => {
+  console.log(data);
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
-
   const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  const formatDate = (date) => {
-    const formatDate = new Date(date);
-    const year = formatDate.getFullYear();
-    const mes = formatDate.getMonth() + 1; // Los meses en JavaScript son indexados desde 0
-    const dia = formatDate.getDate();
-
-    // Formatear el mes y día con ceros a la izquierda si es necesario
-    const mesFormateado = mes < 10 ? `0${mes}` : mes;
-    const diaFormateado = dia < 10 ? `0${dia}` : dia;
-
-    return `${diaFormateado}/${mesFormateado}/${year}`;
-  };
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
@@ -30,13 +17,11 @@ const BillsTable = ({ data }) => {
     const endIndex = startIndex + itemsPerPage;
     const slicedData = data.slice(startIndex, endIndex);
 
-    return slicedData.map((bill, index) => (
-      <tr key={index}>
-        <td>{formatDate(bill.fecha_gasto)}</td>
-        <td>{bill.nombre_emisor}</td>
-        <td>{bill.categoria}</td>
-        <td>{bill.cuantia.toFixed(2)} €</td>
-      </tr>
+    return slicedData.map((customer, index) => (
+      <li key={index}>
+        <div>Nombre</div>
+        <div>{customer.nombre}</div>
+      </li>
     ));
   };
 
@@ -44,17 +29,7 @@ const BillsTable = ({ data }) => {
 
   return (
     <div className="">
-      <table className="table table-striped table-hover">
-        <thead>
-          <tr className=" align-top">
-            <th>Fecha</th>
-            <th>Entidad Emisora</th>
-            <th>Categoría</th>
-            <th>Cuantía</th>
-          </tr>
-        </thead>
-        <tbody>{renderData()}</tbody>
-      </table>
+      <ul>{renderData()}</ul>
       {shouldDisplayPagination && (
         <div className="pagination-container">
           <ReactPaginate
@@ -74,4 +49,4 @@ const BillsTable = ({ data }) => {
   );
 };
 
-export default BillsTable;
+export default CommercialTable;

@@ -20,7 +20,11 @@ const CustomerTable = ({ data }) => {
       <tr key={index}>
         <td>{customer.nombre}</td>
         <td>{customer.nombre_contacto}</td>
-        <td>{customer.email}</td>
+        <td>
+          <a href={"mailto:" + customer.email} className="text-dark">
+            {customer.email}
+          </a>
+        </td>
         <td>{customer.telefono}</td>
         <td>{customer.direccion}</td>
       </tr>
@@ -33,7 +37,7 @@ const CustomerTable = ({ data }) => {
     <div className="">
       <table className="table table-striped table-hover">
         <thead>
-          <tr>
+          <tr className=" align-top">
             <th>Nombre Empresa</th>
             <th>Nombre de contacto</th>
             <th>Email</th>
