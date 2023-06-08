@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
 
 // eslint-disable-next-line react/prop-types
-const Graph = ({ data, options, chartType }) => {
+const Graph = ({ data, options, chartType, title = null }) => {
   const chartRef = useRef(null);
   let chartInstance = null;
 
@@ -30,7 +30,8 @@ const Graph = ({ data, options, chartType }) => {
   }, [data, options, chartType]);
 
   return (
-    <div className="col-8 mx-auto my-3">
+    <div className="">
+      <h4 className="text-center">{title}</h4>
       <canvas ref={chartRef}></canvas>
     </div>
   );

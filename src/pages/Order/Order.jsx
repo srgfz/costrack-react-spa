@@ -47,10 +47,11 @@ const Order = () => {
       );
       return {
         id: order.id,
-        total: total.toFixed(2),
+        total: total,
         fecha: order.createdAt.substring(0, 10), // Extraer solo la fecha (YYYY-MM-DD)
         cliente: order.cliente.nombre,
         comentarios: order.comentarios,
+        clienteId: order.clienteId,
       };
     });
     setDataSet(dataSet);
@@ -72,37 +73,80 @@ const Order = () => {
   //UseEffect cada vez que cambian los datos devueltos--> UseEffect del gráfico
   useEffect(() => {
     if (dataSet) {
-      // Saco las fechas y los totales del array resultante
-      const totals = dataSet.map((order) => parseFloat(order.total));
-      const labels =
-        chartType != "line"
-          ? dataSet.map((order) => order.cliente)
-          : dataSet.map((order) => order.fecha);
+      if (chartType === "line") {
+        // Saco las fechas y los totales del array resultante
+        const totals = dataSet.map((order) => parseFloat(order.total));
+        const labels = dataSet.map((order) => order.fecha);
 
-      const chartData = {
-        labels: labels.reverse(),
-        datasets: [
-          {
-            label: `Importe Total de los Pedidos`,
-            data: totals.reverse(),
-            backgroundColor: "#496E81",
-            borderColor: "#496E81",
-            borderWidth: 1,
-            fill: true,
-          },
-        ],
-      };
-      if (chartType !== "line") {
+        const chartData = {
+          labels: labels.reverse(),
+          datasets: [
+            {
+              label: `Importe Total de los Pedidos`,
+              data: totals.reverse(),
+              backgroundColor: "#496E81",
+              borderColor: "#496E81",
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        };
+
+        setChartData(chartData);
+      } else {
+        // Crear un objeto Map para almacenar los valores únicos y sumatorios
+        const uniqueMap = new Map();
+
+        // Recorrer el array de JSONs
+        dataSet.forEach((order) => {
+          const id = order.clienteId;
+          const total = order.total;
+          const nombre = order.cliente;
+
+          // Verificar si el ID ya existe en el Map
+          if (uniqueMap.has(id)) {
+            // Si el ID existe, sumar el valor actual al sumatorio existente
+            const sum = uniqueMap.get(id).sum + total;
+            uniqueMap.set(id, { sum, nombre });
+          } else {
+            // Si el ID no existe, agregar una nueva entrada al Map
+            uniqueMap.set(id, { sum: total, nombre });
+          }
+        });
+
+        // Convertir el Map en un array de JSONs con ID, sumatorio y nombre
+        const result = Array.from(uniqueMap, ([id, data]) => ({
+          id: parseInt(id),
+          total: data.sum,
+          nombre: data.nombre,
+        }));
+
+        // Obtener arrays separados de nombres y números, manteniendo el orden
+        const clientes = result.map((obj) => obj.nombre);
+        const pedidos = result.map((obj) => obj.total);
+
+        const chartData = {
+          labels: clientes,
+          datasets: [
+            {
+              label: `Importe Total de los Pedidos`,
+              data: pedidos,
+              backgroundColor: "#496E81",
+              borderColor: "#496E81",
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        };
         const backgroundColors = generateRandomColors(chartData.labels.length);
         const borderColors = generateRandomColors(chartData.labels.length);
 
         // Asignar los colores generados al chartData
         chartData.datasets[0].backgroundColor = backgroundColors;
         chartData.datasets[0].borderColor = borderColors;
-      }
 
-      setChartData(chartData);
-      setChartOptions({});
+        setChartData(chartData);
+      }
     }
   }, [dataSet, chartType]);
 
@@ -171,15 +215,16 @@ const Order = () => {
               </label>
             </div>
           </div>
-          <div className=" bg-secondary bg-opacity-25 p-4">
+          <div className=" bg-secondary bg-opacity-25 p-4 my-2 mb-3 rounded">
             <label htmlFor="graphType">Tipo de gráfico</label>
             <select
+              className="form-select bg-secondary bg-opacity-25"
               name="graphType"
               id="graphType"
               onChange={(e) => setChartType(e.target.value)}
               value={chartType}
             >
-              <option value="line">Lineal</option>
+              <option value="line">Lineal (cronológico)</option>
               <option value="doughnut">Cilíndrico</option>
               <option value="pie">Circular</option>
               <option value="bar">Barras</option>
@@ -190,6 +235,7 @@ const Order = () => {
               data={chartData}
               options={chartOptions}
               chartType={chartType}
+              title={"Importe Total de Pedidos"}
               className=""
             />
           </div>

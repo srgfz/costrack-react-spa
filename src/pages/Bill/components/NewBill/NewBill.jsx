@@ -44,7 +44,6 @@ const NewBill = () => {
       //Redireccionar a la nueva ruta si el inicio de sesión es exitoso
       if (data && data.categoria) {
         navigate("/bills");
-        console;
       }
     } else {
       setCategoria("none");

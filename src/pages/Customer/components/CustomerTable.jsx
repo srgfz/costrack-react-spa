@@ -2,24 +2,10 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
-const OrdersTable = ({ data }) => {
+const CustomerTable = ({ data }) => {
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
-
   const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  const formatDate = (date) => {
-    const formatDate = new Date(date);
-    const year = formatDate.getFullYear();
-    const mes = formatDate.getMonth() + 1; // Los meses en JavaScript son indexados desde 0
-    const dia = formatDate.getDate();
-
-    // Formatear el mes y día con ceros a la izquierda si es necesario
-    const mesFormateado = mes < 10 ? `0${mes}` : mes;
-    const diaFormateado = dia < 10 ? `0${dia}` : dia;
-
-    return `${diaFormateado}/${mesFormateado}/${year}`;
-  };
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
@@ -30,12 +16,13 @@ const OrdersTable = ({ data }) => {
     const endIndex = startIndex + itemsPerPage;
     const slicedData = data.slice(startIndex, endIndex);
 
-    return slicedData.map((order, index) => (
+    return slicedData.map((customer, index) => (
       <tr key={index}>
-        <td>{formatDate(order.fecha)}</td>
-        <td>{order.cliente}</td>
-        <td>{order.total.toFixed(2)} €</td>
-        <td>{order.comentarios}</td>
+        <td>{customer.nombre}</td>
+        <td>{customer.nombre_contacto}</td>
+        <td>{customer.email}</td>
+        <td>{customer.telefono}</td>
+        <td>{customer.direccion}</td>
       </tr>
     ));
   };
@@ -47,10 +34,11 @@ const OrdersTable = ({ data }) => {
       <table className="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Fecha</th>
-            <th>Cliente</th>
-            <th>Importe Total</th>
-            <th>Comentarios</th>
+            <th>Nombre Empresa</th>
+            <th>Nombre de contacto</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
           </tr>
         </thead>
         <tbody>{renderData()}</tbody>
@@ -74,4 +62,4 @@ const OrdersTable = ({ data }) => {
   );
 };
 
-export default OrdersTable;
+export default CustomerTable;

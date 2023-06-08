@@ -110,7 +110,6 @@ const Bill = () => {
 
   useEffect(() => {
     if (dataSet.categorias != undefined) {
-      console.log(dataSetBillsFecha);
       if (chartType === "line") {
         // Obtener todas las fechas sin repetición
         const fechasSet = new Set();
@@ -125,12 +124,11 @@ const Bill = () => {
           gastos.push(gasto);
         });
 
-        console.log(gastos, fechasOrdenadas);
         const chartData = {
           labels: fechasOrdenadas,
           datasets: [
             {
-              label: `Importe Total de los Pedidos`,
+              label: `Gastos Totales`,
               data: gastos,
               backgroundColor: "#496E81",
               borderColor: "#496E81",
@@ -145,7 +143,7 @@ const Bill = () => {
           labels: dataSet.categorias,
           datasets: [
             {
-              label: "Gráfico de Gastos",
+              label: "Gastos Totales",
               data: dataSet.sumatorios,
               backgroundColor: [],
               borderColor: [],
@@ -218,9 +216,10 @@ const Bill = () => {
               </label>
             </div>
           </div>
-          <div className=" bg-secondary bg-opacity-25 p-4">
+          <div className=" bg-secondary bg-opacity-25 p-4 shadow-sm rounded my-0 mb-3">
             <label htmlFor="graphType">Tipo de gráfico</label>
             <select
+              className="form-select bg-secondary bg-opacity-25"
               name="graphType"
               id="graphType"
               onChange={(e) => setChartType(e.target.value)}
@@ -228,7 +227,7 @@ const Bill = () => {
             >
               <option value="doughnut">Cilíndrico</option>
               <option value="pie">Circular</option>
-              <option value="line">Lineal (fechas)</option>
+              <option value="line">Lineal (cronológico)</option>
               <option value="bar">Barras</option>
               <option value="radar">Área Hexagonal</option>
               <option value="polarArea">Area Polar</option>
@@ -237,6 +236,7 @@ const Bill = () => {
               data={chartData}
               options={chartOptions}
               chartType={chartType}
+              title={"Gastos Totales"}
               className=""
             />
           </div>

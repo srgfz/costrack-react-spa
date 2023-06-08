@@ -55,9 +55,7 @@ export const getIdCommercial = () => {
 
 export const getIdEmpresa = () => {
   const token = sessionStorage.getItem("token");
-  if (getUserRol() === 1) {
-    return jwt_decode(token).idEmpresa;
-  }
+  return jwt_decode(token).idEmpresa;
 };
 
 export const getUserRol = () => {
