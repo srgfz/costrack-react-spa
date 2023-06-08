@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import useFetch from "./../../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";

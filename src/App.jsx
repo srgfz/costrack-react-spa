@@ -22,6 +22,7 @@ import NewCommercial from "./pages/Commercial/components/NewCommercial/NewCommer
 import NewOrder from "./pages/Order/components/NewOrder/NewOrder";
 import NewBill from "./pages/Bill/components/NewBill/NewBill";
 import NotAuth from "./pages/NotAuth/NotAuth";
+import ProductCardDetails from "./pages/Product/components/ProductCardDetails";
 
 function App() {
   const location = useLocation();
@@ -89,9 +90,8 @@ function App() {
           {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
         </Route>
         <Route path="new-customer" element={<NewCustomer />} />
-        <Route path="products" element={<Product />}>
-          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
-        </Route>
+        <Route path="products" element={<Product />} />
+        <Route path="products/:productId" element={<ProductCardDetails />} />
         <Route path="new-product" element={<NewProduct />} />
 
         <Route path="profile" element={<UserProfile />} />

@@ -11,7 +11,6 @@ import CustomerTable from "./components/CustomerTable";
 
 const Customer = () => {
   const empresaId = getIdEmpresa();
-  console.log(empresaId);
 
   const { isLoading, data, fetchData } = useFetch();
   const [endpoint, setEndpoint] = useState(
