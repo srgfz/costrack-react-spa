@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { getUserRol } from "../../../utils/auth";
 
 const ProductCard = ({ data }) => {
   const [cantidad, setCantidad] = useState(0);

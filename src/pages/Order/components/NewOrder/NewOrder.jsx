@@ -1,5 +1,4 @@
 import Customer from "../../../Customer/Customer";
-import InputSearch from "./../../../../components/InputSearch/InputSearch";
 
 const NewOrder = () => {
   return (
