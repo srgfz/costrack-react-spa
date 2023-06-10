@@ -2,6 +2,7 @@ import "./NavAppEmpresa.css";
 //Importamos también el componente link de react-router-dom, que será el que utilizaremos para irigirnos
 import { Link } from "react-router-dom";
 import { logOut } from "./../../utils/auth";
+import InputSearch from "./../InputSearch/InputSearch";
 
 const NavAppEmpresa = () => {
   return (
@@ -42,7 +43,7 @@ const NavAppEmpresa = () => {
             </div>
           </div>
         </div>
-        <Link to="/" className="col-3 header__logo">
+        <Link to="/commercial" className="col-3 header__logo">
           <img
             src="./src/assets/images/logo/logo-nobg/logo1.png"
             alt="Logo CosTrack"
@@ -72,32 +73,7 @@ const NavAppEmpresa = () => {
           <ul className="navbar-nav me-lg-5 mb-2 mb-lg-0 d-flex flex-column flex-lg-row align-items-center justify-content-center">
             <li className="nav-item d-lg-none my-1 col-12 col-md-7">
               <div className="">
-                <form
-                  className="form-control d-flex header__search mw-100"
-                  role="search"
-                >
-                  <i className="bi bi-search px-2"></i>
-                  <input
-                    className="border-0 search__input"
-                    type="search"
-                    placeholder="Buscar Comercial"
-                    aria-label="Search"
-                  ></input>
-                </form>
-              </div>
-            </li>
-            <li className="nav-item d-lg-none w-75 text-center">
-              <Link className="nav-link" to="/orders">
-                Pedidos
-              </Link>
-            </li>
-            <li className="nav-item d-none d-lg-block">
-              <div className="btn-group">
-                <button type="button" className="btn pe-0">
-                  <Link to="/orders" className=" nav-link ">
-                    Pedidos
-                  </Link>
-                </button>
+                <InputSearch type={"comerciales"} />
               </div>
             </li>
             <li className="nav-item dropdown d-lg-none w-75 text-center">
@@ -244,18 +220,7 @@ const NavAppEmpresa = () => {
               </div>
             </li>
           </ul>
-          <form
-            className="form-control me-4 header__search d-none d-lg-flex"
-            role="search"
-          >
-            <i className="bi bi-search px-2"></i>
-            <input
-              className="border-0 search__input"
-              type="search"
-              placeholder="Buscar Comercial"
-              aria-label="Search"
-            ></input>
-          </form>
+          <InputSearch type={"comerciales"} />
 
           <div className="nav-item d-none d-lg-block">
             <div className="btn-group bg-transparent align-items-center position-relative">

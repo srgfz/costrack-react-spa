@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 
 const BillsTable = ({ data }) => {
   const itemsPerPage = 10; // Número de elementos por página
@@ -32,7 +33,9 @@ const BillsTable = ({ data }) => {
 
     return slicedData.map((bill, index) => (
       <tr key={index}>
-        <td>{formatDate(bill.fecha_gasto)}</td>
+        <td>
+          <Link to={"/bill/" + bill.id}>{formatDate(bill.fecha_gasto)}</Link>
+        </td>
         <td>{bill.nombre_emisor}</td>
         <td>{bill.categoria}</td>
         <td>{bill.cuantia.toFixed(2)} €</td>

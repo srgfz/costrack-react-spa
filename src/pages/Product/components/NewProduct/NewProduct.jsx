@@ -2,13 +2,14 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import useFetch from "./../../../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getIdEmpresa } from "./../../../../utils/auth";
 import Spinner from "../../../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../../../components/shared/ErrorBD/ErrorBD";
 
 const NewProduct = () => {
   const navigate = useNavigate();
+  const { productId } = useParams();
 
   const idEmpresa = getIdEmpresa();
 
@@ -18,6 +19,9 @@ const NewProduct = () => {
   const [precioCoste, setPrecioCoste] = useState(0);
   const [stock, setStock] = useState(0);
   const [descripcion, setDescripcion] = useState("");
+  const [deleteItem, setDeleteItem] = useState(false);
+
+  const { isLoading, data, fetchData } = useFetch();
 
   const {
     isLoading: loadingProveedores,
@@ -27,7 +31,6 @@ const NewProduct = () => {
   const [endpointOrders, setEndpointOrders] = useState(
     `http://localhost:3000/costrack/proveedores/${idEmpresa}`
   );
-  const { isLoading, data, fetchData } = useFetch();
 
   const actualizarDatos = () => {
     const newEndpoint = `http://localhost:3000/costrack/proveedores`;
@@ -79,7 +82,10 @@ const NewProduct = () => {
               className="d-flex flex-column gap-3 px-5 flex-md-row flex-wrap align-items-center justify-content-center"
               onSubmit={handleSubmit}
             >
-              <h2 className="text-center col-md-12">Registrar Producto</h2>
+              <h2 className="text-center col-md-12">
+                {" "}
+                {productId ? null : "Registrar"} Producto
+              </h2>
               <div className="form-floating col-12 col-md-5">
                 <input
                   type="text"

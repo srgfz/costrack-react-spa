@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Graph from "../../components/shared/Graph/Graph";
@@ -8,9 +8,11 @@ import { getUserRol, getIdCommercial, getIdEmpresa } from "./../../utils/auth";
 import useFetch from "./../../hooks/useFetch";
 import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
+import SelectComerciales from "../../components/shared/SelectComerciales/SelectComerciales";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { commercialId } = useParams();
 
   const colors = [
     { categoria: "Transporte", color: "#7C8CF0" },
@@ -20,7 +22,7 @@ const Home = () => {
     { categoria: "Equipamiento", color: "#8AE9D1" },
     { categoria: "Sin categoría", color: "#B5B2B2" },
   ];
-  const userId = getUserRol() === 0 ? getIdCommercial() : getIdEmpresa();
+  const userId = getUserRol() === 0 ? getIdCommercial() : commercialId;
 
   const formatDate = (actual = true) => {
     const currentDate = new Date();
@@ -38,11 +40,13 @@ const Home = () => {
   const {
     isLoading: isLoadingOrders,
     data: dataOrders,
+    error: errorOrders,
     fetchData: fetchDataOrders,
   } = useFetch();
   const {
     isLoading: isLoadingBills,
     data: dataBills,
+    error: errorBills,
     fetchData: fetchDataBills,
   } = useFetch();
   const [chartData1, setChartData1] = useState();
@@ -62,6 +66,9 @@ const Home = () => {
   );
 
   const procesarDatosBills = () => {
+    if (!dataBills.gastos) {
+      return null;
+    }
     const dataSet = dataBills.gastos.reduce(
       (resultado, gasto) => {
         const categoria = gasto.categoria;
@@ -80,6 +87,9 @@ const Home = () => {
   };
 
   const procesarDatosBillsFecha = () => {
+    if (!dataBills.gastos) {
+      return null;
+    }
     // Crear un objeto Map para almacenar los sumatorios de gastos por fecha
     const sumatoriosPorFecha = new Map();
 
@@ -103,6 +113,9 @@ const Home = () => {
   };
 
   const procesarDatosOrders = () => {
+    if (!dataOrders.pedidos) {
+      return null;
+    }
     const dataSet = dataOrders.pedidos.map((order) => {
       const total = order.pedido_lineas.reduce(
         (accumulator, line) => accumulator + line.cantidad * line.precio_unidad,
@@ -127,6 +140,7 @@ const Home = () => {
     const newEndpointBills = `http://localhost:3000/costrack/comerciales/gastos/${userId}?date1=${date1}&date2=${date2}`;
     setEndpointBills(newEndpointBills);
     fetchDataBills(newEndpointBills);
+    console.log(newEndpointOrders);
   };
 
   useEffect(() => {
@@ -488,12 +502,23 @@ const Home = () => {
     <div>
       {isLoadingOrders || isLoadingBills ? (
         <Spinner />
+      ) : errorOrders || errorBills ? (
+        <ErrorBD type="bd" />
       ) : !dataOrders || !dataBills ? (
-        <ErrorBD />
+        <ErrorBD type="null" />
       ) : (
         <>
-          <h2>
-            Panel de {dataOrders.nombre} {dataOrders.apellidos}
+          <h2 className="d-flex  gap-md-3 align-items-baseline col-12 mb-0 fs-3 gap-1 flex-column flex-md-row">
+            <span>Panel de</span>
+            {getUserRol() === 1 ? (
+              <div className="col-md-6 ms-0 col-12">
+                <SelectComerciales type={"home"} />
+              </div>
+            ) : (
+              <span>
+                {dataOrders.nombre} {dataOrders.apellidos}
+              </span>
+            )}
           </h2>
           <div className="d-flex my-4 gap-3 justify-content-evenly">
             <div className="form-floating col-5">
@@ -526,58 +551,64 @@ const Home = () => {
               </label>
             </div>
           </div>
-          {dataSetOrders && dataSetBills ? (
-            <div className="col-12 shadow-sm bg-secondary bg-opacity-25 p-4 my-4">
-              <Graph
-                data={chartData1}
-                options={null}
-                chartType={"line"}
-                title={"Gastos | Ingresos"}
-                className=""
-              />
-            </div>
-          ) : null}
-          <>
-            <label htmlFor="graphType">Tipo de Gráfico: </label>
-            <select
-              className="form-select form-select mb-3 bg-secondary bg-opacity-25"
-              aria-label=".form-select example"
-              id="graphType"
-              onChange={(e) => setChartTypeSmallGraphs(e.target.value)}
-              value={chartTypeSmallGraphs}
-            >
-              <option value="doughnut">Cilíndrico</option>
-              <option value="pie">Circular</option>
-              <option value="line">Lineal (cronológico)</option>
-              <option value="bar">Barras</option>
-              <option value="radar">Área Hexagonal</option>
-              <option value="polarArea">Area Polar</option>
-            </select>
-            <div className="d-flex justify-content-around">
-              {dataSetOrders ? (
-                <div className="col-5 shado-sm bg-secondary bg-opacity-25 gap-2 py-4 rounded px-1">
+          {!dataBills.gastos || !dataOrders.pedidos ? (
+            <ErrorBD type="date" />
+          ) : (
+            <div className="">
+              {dataSetOrders && dataSetBills ? (
+                <div className="col-12 shadow-sm bg-secondary bg-opacity-25 p-4 my-4">
                   <Graph
-                    data={chartData2}
+                    data={chartData1}
                     options={null}
-                    chartType={chartTypeSmallGraphs}
-                    title={"Importe Total de Pedidos"}
+                    chartType={"line"}
+                    title={"Gastos | Ingresos"}
                     className=""
                   />
                 </div>
               ) : null}
-              {dataSetBills ? (
-                <div className="col-5 shadow-sm bg-secondary bg-opacity-25 py-2 px-1 rounded">
-                  <Graph
-                    data={chartData3}
-                    options={null}
-                    chartType={chartTypeSmallGraphs}
-                    title={"Gastos Totales"}
-                    className=""
-                  />
+              <>
+                <label htmlFor="graphType">Tipo de Gráfico: </label>
+                <select
+                  className="form-select form-select mb-3 bg-secondary bg-opacity-25"
+                  aria-label=".form-select example"
+                  id="graphType"
+                  onChange={(e) => setChartTypeSmallGraphs(e.target.value)}
+                  value={chartTypeSmallGraphs}
+                >
+                  <option value="doughnut">Cilíndrico</option>
+                  <option value="pie">Circular</option>
+                  <option value="line">Lineal (cronológico)</option>
+                  <option value="bar">Barras</option>
+                  <option value="radar">Área Hexagonal</option>
+                  <option value="polarArea">Area Polar</option>
+                </select>
+                <div className="d-flex justify-content-around">
+                  {dataSetOrders ? (
+                    <div className="col-5 shado-sm bg-secondary bg-opacity-25 gap-2 py-4 rounded px-1">
+                      <Graph
+                        data={chartData2}
+                        options={null}
+                        chartType={chartTypeSmallGraphs}
+                        title={"Importe Total de Pedidos"}
+                        className=""
+                      />
+                    </div>
+                  ) : null}
+                  {dataSetBills ? (
+                    <div className="col-5 shadow-sm bg-secondary bg-opacity-25 py-2 px-1 rounded">
+                      <Graph
+                        data={chartData3}
+                        options={null}
+                        chartType={chartTypeSmallGraphs}
+                        title={"Gastos Totales"}
+                        className=""
+                      />
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </>
             </div>
-          </>
+          )}
         </>
       )}
     </div>

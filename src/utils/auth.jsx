@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 export const logOut = () => {
-  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
   return <Navigate to="/login" replace />;
 };
 
@@ -26,7 +26,7 @@ const validateTokenLocally = (token) => {
 
 export const checkTokenValidity = () => {
   try {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       const isValidToken = validateTokenLocally(token);
       if (!isValidToken) {
@@ -42,23 +42,23 @@ export const checkTokenValidity = () => {
 };
 
 export const getUserId = () => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   return jwt_decode(token).userId;
 };
 
 export const getIdCommercial = () => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   if (getUserRol() === 0) {
     return jwt_decode(token).idComercial;
   }
 };
 
 export const getIdEmpresa = () => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   return jwt_decode(token).idEmpresa;
 };
 
 export const getUserRol = () => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   return jwt_decode(token).rol;
 };

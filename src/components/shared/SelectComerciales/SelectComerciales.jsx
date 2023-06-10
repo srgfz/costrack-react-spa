@@ -7,7 +7,7 @@ import Spinner from "./../Spinner/Spinner";
 import ErrorBD from "./../ErrorBD/ErrorBD";
 import { getIdEmpresa } from "./../../../utils/auth";
 
-const SelectComerciales = ({ bills = true }) => {
+const SelectComerciales = ({ type = "bills" }) => {
   const idEmpresa = getIdEmpresa();
   const navigate = useNavigate();
 
@@ -30,10 +30,12 @@ const SelectComerciales = ({ bills = true }) => {
   }, []);
 
   useEffect(() => {
-    if (bills) {
+    if (type == "bills") {
       navigate("/bills/" + commercialId);
-    } else {
+    } else if (type == "orders") {
       navigate("/orders/" + commercialId);
+    } else {
+      navigate("/panel/" + commercialId);
     }
   }, [commercialId]);
 

@@ -11,7 +11,7 @@ const ProductCardDetails = () => {
   const params = useParams();
   const productId = params.productId;
   console.log(productId);
-  const { isLoading, data, fetchData } = useFetch();
+  const { isLoading, data, error, fetchData } = useFetch();
   const [endpoint, setEndpoint] = useState(
     `http://localhost:3000/costrack/articulos/${productId}`
   );
@@ -31,8 +31,10 @@ const ProductCardDetails = () => {
     <div>
       {isLoading ? (
         <Spinner />
+      ) : error ? (
+        <ErrorBD type="bd" />
       ) : !data ? (
-        <ErrorBD />
+        <ErrorBD type="null" />
       ) : (
         <div className="col-8 mx-auto my-4">
           <ProductCard data={data} />

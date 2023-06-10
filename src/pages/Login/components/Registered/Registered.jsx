@@ -24,8 +24,8 @@ const Registered = () => {
 
   //Redireccionar a la nueva ruta si el inicio de sesión es exitoso
   if (data && data.token) {
-    sessionStorage.setItem("token", data.token);
-    return <Navigate to="/" replace />;
+    localStorage.setItem("token", data.token);
+    return <Navigate to="/commercial" replace />;
   }
 
   return (

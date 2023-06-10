@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "./../../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import { getIdEmpresa } from "./../../../../utils/auth";
@@ -32,10 +32,15 @@ const NewCommercial = () => {
 
     await fetchData(apiEndpoint, requestData, "POST");
     //Redireccionar a la nueva ruta si el inicio de sesión es exitoso
-    if (data && data.token) {
-      navigate("/commercial");
+    if (data) {
     }
   };
+
+  useEffect(() => {
+    if (data && !data.error) {
+      navigate(`/commercial/action/post`);
+    }
+  }, [data]);
 
   return (
     <div className="m-5 bg-secondary py-4 bg-opacity-25 shadow-sm rounded">
@@ -105,6 +110,9 @@ const NewCommercial = () => {
           />
           <label htmlFor="emailInput">Email</label>
         </div>
+        {data?.error ? (
+          <p className="text-danger py-0">* Este Usuario ya está registrado</p>
+        ) : null}
         <div className="d-flex justify-content-center col-12">
           <input
             className="addBtn p-2 my-3 mx-auto addBtn--form"

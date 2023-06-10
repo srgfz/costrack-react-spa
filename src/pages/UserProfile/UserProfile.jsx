@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+import "./UserProfile.css";
+
 import { useState, useEffect } from "react";
 import useFetch from "./../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +10,7 @@ import {
   getIdEmpresa,
   getUserRol,
   getUserId,
+  logOut,
 } from "./../../utils/auth";
 import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
@@ -20,6 +23,11 @@ const UserProfile = () => {
 
   const [endpoint, setEndpoint] = useState();
   const { isLoading, data, fetchData } = useFetch();
+  const {
+    isLoading: loadingDelete,
+    data: dataDelete,
+    fetchData: fetchDelete,
+  } = useFetch();
 
   const [nombre, setNombre] = useState("");
   const [apellidos, setApellidos] = useState("");
@@ -49,7 +57,9 @@ const UserProfile = () => {
       setNombre(data.nombre);
       setApellidos(data.apellidos);
       setDniOrCif(userRol === 1 ? data.cif : data.dni);
-      setEmail(data.user.email);
+      if (data.user) {
+        setEmail(data.user.email);
+      }
     }
   }, [data]);
 
@@ -57,7 +67,7 @@ const UserProfile = () => {
     e.preventDefault();
     let apiEndpoint;
     let requestData;
-    if (password === password2) {
+    if (password === password2 && password !== "") {
       // Aquí se llamará al servicio apiService para realizar la petición a la API
       if (userRol === 1) {
         apiEndpoint = `http://localhost:3000/costrack/empresas/${userIdOfEchRol}`;
@@ -89,6 +99,8 @@ const UserProfile = () => {
     }
   };
 
+  const deleteUser = async () => {};
+
   return (
     <div>
       {isLoading ? (
@@ -97,19 +109,25 @@ const UserProfile = () => {
         <ErrorBD />
       ) : (
         <div className="">
-          <h2>
+          <h2 className="my-3 mb-5">
             Perfil de {data.nombre}
             {userRol === 0 ? " " + data.apellidos : null}
           </h2>
           <div className=" my-2 col-10 mx-auto">
-            <div className="my-4 bg-secondary p-3 bg-opacity-25 shadow-sm rounded">
+            <div className="my-4 bg-secondary p-3 bg-opacity-25 shadow-sm rounded mt-5">
               <form
                 action="#"
                 method="#"
-                className="d-flex flex-column gap-3 p-0 flex-md-row flex-wrap align-items-center justify-content-center"
+                className="mt-4 d-flex flex-column gap-3 p-2 pt-5 py-3 flex-md-row flex-wrap align-items-center justify-content-center position-relative"
                 onSubmit={handleSubmit}
               >
-                <h2 className="text-center col-md-12">Img de perfil</h2>
+                <div className="col-2 img-container p-0 profileimg position-absolute start-50 translate-middle ">
+                  <img
+                    src="./src/assets/images/profile.jpg"
+                    alt="Imagen de perfil"
+                    className="object-fit-contain img-fluid rounded-circle shadow-sm"
+                  />
+                </div>
                 <div className="form-floating col-12 col-md-5">
                   <input
                     type="text"
@@ -177,7 +195,6 @@ const UserProfile = () => {
                     id="passwordInput"
                     placeholder="Contraseña"
                     autoComplete="current-password"
-                    required
                     onChange={(e) => {
                       setPassword(e.target.value);
                       setPassError(false);
@@ -192,7 +209,6 @@ const UserProfile = () => {
                     id="passwordInput2"
                     placeholder="Contraseña"
                     autoComplete="current-password"
-                    required
                     onChange={(e) => {
                       setPassword2(e.target.value);
                       setPassError(false);
@@ -202,13 +218,12 @@ const UserProfile = () => {
                 </div>
                 {passError ? (
                   <p className="text-danger text-start mb-0  col-10">
-                    * Las contraseñas no coinciden
+                    * Revise su contraseña
                   </p>
                 ) : null}
-                <div className=" col-12 d-flex justify-content-center">
-                  {" "}
+                <div className=" col-12 d-flex justify-content-center gap-5 mt-3">
                   <input
-                    className="addBtn p-2 my-3 mx-auto addBtn--form"
+                    className="addBtn addBtn--form"
                     type="submit"
                     value="Editar Perfil"
                   />

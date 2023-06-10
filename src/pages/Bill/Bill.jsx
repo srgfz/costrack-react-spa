@@ -8,12 +8,14 @@ import { getUserRol, getIdCommercial } from "./../../utils/auth";
 import useFetch from "./../../hooks/useFetch";
 import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
+import Alert from "../../components/shared/Alert/Alert";
 import BillsTable from "./components/BillsTable/BillsTable";
 import NewBill from "./components/NewBill/NewBill";
 import SelectComerciales from "../../components/shared/SelectComerciales/SelectComerciales";
 
 const Bill = () => {
   const { commercialId } = useParams();
+  const { type } = useParams();
 
   const colors = [
     { categoria: "Transporte", color: "#7C8CF0" },
@@ -37,7 +39,7 @@ const Bill = () => {
     return formattedDate;
   };
 
-  const { isLoading, data, fetchData } = useFetch();
+  const { isLoading, data, error, fetchData } = useFetch();
   const [chartData, setChartData] = useState();
 
   const [chartOptions, setChartOptions] = useState();
@@ -53,6 +55,10 @@ const Bill = () => {
   const [endpoint, setEndpoint] = useState(firstEndpoint);
 
   const procesarDatos = () => {
+    if (!data.gastos) {
+      return null;
+    }
+
     const dataSet = data.gastos.reduce(
       (resultado, gasto) => {
         const categoria = gasto.categoria;
@@ -71,6 +77,9 @@ const Bill = () => {
   };
 
   const procesarDatosBillsFecha = () => {
+    if (!data.gastos) {
+      return null;
+    }
     // Crear un objeto Map para almacenar los sumatorios de gastos por fecha
     const sumatoriosPorFecha = new Map();
 
@@ -178,10 +187,14 @@ const Bill = () => {
     <div>
       {isLoading ? (
         <Spinner />
+      ) : error ? (
+        <ErrorBD type="bd" />
       ) : !data ? (
-        <ErrorBD />
+        <ErrorBD type="null" />
       ) : (
         <>
+          {type ? <Alert type={type} /> : null}
+
           {getUserRol() === 1 ? (
             <div className="d-flex justify-content-between">
               <h2 className="d-flex  gap-md-3 align-items-baseline col-12 mb-0 fs-3 gap-1 flex-column flex-md-row">
@@ -243,7 +256,7 @@ const Bill = () => {
                 id="date1"
                 className="form-control border border shadow-sm"
                 placeholder="Fecha Inicio"
-                max={formatDate()}
+                max={date2}
                 value={date1}
                 onChange={(e) => setDate1(e.target.value)}
               ></input>
@@ -268,32 +281,37 @@ const Bill = () => {
               </label>
             </div>
           </div>
-          <div className=" bg-secondary bg-opacity-25 p-4 shadow-sm rounded my-0 mb-3">
-            <label htmlFor="graphType">Tipo de gráfico</label>
-            <select
-              className="form-select bg-secondary bg-opacity-25"
-              name="graphType"
-              id="graphType"
-              onChange={(e) => setChartType(e.target.value)}
-              value={chartType}
-            >
-              <option value="doughnut">Cilíndrico</option>
-              <option value="pie">Circular</option>
-              <option value="line">Lineal (cronológico)</option>
-              <option value="bar">Barras</option>
-              <option value="radar">Área Hexagonal</option>
-              <option value="polarArea">Area Polar</option>
-            </select>
-            <Graph
-              data={chartData}
-              options={chartOptions}
-              chartType={chartType}
-              title={"Gastos Totales"}
-              className=""
-            />
-          </div>
+          {!data.gastos ? (
+            <ErrorBD type="date" />
+          ) : (
+            <div className=" bg-secondary bg-opacity-25 p-4 shadow-sm rounded my-0 mb-3">
+              <label htmlFor="graphType">Tipo de gráfico</label>
+              <select
+                className="form-select bg-secondary bg-opacity-25"
+                name="graphType"
+                id="graphType"
+                onChange={(e) => setChartType(e.target.value)}
+                value={chartType}
+              >
+                <option value="doughnut">Cilíndrico</option>
+                <option value="pie">Circular</option>
+                <option value="line">Lineal (cronológico)</option>
+                <option value="bar">Barras</option>
+                <option value="radar">Área Hexagonal</option>
+                <option value="polarArea">Area Polar</option>
+              </select>
+              <Graph
+                data={chartData}
+                options={chartOptions}
+                chartType={chartType}
+                title={"Gastos Totales"}
+                className=""
+              />
+            </div>
+          )}
+
           <div className="py-3">
-            <BillsTable data={data.gastos} />
+            {!data.gastos ? null : <BillsTable data={data.gastos} />}
           </div>
         </>
       )}

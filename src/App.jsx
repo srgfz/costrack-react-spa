@@ -23,6 +23,7 @@ import NewOrder from "./pages/Order/components/NewOrder/NewOrder";
 import NewBill from "./pages/Bill/components/NewBill/NewBill";
 import NotAuth from "./pages/NotAuth/NotAuth";
 import ProductCardDetails from "./pages/Product/components/ProductCardDetails";
+import OrderDetails from "./pages/Order/components/OrderDetails/OrderDetails";
 
 function App() {
   const location = useLocation();
@@ -38,15 +39,16 @@ function App() {
     <Routes>
       <Route path="/" element={checkTokenValidity() ? <Layout /> : <Login />}>
         <Route index element={<Home />} />
-        <Route path="orders" element={<Order />} />
 
+        {/* Pedidos */}
+        <Route path="orders" element={<Order />} />
+        <Route path="orders/action/:type" element={<Order />} />
         <Route
           path="orders/:commercialId"
           element={
             checkTokenValidity() && getUserRol() === 1 ? <Order /> : <NotAuth />
           }
         />
-
         <Route
           path="new-order"
           element={
@@ -57,14 +59,27 @@ function App() {
             )
           }
         />
+        <Route
+          path="order"
+          element={
+            checkTokenValidity() && getUserRol() === 0 ? (
+              <OrderDetails />
+            ) : (
+              <NotAuth />
+            )
+          }
+        />
+        {/* Gastos */}
         <Route path="bills" element={<Bill />} />
+        <Route path="bills/action/:type" element={<Bill />} />
+
         <Route
           path="bills/:commercialId"
           element={
             checkTokenValidity() && getUserRol() === 1 ? <Bill /> : <NotAuth />
           }
         />
-
+        <Route path="bill/:billId" element={<NewBill />} />
         <Route
           path="new-bill"
           element={
@@ -75,6 +90,7 @@ function App() {
             )
           }
         />
+        {/* Comerciales */}
         <Route
           path="commercial"
           element={
@@ -84,9 +100,37 @@ function App() {
               <NotAuth />
             )
           }
-        >
-          {/* <Route path=":commercialId" element={<NewCustomer />} /> */}
-        </Route>
+        ></Route>
+        <Route
+          path="commercial/action/:type"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <Commercial />
+            ) : (
+              <NotAuth />
+            )
+          }
+        ></Route>
+        <Route
+          path="commercial/:commercialId"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <NewCommercial />
+            ) : (
+              <NotAuth />
+            )
+          }
+        ></Route>
+        <Route
+          path="search-comerciales/:q"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <Commercial />
+            ) : (
+              <NotAuth />
+            )
+          }
+        ></Route>
         <Route
           path="new-commercial"
           element={
@@ -97,15 +141,22 @@ function App() {
             )
           }
         />
-        <Route path="customers" element={<Customer />}>
-          {/* <Route path="/new-customer" element={<NewCustomer />} /> */}
-        </Route>
+        {/* Clientes */}
+        <Route path="customers" element={<Customer />} />
+        <Route path="search-clientes/:q" element={<NewOrder />} />
         <Route path="new-customer" element={<NewCustomer />} />
+        <Route path="customer/:customerId" element={<NewCustomer />} />
+        <Route path="customers/action/:type" element={<Customer />} />
+
+        {/* Productos */}
         <Route path="products" element={<Product />} />
         <Route path="products/:productId" element={<ProductCardDetails />} />
+        <Route path="editProduct/:productId" element={<NewProduct />} />
         <Route path="new-product" element={<NewProduct />} />
-
+        <Route path="search-productos/:q" element={<Product />} />
+        {/* Perfil */}
         <Route path="profile" element={<UserProfile />} />
+        <Route path="panel/:commercialId" element={<Home />} />
 
         {/* Otras rutas que no existen */}
         <Route

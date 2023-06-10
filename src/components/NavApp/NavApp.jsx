@@ -2,6 +2,7 @@ import "./NavApp.css";
 //Importamos también el componente link de react-router-dom, que será el que utilizaremos para irigirnos
 import { Link } from "react-router-dom";
 import { logOut } from "./../../utils/auth";
+import InputSearch from "./../InputSearch/InputSearch";
 
 function NavApp() {
   return (
@@ -72,18 +73,7 @@ function NavApp() {
           <ul className="navbar-nav me-lg-5 mb-2 mb-lg-0 d-flex flex-column flex-lg-row align-items-center justify-content-center">
             <li className="nav-item d-lg-none my-1 col-12 col-md-7">
               <div className="">
-                <form
-                  className="form-control d-flex header__search mw-100"
-                  role="search"
-                >
-                  <i className="bi bi-search px-2"></i>
-                  <input
-                    className="border-0 search__input"
-                    type="search"
-                    placeholder="Buscar Producto"
-                    aria-label="Search"
-                  ></input>
-                </form>
+                <InputSearch type={"productos"} />
               </div>
             </li>
             <li className="nav-item dropdown d-lg-none w-75 text-center">
@@ -242,19 +232,9 @@ function NavApp() {
               </div>
             </li>
           </ul>
-          <form
-            className="form-control me-4 header__search d-none d-lg-flex"
-            role="search"
-          >
-            <i className="bi bi-search px-2"></i>
-            <input
-              className="border-0 search__input"
-              type="search"
-              placeholder="Buscar Producto"
-              aria-label="Search"
-            ></input>
-          </form>
-
+          <div className="d-none d-lg-block">
+            <InputSearch type={"productos"} />
+          </div>
           <div className="nav-item d-none d-lg-block">
             <div className="btn-group bg-transparent align-items-center position-relative">
               <div className="nav-item dropdown">
@@ -272,6 +252,16 @@ function NavApp() {
                   />
                 </a>
                 <ul className="dropdown-menu p-0 position-absolute profile__items">
+                  <li>
+                    <Link to="/order" className="dropdown-item">
+                      Ver Carrito
+                      {JSON.parse(localStorage.getItem("cart")) ? (
+                        <i className="bi bi-cart-check-fill m-3"></i>
+                      ) : (
+                        <i className="bi bi-cart-x-fill ms-2"></i>
+                      )}
+                    </Link>
+                  </li>
                   <li>
                     <Link to="/profile" className="dropdown-item">
                       Editar Perfil

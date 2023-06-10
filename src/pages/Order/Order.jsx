@@ -10,9 +10,11 @@ import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
 import OrdersTable from "./components/OrdersTable/OrdersTable";
 import SelectComerciales from "../../components/shared/SelectComerciales/SelectComerciales";
+import Alert from "../../components/shared/Alert/Alert";
 
 const Order = () => {
   const { commercialId } = useParams();
+  const { type } = useParams();
 
   const formatDate = (actual = true) => {
     const currentDate = new Date();
@@ -26,8 +28,7 @@ const Order = () => {
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
   };
-
-  const { isLoading, data, fetchData } = useFetch();
+  const { isLoading, data, error, fetchData } = useFetch();
   const [chartData, setChartData] = useState();
   const [chartOptions, setChartOptions] = useState();
   const [dataSet, setDataSet] = useState([]);
@@ -41,6 +42,9 @@ const Order = () => {
   const [endpoint, setEndpoint] = useState(firstEndpoint);
 
   const procesarDatos = () => {
+    if (!data.pedidos) {
+      return null;
+    }
     const dataSet = data.pedidos.map((order) => {
       const total = order.pedido_lineas.reduce(
         (accumulator, line) => accumulator + line.cantidad * line.precio_unidad,
@@ -177,17 +181,21 @@ const Order = () => {
     <div>
       {isLoading ? (
         <Spinner />
+      ) : error ? (
+        <ErrorBD type="bd" />
       ) : !data ? (
-        <ErrorBD />
+        <ErrorBD type="null" />
       ) : (
         <>
+          {type ? <Alert type={type} /> : null}
+
           {getUserRol() === 1 ? (
             <div className="d-flex justify-content-between">
               <h2 className="d-flex  gap-md-3 align-items-baseline col-12 mb-0 fs-3 gap-1 flex-column flex-md-row">
                 <span>Pedidos</span>
                 {getUserRol() === 1 ? (
                   <div className="col-md-6 ms-0 col-12">
-                    <SelectComerciales bills={false} />
+                    <SelectComerciales type={"orders"} />
                   </div>
                 ) : (
                   <span>
@@ -267,32 +275,37 @@ const Order = () => {
               </label>
             </div>
           </div>
-          <div className=" bg-secondary bg-opacity-25 p-4 my-2 mb-3 rounded">
-            <label htmlFor="graphType">Tipo de gráfico</label>
-            <select
-              className="form-select bg-secondary bg-opacity-25"
-              name="graphType"
-              id="graphType"
-              onChange={(e) => setChartType(e.target.value)}
-              value={chartType}
-            >
-              <option value="line">Lineal (cronológico)</option>
-              <option value="doughnut">Cilíndrico</option>
-              <option value="pie">Circular</option>
-              <option value="bar">Barras</option>
-              <option value="radar">Área Hexagonal</option>
-              <option value="polarArea">Area Polar</option>
-            </select>
-            <Graph
-              data={chartData}
-              options={chartOptions}
-              chartType={chartType}
-              title={"Importe Total de Pedidos"}
-              className=""
-            />
-          </div>
+          {!data.pedidos ? (
+            <ErrorBD type="date" />
+          ) : (
+            <div className=" bg-secondary bg-opacity-25 p-4 my-2 mb-3 rounded">
+              <label htmlFor="graphType">Tipo de gráfico</label>
+              <select
+                className="form-select bg-secondary bg-opacity-25"
+                name="graphType"
+                id="graphType"
+                onChange={(e) => setChartType(e.target.value)}
+                value={chartType}
+              >
+                <option value="line">Lineal (cronológico)</option>
+                <option value="doughnut">Cilíndrico</option>
+                <option value="pie">Circular</option>
+                <option value="bar">Barras</option>
+                <option value="radar">Área Hexagonal</option>
+                <option value="polarArea">Area Polar</option>
+              </select>
+              <Graph
+                data={chartData}
+                options={chartOptions}
+                chartType={chartType}
+                title={"Importe Total de Pedidos"}
+                className=""
+              />
+            </div>
+          )}
+
           <div className="py-3">
-            <OrdersTable data={dataSet} />
+            {!data.pedidos ? null : <OrdersTable data={dataSet} />}
           </div>
         </>
       )}

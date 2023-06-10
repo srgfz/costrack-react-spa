@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useParams, Link } from "react-router-dom";
@@ -8,13 +9,15 @@ import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
 import ReactPaginate from "react-paginate";
 import ProductCard from "./components/ProductCard";
+import "./Products.css";
+import InputSearch from "../../components/InputSearch/InputSearch";
 
 const Product = () => {
+  const { q } = useParams();
+
   const empresaId = getIdEmpresa();
-  const { isLoading, data, fetchData } = useFetch();
-  const [endpoint, setEndpoint] = useState(
-    `http://localhost:3000/costrack/empresas/articulos/${empresaId}`
-  );
+  const { isLoading, data, error, fetchData } = useFetch();
+  const [endpoint, setEndpoint] = useState();
 
   const itemsPerPage = 12; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,14 +25,20 @@ const Product = () => {
   const [shouldDisplayPagination, setShouldDisplayPagination] = useState(false);
 
   const actualizarDatos = () => {
-    const newEndpoint = `http://localhost:3000/costrack/empresas/articulos/${empresaId}`;
-    setEndpoint(newEndpoint);
-    fetchData(newEndpoint);
+    if (q) {
+      const newEndpoint = `http://localhost:3000/costrack/empresas/articulos/${empresaId}?q=${q}`;
+      setEndpoint(newEndpoint);
+      fetchData(newEndpoint);
+    } else {
+      const newEndpoint = `http://localhost:3000/costrack/empresas/articulos/${empresaId}`;
+      setEndpoint(newEndpoint);
+      fetchData(newEndpoint);
+    }
   };
 
   useEffect(() => {
     actualizarDatos();
-  }, []);
+  }, [q]);
 
   useEffect(() => {
     if (data && data.articulos) {
@@ -60,20 +69,33 @@ const Product = () => {
     <div>
       {isLoading ? (
         <Spinner />
+      ) : error ? (
+        <ErrorBD type="bd" />
       ) : !data ? (
-        <ErrorBD />
+        <ErrorBD type="null" />
       ) : (
         <div>
           <div className="d-flex justify-content-between">
-            <h2>Artículos de {data.nombre}</h2>
+            {q ? (
+              <h2>Productos relacionados con "{q}"</h2>
+            ) : (
+              <h2>Productos de {data.nombre}</h2>
+            )}
             {getUserRol() === 1 ? (
               <Link className="btn btn-primary addBtn" to={"/new-product"}>
                 Añadir Artículo
               </Link>
-            ) : null}
+            ) : (
+              <Link className="btn btn-primary addBtn" to={"/order"}>
+                Ver Pedido
+              </Link>
+            )}
+          </div>
+          <div className="d-lg-none">
+            <InputSearch type={"productos"} />
           </div>
           <div className="py-3 mx-3">
-            <div className="d-flex flex-wrap justify-content-center gap-4">
+            <div className="d-flex flex-wrap justify-content-center gap-4 products">
               {renderData()}
             </div>
             {shouldDisplayPagination && (

@@ -42,6 +42,12 @@ const CommercialList = ({ data }) => {
         <li className="d-flex flex-md-column gap-3 my-3">
           <Link
             className="addBtn addBtn--form px-3 py-1"
+            to={"/panel/" + commercial.id}
+          >
+            Panel Comercial
+          </Link>
+          <Link
+            className="addBtn addBtn--form px-3 py-1"
             to={"/bills/" + commercial.id}
           >
             Gastos

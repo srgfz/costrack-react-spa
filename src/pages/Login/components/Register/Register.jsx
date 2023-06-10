@@ -26,13 +26,13 @@ const Register = () => {
       direccion: direccion.trim(),
     };
 
-    fetchData(apiEndpoint, requestData);
+    fetchData(apiEndpoint, requestData, "POST");
   };
 
   //Redireccionar si el registro es correcto
   if (data && data.token) {
-    sessionStorage.setItem("token", data.token);
-    return <Navigate to="/" replace />;
+    localStorage.setItem("token", data.token);
+    return <Navigate to="/commercial" replace />;
   }
 
   return (
