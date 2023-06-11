@@ -26,7 +26,7 @@ const NewBill = () => {
   const [fechaGasto, setFechaGasto] = useState(formatDate());
   const [categoria, setCategoria] = useState("");
   const [foto, setFoto] = useState("***");
-  const [cuantia, setCuantia] = useState(0);
+  const [cuantia, setCuantia] = useState("");
   const [observaciones, setObservaciones] = useState("");
   const [deleteItem, setDeleteItem] = useState(false);
 
@@ -139,7 +139,7 @@ const NewBill = () => {
               value={categoria}
               required
             >
-              <option selected>Seleccione una categoría</option>
+              <option defaultValue>Seleccione una categoría</option>
               <option value="Transporte">Transporte</option>
               <option value="Alojamiento">Alojamiento</option>
               <option value="Alimentación">Alimentación</option>
@@ -164,7 +164,7 @@ const NewBill = () => {
               onChange={(e) => setCuantia(e.target.value)}
               required
             />
-            <label htmlFor="cuantiInput">Cuantía</label>
+            <label htmlFor="cuantiInput">Cuantía del gasto</label>
           </div>
           <div className="form-floating col-md-10 col-12 my-2">
             <textarea

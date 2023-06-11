@@ -14,10 +14,10 @@ const NewProduct = () => {
   const idEmpresa = getIdEmpresa();
 
   const [nombre, setNombre] = useState("");
-  const [idProveedor, setIdProveedor] = useState();
-  const [precioBase, setPrecioBase] = useState(0);
-  const [precioCoste, setPrecioCoste] = useState(0);
-  const [stock, setStock] = useState(0);
+  const [idProveedor, setIdProveedor] = useState("");
+  const [precioBase, setPrecioBase] = useState("");
+  const [precioCoste, setPrecioCoste] = useState("");
+  const [stock, setStock] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [deleteItem, setDeleteItem] = useState(false);
 
@@ -105,20 +105,15 @@ const NewProduct = () => {
                   onChange={(e) => setIdProveedor(e.target.value)}
                   required
                 >
-                  <option selected disabled>
-                    Seleccione un proveedor
-                  </option>
+                  <option defaultValue>Seleccione un proveedor</option>
                   {proveedores.map((proveedor, index) => (
                     <option value={proveedor.id} key={index}>
                       {proveedor.nombre}
                     </option>
                   ))}
                 </select>
-                <label htmlFor="categoriaInput">
-                  {" "}
-                  Selecciona una categoría
-                </label>
-                {idProveedor == 0 ? (
+                <label htmlFor="categoriaInput"> Selecciona un proveedor</label>
+                {idProveedor === 0 ? (
                   <p className="text-danger">* Debe seleccionar un proveedor</p>
                 ) : null}
               </div>

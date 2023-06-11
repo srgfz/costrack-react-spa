@@ -19,10 +19,7 @@ const ProductCard = ({ data }) => {
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     if (cart) {
-      console.log(data.id);
-      console.log(cart.articulos);
       const product = cart.articulos.find((item) => item.articuloId == data.id);
-      console.log(product);
       if (product) {
         setPrecioUnidad(product.precio_unidad);
         setCantidad(product.cantidad);
@@ -44,11 +41,9 @@ const ProductCard = ({ data }) => {
         }
       });
 
-      console.log(cart);
       localStorage.setItem("cart", JSON.stringify(cart));
     } else {
       setError(false);
-      console.log();
       cart.articulos.push({
         cantidad: cantidad,
         precio_unidad: precioUnidad,
@@ -58,8 +53,6 @@ const ProductCard = ({ data }) => {
       });
       localStorage.setItem("cart", JSON.stringify(cart));
     }
-
-    console.log(cart);
 
     // articulos.push(cantidad:setCantidad)
   };
@@ -169,35 +162,37 @@ const ProductCard = ({ data }) => {
         </button>
       </div>
       <div className="card-body">
-        <Link
-          to={"/products/" + data.id}
-          className="card-title text-uppercase fs-4 my-3 fw-semibold"
-        >
-          {data.nombre}
-          <div className="d-none">|</div>
-        </Link>
-        <p className="my-3 card-text d-flex flex-wrap justify-content-between flex-wrap">
+        <h5 className="">
+          <Link
+            to={"/products/" + data.id}
+            className="card-title fs-4 my-3 producttitle"
+          >
+            {data.nombre}
+            <div className="d-none">|</div>
+          </Link>
+        </h5>
+        <div className="my-3 card-text d-flex flex-wrap justify-content-between flex-wrap">
           <div className="d-flex justify-content-between flex-wrap flex-column mx-3">
             <div className="">
-              <span className="fw-bold ">Precio Base: </span>
+              <span className="fw-semibold producttitle">Precio Base: </span>
               <span>{data.precio_base.toFixed(2)} €</span>
               <div className="d-none">|</div>
             </div>
             <div className="">
-              <span className="fw-bold ">Precio Coste: </span>
+              <span className="fw-semibold producttitle">Precio Coste: </span>
               <span>{data.precio_coste.toFixed(2)} €</span>
               <div className="d-none">|</div>
             </div>
           </div>
           <div className="mt-2 mx-3">
-            <span className="fw-bold ">Stock: </span>
+            <span className="fw-semibold producttitle">Stock: </span>
             <span>{data.stock} uds</span>
             <div className="d-none">|</div>
           </div>
-        </p>
+        </div>
         {productId ? (
           <div className="">
-            <p className="fw-bold  mb-0">Descripción: </p>
+            <p className="fw-semibold producttitle  mb-0">Descripción: </p>
             <p className="ps-3">{data.descripcion}</p>
           </div>
         ) : null}
@@ -218,7 +213,7 @@ const ProductCard = ({ data }) => {
                   onChange={(ev) => setCantidad(ev.target.value)}
                   step={1}
                 />
-                <label htmlFor="cantidadInput fw-bold">Cantidad</label>
+                <label htmlFor="cantidadInput fw-semibold">Cantidad</label>
               </div>
               <div className="form-floating col-4 mx-2">
                 <input

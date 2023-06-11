@@ -14,7 +14,7 @@ const NewCustomer = () => {
 
   const { isLoading, data, error, fetchData } = useFetch();
   const [nombre, setNombre] = useState("");
-  const [nombreContacto, setNombreContacto] = useState();
+  const [nombreContacto, setNombreContacto] = useState("");
   const [email, setEmail] = useState("");
   const [telefono, setTelefono] = useState("");
   const [direccion, setDireccion] = useState("");

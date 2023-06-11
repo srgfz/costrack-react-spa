@@ -10,7 +10,6 @@ import ProductCard from "./ProductCard";
 const ProductCardDetails = () => {
   const params = useParams();
   const productId = params.productId;
-  console.log(productId);
   const { isLoading, data, error, fetchData } = useFetch();
   const [endpoint, setEndpoint] = useState(
     `http://localhost:3000/costrack/articulos/${productId}`
@@ -20,7 +19,6 @@ const ProductCardDetails = () => {
     const newEndpoint = `http://localhost:3000/costrack/articulos/${productId}`;
     setEndpoint(newEndpoint);
     fetchData(newEndpoint);
-    console.log(data);
   };
 
   useEffect(() => {

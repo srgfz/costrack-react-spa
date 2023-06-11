@@ -32,7 +32,6 @@ const OrdersTable = ({ data }) => {
 
     return slicedData.map((order, index) => (
       <tr key={index}>
-        {console.log(order)}
         <td>{formatDate(order.fecha)}</td>
         <td>{order.cliente}</td>
         <td>{order.total.toFixed(2)} €</td>

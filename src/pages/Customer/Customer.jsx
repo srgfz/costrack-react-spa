@@ -28,7 +28,6 @@ const Customer = () => {
       const newEndpoint = `http://localhost:3000/costrack/empresas/clientes/${empresaId}?q=${q}`;
       setEndpoint(newEndpoint);
       fetchData(newEndpoint);
-      console.log(newEndpoint);
     } else {
       const newEndpoint = `http://localhost:3000/costrack/empresas/clientes/${empresaId}`;
       setEndpoint(newEndpoint);

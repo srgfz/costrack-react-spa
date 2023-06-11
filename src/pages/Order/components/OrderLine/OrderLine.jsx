@@ -11,14 +11,11 @@ const OrderLine = ({ data }) => {
   useEffect(() => {
     setCantidad(data.cantidad);
     setPrecioUnidad(data.precio_unidad);
-    console.log(data);
   }, [data]);
 
   const deleteItem = (ev, id) => {
-    console.log(id);
     let cart = JSON.parse(localStorage.getItem("cart"));
     cart.articulos = cart.articulos.filter((item) => item.articuloId != id);
-    console.log(cart.articulos);
     localStorage.setItem("cart", JSON.stringify(cart));
 
     ev.target.parentElement.parentElement.remove();
@@ -42,7 +39,6 @@ const OrderLine = ({ data }) => {
       return articulo;
     });
 
-    console.log(cart);
     localStorage.setItem("cart", JSON.stringify(cart));
   };
 
@@ -61,7 +57,6 @@ const OrderLine = ({ data }) => {
       return articulo;
     });
 
-    console.log(cart);
     localStorage.setItem("cart", JSON.stringify(cart));
   };
 

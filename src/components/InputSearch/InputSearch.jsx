@@ -14,8 +14,6 @@ const InputSearch = ({ type }) => {
       navigate(`/search-${type}/${search}`);
       e.target.lastElementChild.value = "";
       e.target.lastElementChild.blur();
-
-      console.log(e.target);
     }
   };
 

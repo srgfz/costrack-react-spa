@@ -80,8 +80,18 @@ function App() {
           }
         />
         {/* Gastos */}
-        <Route path="bills" element={<Bill />} />
-        <Route path="bills/action/:type" element={<Bill />} />
+        <Route
+          path="bills"
+          element={
+            checkTokenValidity() && getUserRol() === 0 ? <Bill /> : <NotAuth />
+          }
+        />
+        <Route
+          path="bills/action/:type"
+          element={
+            checkTokenValidity() && getUserRol() === 0 ? <Bill /> : <NotAuth />
+          }
+        />
 
         <Route
           path="bills/:commercialId"
@@ -161,12 +171,35 @@ function App() {
         {/* Productos */}
         <Route path="products" element={<Product />} />
         <Route path="products/:productId" element={<ProductCardDetails />} />
-        <Route path="editProduct/:productId" element={<NewProduct />} />
-        <Route path="new-product" element={<NewProduct />} />
+        <Route
+          path="editProduct/:productId"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <NewProduct />
+            ) : (
+              <NotAuth />
+            )
+          }
+        />
+        <Route
+          path="new-product"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <NewProduct />
+            ) : (
+              <NotAuth />
+            )
+          }
+        />
         <Route path="search-productos/:q" element={<Product />} />
         {/* Perfil */}
         <Route path="profile" element={<UserProfile />} />
-        <Route path="panel/:commercialId" element={<Home />} />
+        <Route
+          path="panel/:commercialId"
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? <Home /> : <NotAuth />
+          }
+        />
 
         {/* Otras rutas que no existen */}
         <Route

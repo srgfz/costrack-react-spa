@@ -141,7 +141,6 @@ const Home = () => {
     const newEndpointBills = `http://localhost:3000/costrack/comerciales/gastos/${userId}?date1=${date1}&date2=${date2}`;
     setEndpointBills(newEndpointBills);
     fetchDataBills(newEndpointBills);
-    console.log(newEndpointOrders);
   };
 
   useEffect(() => {
@@ -151,11 +150,6 @@ const Home = () => {
   useEffect(() => {
     if (dataOrders) {
       procesarDatosOrders();
-      console.log(dataOrders);
-      //Si es comercial y es la primera vez que entra le mando a editar perfil para que cambie la contraseña
-      // if (getUserRol() === 0 && dataOrders.createdAt === dataOrders.updatedAt) {
-      //   navigate("/profile");
-      // }
     }
     if (dataBills) {
       procesarDatosBills();
@@ -195,11 +189,11 @@ const Home = () => {
           {
             label: "Gastos",
             data: gastos,
-            backgroundColor: "#ffffc3b4",
+            backgroundColor: "#ffffc355",
             borderColor: "#ffffc3e0",
             fill: true,
             spanGaps: true, // Omitir los segmentos de línea entre los puntos de datos faltantes (cero)
-            pointRadius: 0, // Si no deseas mostrar los puntos en los picos
+            pointRadius: 1, // Si no deseas mostrar los puntos en los picos
             borderCapStyle: "round", // Establecer los picos redondeados
           },
           {
@@ -208,7 +202,7 @@ const Home = () => {
             backgroundColor: "#496e81ae",
             borderColor: "#496e81e2",
             fill: true,
-            pointRadius: 0, // Si no deseas mostrar los puntos en los picos
+            pointRadius: 1, // Si no deseas mostrar los puntos en los picos
             borderCapStyle: "round", // Establecer los picos redondeados
             spanGaps: true, // Omitir los segmentos de línea entre los puntos de datos faltantes (cero)
           },

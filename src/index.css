@@ -23,3 +23,13 @@ main {
     background-color: #9abfc551;
     margin: 0;
 }
+
+@font-face {
+    font-family: 'Monda';
+    src: url('./assets/fonts/Monda-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./assets/fonts/Ubuntu-Regular.ttf');
+}

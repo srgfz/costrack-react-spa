@@ -5,7 +5,6 @@ import ReactPaginate from "react-paginate";
 import "./../../Commercial.css";
 
 const CommercialList = ({ data }) => {
-  console.log(data);
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(data.length / itemsPerPage);

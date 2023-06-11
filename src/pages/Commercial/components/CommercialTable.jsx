@@ -3,7 +3,6 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
 const CommercialTable = ({ data }) => {
-  console.log(data);
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(data.length / itemsPerPage);

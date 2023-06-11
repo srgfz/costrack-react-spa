@@ -19,8 +19,6 @@ const OrderDetails = () => {
 
   const { isLoading, data, fetchData } = useFetch();
 
-  console.log(cart);
-
   const actualizarDatos = () => {
     fetchData(`http://localhost:3000/costrack/pedidos/${orderId}`);
   };
@@ -33,9 +31,7 @@ const OrderDetails = () => {
 
   useEffect(() => {
     if (orderId && data) {
-      console.log("****");
       setCart(data);
-      console.log(cart);
       localStorage.setItem("order", JSON.stringify(data));
     }
   }, [data]);

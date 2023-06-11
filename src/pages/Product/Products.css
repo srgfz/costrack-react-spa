@@ -16,3 +16,7 @@ img {
     min-height: 190px;
 
 }
+
+.producttitle {
+    font-variant: small-caps;
+}

@@ -7,7 +7,6 @@ import "./../Customer.css";
 
 const CustomerTable = ({ data }) => {
   const location = useLocation();
-  console.log(location.pathname);
 
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
@@ -30,7 +29,6 @@ const CustomerTable = ({ data }) => {
       articulos: [],
     };
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(JSON.parse(localStorage.getItem("cart")));
   };
 
   const renderData = () => {
