@@ -201,6 +201,7 @@ function App() {
           }
         />
 
+        <Route path="/no-auth" element={<NotAuth />} />
         {/* Otras rutas que no existen */}
         <Route
           path="/*"
