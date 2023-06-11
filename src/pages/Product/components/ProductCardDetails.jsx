@@ -36,7 +36,7 @@ const ProductCardDetails = () => {
       ) : !data ? (
         <ErrorBD type="null" />
       ) : (
-        <div className="col-8 mx-auto my-4">
+        <div className="col-6 mx-auto my-4">
           <ProductCard data={data} />
         </div>
       )}

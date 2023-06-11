@@ -18,7 +18,7 @@ const CommercialTable = ({ data }) => {
     const slicedData = data.slice(startIndex, endIndex);
 
     return slicedData.map((customer, index) => (
-      <li key={index}>
+      <li key={index} className="my-4">
         <div>Nombre</div>
         <div>{customer.nombre}</div>
       </li>

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+import "./Home.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -194,8 +195,8 @@ const Home = () => {
           {
             label: "Gastos",
             data: gastos,
-            backgroundColor: "red",
-            borderColor: "red",
+            backgroundColor: "#ffffc3b4",
+            borderColor: "#ffffc3e0",
             fill: true,
             spanGaps: true, // Omitir los segmentos de línea entre los puntos de datos faltantes (cero)
             pointRadius: 0, // Si no deseas mostrar los puntos en los picos
@@ -204,8 +205,8 @@ const Home = () => {
           {
             label: "Importe Pedidos",
             data: pedidos,
-            backgroundColor: "rgba(0, 123, 255, 0.5)",
-            borderColor: "rgba(0, 123, 255, 1)",
+            backgroundColor: "#496e81ae",
+            borderColor: "#496e81e2",
             fill: true,
             pointRadius: 0, // Si no deseas mostrar los puntos en los picos
             borderCapStyle: "round", // Establecer los picos redondeados
@@ -228,8 +229,8 @@ const Home = () => {
             {
               label: `Importe Total de los Pedidos`,
               data: totals.reverse(),
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -275,8 +276,8 @@ const Home = () => {
             {
               label: `Importe Total de los Pedidos`,
               data: pedidos,
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -313,8 +314,8 @@ const Home = () => {
             {
               label: `Gastos Totales`,
               data: gastos,
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -362,8 +363,8 @@ const Home = () => {
             {
               label: `Importe Total de los Pedidos`,
               data: totals.reverse(),
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -515,8 +516,8 @@ const Home = () => {
                 <SelectComerciales type={"home"} />
               </div>
             ) : (
-              <span>
-                {dataOrders.nombre} {dataOrders.apellidos}
+              <span className="ms-1">
+                {" " + dataOrders.nombre} {dataOrders.apellidos}
               </span>
             )}
           </h2>
@@ -556,7 +557,7 @@ const Home = () => {
           ) : (
             <div className="">
               {dataSetOrders && dataSetBills ? (
-                <div className="col-12 shadow-sm bg-secondary bg-opacity-25 p-4 my-4">
+                <div className="col-12 shadow-sm bg-secondary bg-opacity-25 p-4 my-4 mx-auto graphic graphic--large">
                   <Graph
                     data={chartData1}
                     options={null}
@@ -567,7 +568,9 @@ const Home = () => {
                 </div>
               ) : null}
               <>
-                <label htmlFor="graphType">Tipo de Gráfico: </label>
+                <label htmlFor="graphType" className="fw-semibold fs-3">
+                  Tipo de Gráfico:{" "}
+                </label>
                 <select
                   className="form-select form-select mb-3 bg-secondary bg-opacity-25"
                   aria-label=".form-select example"
@@ -584,7 +587,7 @@ const Home = () => {
                 </select>
                 <div className="d-flex justify-content-around">
                   {dataSetOrders ? (
-                    <div className="col-5 shado-sm bg-secondary bg-opacity-25 gap-2 py-4 rounded px-1">
+                    <div className="col-5 shado-sm bg-secondary bg-opacity-25 gap-2 py-4 rounded px-1 mx-auto graphic--small">
                       <Graph
                         data={chartData2}
                         options={null}
@@ -595,7 +598,7 @@ const Home = () => {
                     </div>
                   ) : null}
                   {dataSetBills ? (
-                    <div className="col-5 shadow-sm bg-secondary bg-opacity-25 py-2 px-1 rounded">
+                    <div className="col-5 shadow-sm bg-secondary bg-opacity-25 py-2 px-1 rounded mx-auto graphic--small">
                       <Graph
                         data={chartData3}
                         options={null}

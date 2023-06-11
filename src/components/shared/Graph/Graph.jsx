@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
 
@@ -30,9 +31,9 @@ const Graph = ({ data, options, chartType, title = null }) => {
   }, [data, options, chartType]);
 
   return (
-    <div className="">
+    <div>
       <h4 className="text-center">{title}</h4>
-      <canvas ref={chartRef}></canvas>
+      <canvas ref={chartRef} className="canvasGraph"></canvas>
     </div>
   );
 };

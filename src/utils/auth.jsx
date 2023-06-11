@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 
 export const logOut = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("cart");
   return <Navigate to="/login" replace />;
 };
 

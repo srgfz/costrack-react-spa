@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import useFetch from "./../../../../hooks/useFetch";
@@ -98,13 +99,13 @@ const NewBill = () => {
         <form
           action="#"
           method="#"
-          className="d-flex flex-column gap-3 px-5 flex-md-row flex-wrap align-items-center justify-content-center"
+          className="d-flex flex-column gap-3 px-4 px-md-5 flex-md-row flex-wrap align-items-center justify-content-center"
           onSubmit={handleSubmit}
         >
-          <h2 className="text-center col-md-12">
+          <h2 className="text-center col-md-12 my-3 mb-5">
             {billId ? null : "Registrar"} Gasto
           </h2>
-          <div className="form-floating col-12 col-md-5">
+          <div className="form-floating col-12 col-md-5 my-2 mx-2">
             <input
               type="text"
               className="form-control shadow-sm"
@@ -116,7 +117,7 @@ const NewBill = () => {
             />
             <label htmlFor="nombreInput">Nombre del Emisor</label>
           </div>
-          <div className="form-floating col-12 col-md-5">
+          <div className="form-floating col-12 col-md-5 my-2  mx-2">
             <input
               type="date"
               className="form-control shadow-sm"
@@ -129,7 +130,7 @@ const NewBill = () => {
             />
             <label htmlFor="fechaInput">Fecha del gasto</label>
           </div>
-          <div className="form-floating col-12 col-md-5">
+          <div className="form-floating col-12 col-md-5 my-2 mx-2">
             <select
               className="form-select shadow-sm"
               id="categoriaInput"
@@ -151,7 +152,7 @@ const NewBill = () => {
               <p className="text-danger">* Debe seleccionar una categoría</p>
             ) : null}
           </div>
-          <div className="form-floating col-12 col-md-5">
+          <div className="form-floating col-12 col-md-5 my-2  mx-2">
             <input
               type="number"
               className="form-control shadow-sm"
@@ -165,9 +166,9 @@ const NewBill = () => {
             />
             <label htmlFor="cuantiInput">Cuantía</label>
           </div>
-          <div className="form-floating col-md-10 col-12">
+          <div className="form-floating col-md-10 col-12 my-2">
             <textarea
-              className="form-control shadow-sm"
+              className="form-control shadow-sm textarea"
               placeholder="Observaciones del gasto"
               id="floatingTextarea"
               maxLength={250}
@@ -176,16 +177,16 @@ const NewBill = () => {
             ></textarea>
             <label htmlFor="floatingTextarea">Observaciones</label>
           </div>
-          <div className="d-flex justify-content-center col-12">
+          <div className="d-flex justify-content-center col-12 my-3 mt-4">
             {billId ? (
               <div className=" d-flex gap-4">
                 <input
-                  className="addBtn p-2 mx-auto"
+                  className="addBtn p-2 mx-2"
                   type="submit"
                   value="Editar Gasto"
                 />
                 <button
-                  className="btn dropBtn"
+                  className="btn dropBtn mx-2"
                   onClick={() => setDeleteItem(true)}
                 >
                   Eliminar Gasto

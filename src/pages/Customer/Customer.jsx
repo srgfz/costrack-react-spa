@@ -52,17 +52,19 @@ const Customer = () => {
         <div>
           {type ? <Alert type={type} /> : null}
 
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mt-3">
             {q ? (
               <h2>Clientes relacionados con "{q}"</h2>
             ) : (
-              <h2>Clientes de {data.nombre}</h2>
+              <h2 className="d-flex flex-wrap">
+                Clientes de <span className="ms-1"> {data.nombre}</span>
+              </h2>
             )}
             <Link className="btn btn-primary addBtn" to={"/new-customer"}>
               Añadir Cliente
             </Link>
           </div>
-          <div className="py-4">
+          <div className="py-4  mx-auto">
             <InputSearch type={"clientes"} />
           </div>
           <div className="py-3 mx-3">

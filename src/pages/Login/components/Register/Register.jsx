@@ -32,7 +32,7 @@ const Register = () => {
   //Redireccionar si el registro es correcto
   if (data && data.token) {
     localStorage.setItem("token", data.token);
-    return <Navigate to="/commercial" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import useFetch from "./../../../../hooks/useFetch";
@@ -32,8 +33,6 @@ const NewCommercial = () => {
 
     await fetchData(apiEndpoint, requestData, "POST");
     //Redireccionar a la nueva ruta si el inicio de sesión es exitoso
-    if (data) {
-    }
   };
 
   useEffect(() => {
@@ -50,8 +49,8 @@ const NewCommercial = () => {
         className="d-flex flex-column gap-3 px-5 px-md-0 flex-md-row flex-wrap align-items-center justify-content-center"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-center col-md-12">Registrar Comercial</h2>
-        <div className="form-floating col-12 col-md-4">
+        <h2 className="text-center col-md-12 mb-4">Registrar Comercial</h2>
+        <div className="m-2 form-floating col-12 col-md-4">
           <input
             type="text"
             className="form-control shadow-sm"
@@ -62,7 +61,7 @@ const NewCommercial = () => {
           />
           <label htmlFor="nombreInput">Nombre</label>
         </div>
-        <div className="form-floating col-12 col-md-6">
+        <div className="m-2 form-floating col-12 col-md-6">
           <input
             type="text"
             className="form-control shadow-sm"
@@ -74,7 +73,7 @@ const NewCommercial = () => {
           <label htmlFor="apellidosInput">Apelildos</label>
         </div>
 
-        <div className="form-floating col-12 col-md-5">
+        <div className="m-2 form-floating col-12 col-md-5">
           <input
             type="text"
             className="form-control shadow-sm"
@@ -86,7 +85,7 @@ const NewCommercial = () => {
           />
           <label htmlFor="dniInput">DNI</label>
         </div>
-        <div className="form-floating col-12 col-md-5">
+        <div className="m-2 form-floating col-12 col-md-5">
           <input
             type="password"
             className="form-control shadow-sm"
@@ -98,7 +97,7 @@ const NewCommercial = () => {
           />
           <label htmlFor="passInput">Contraseña</label>
         </div>
-        <div className="form-floating col-12 col-md-10">
+        <div className="m-2 form-floating col-12 col-md-10">
           <input
             type="text"
             className="form-control shadow-sm"

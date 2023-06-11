@@ -57,7 +57,10 @@ const Product = () => {
       const endIndex = startIndex + itemsPerPage;
       const slicedData = data.articulos.slice(startIndex, endIndex);
       return slicedData.map((articulo, index) => (
-        <div className="col-10 col-md-5 col-lg-3 flex-grow-1" key={index}>
+        <div
+          className="col-10 col-md-5 col-lg-3 flex-grow-1 product mx-2 my-3 product"
+          key={index}
+        >
           <ProductCard data={articulo} />
         </div>
       ));
@@ -75,11 +78,13 @@ const Product = () => {
         <ErrorBD type="null" />
       ) : (
         <div>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between my-2">
             {q ? (
               <h2>Productos relacionados con "{q}"</h2>
             ) : (
-              <h2>Productos de {data.nombre}</h2>
+              <h2 className="d-flex flex-wrap">
+                Productos de <span className="ms-1">{data.nombre}</span>{" "}
+              </h2>
             )}
             {getUserRol() === 1 ? (
               <Link className="btn btn-primary addBtn" to={"/new-product"}>
@@ -95,7 +100,7 @@ const Product = () => {
             <InputSearch type={"productos"} />
           </div>
           <div className="py-3 mx-3">
-            <div className="d-flex flex-wrap justify-content-center gap-4 products">
+            <div className="d-flex flex-wrap justify-content-center gap-2 products">
               {renderData()}
             </div>
             {shouldDisplayPagination && (

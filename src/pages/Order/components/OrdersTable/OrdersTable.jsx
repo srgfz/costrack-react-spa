@@ -33,12 +33,10 @@ const OrdersTable = ({ data }) => {
     return slicedData.map((order, index) => (
       <tr key={index}>
         {console.log(order)}
-
         <td>{formatDate(order.fecha)}</td>
         <td>{order.cliente}</td>
         <td>{order.total.toFixed(2)} €</td>
-        <td>{order.direccion}</td>
-        <td>{order.comentarios}</td>
+        <td className="">{order.direccion}</td>
       </tr>
     ));
   };
@@ -53,8 +51,7 @@ const OrdersTable = ({ data }) => {
             <th>Fecha</th>
             <th>Cliente</th>
             <th>Importe Total</th>
-            <th>Dirección</th>
-            <th>Comentarios</th>
+            <th className="">Dirección</th>
           </tr>
         </thead>
         <tbody>{renderData()}</tbody>

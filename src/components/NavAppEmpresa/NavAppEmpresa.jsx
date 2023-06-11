@@ -3,6 +3,9 @@ import "./NavAppEmpresa.css";
 import { Link } from "react-router-dom";
 import { logOut } from "./../../utils/auth";
 import InputSearch from "./../InputSearch/InputSearch";
+import logo1 from "./../../assets/images/logo/logo-nobg/logo1.png";
+import logo2 from "./../../assets/images/logo/logo-nobg/logo2.png";
+import perfil from "./../../assets/images/profile.jpg";
 
 const NavAppEmpresa = () => {
   return (
@@ -19,7 +22,7 @@ const NavAppEmpresa = () => {
                 aria-expanded="false"
               >
                 <img
-                  src="./src/assets/images/profile.jpg"
+                  src={perfil}
                   alt="Imagen de perfil"
                   className="object-fit-contain img-fluid rounded-circle"
                 />
@@ -45,12 +48,12 @@ const NavAppEmpresa = () => {
         </div>
         <Link to="/commercial" className="col-3 header__logo">
           <img
-            src="./src/assets/images/logo/logo-nobg/logo1.png"
+            src={logo1}
             alt="Logo CosTrack"
             className="d-none d-md-block img-fluid"
           />
           <img
-            src="./src/assets/images/logo/logo-nobg/logo2.png"
+            src={logo2}
             alt="Logo CosTrack"
             className="d-md-none img-fluid"
           />
@@ -220,8 +223,10 @@ const NavAppEmpresa = () => {
               </div>
             </li>
           </ul>
-          <InputSearch type={"comerciales"} />
 
+          <div className="d-none d-lg-block">
+            <InputSearch type={"comerciales"} />
+          </div>
           <div className="nav-item d-none d-lg-block">
             <div className="btn-group bg-transparent align-items-center position-relative">
               <div className="nav-item dropdown">
@@ -233,7 +238,7 @@ const NavAppEmpresa = () => {
                   aria-expanded="false"
                 >
                   <img
-                    src="./src/assets/images/profile.jpg"
+                    src={perfil}
                     alt="Imagen de perfil"
                     className="object-fit-contain img-fluid rounded-circle"
                   />

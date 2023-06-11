@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const ErrorBD = ({ type = "bd" }) => {
   return (
-    <div>
+    <div className="error">
       {type === "bd" ? (
         <div className="">
           Base de Datos en mantenimiento, por favor, intentelo más tarde

@@ -109,7 +109,7 @@ const UserProfile = () => {
         <ErrorBD />
       ) : (
         <div className="">
-          <h2 className="my-3 mb-5">
+          <h2 className="my-3 mb-5 pb-4">
             Perfil de {data.nombre}
             {userRol === 0 ? " " + data.apellidos : null}
           </h2>
@@ -128,7 +128,7 @@ const UserProfile = () => {
                     className="object-fit-contain img-fluid rounded-circle shadow-sm"
                   />
                 </div>
-                <div className="form-floating col-12 col-md-5">
+                <div className="form-floating col-12 col-md-5 m-2 m-lg-0">
                   <input
                     type="text"
                     className="form-control shadow-sm"
@@ -144,7 +144,7 @@ const UserProfile = () => {
                     {userRol === 1 ? " de la empresa" : null}
                   </label>
                 </div>
-                <div className="form-floating col-12 col-md-5">
+                <div className="form-floating col-12 col-md-5 m-2 m-lg-0">
                   <input
                     type="text"
                     className="form-control shadow-sm"
@@ -161,7 +161,7 @@ const UserProfile = () => {
                   </label>
                 </div>
                 {userRol === 0 ? (
-                  <div className="form-floating col-12 col-md-10">
+                  <div className="form-floating col-12 col-md-10 m-2 m-lg-0">
                     <input
                       type="text"
                       className="form-control shadow-sm"
@@ -175,7 +175,7 @@ const UserProfile = () => {
                     <label htmlFor="apellidosInput">Apellidos</label>
                   </div>
                 ) : null}
-                <div className="form-floating col-12 col-md-10">
+                <div className="form-floating col-12 col-md-10 m-2 m-lg-0">
                   <input
                     type="email"
                     className="form-control shadow-sm"
@@ -188,7 +188,7 @@ const UserProfile = () => {
                   />
                   <label htmlFor="emailInput">Email</label>
                 </div>
-                <div className="form-floating col-12 col-md-5">
+                <div className="form-floating col-12 col-md-5 m-2 m-lg-0">
                   <input
                     type="password"
                     className="form-control shadow-sm"
@@ -202,7 +202,7 @@ const UserProfile = () => {
                   />
                   <label htmlFor="passwordInput">Nueva Contraseña</label>
                 </div>
-                <div className="form-floating col-12 col-md-5">
+                <div className="form-floating col-12 col-md-5 m-2 m-lg-0">
                   <input
                     type="password"
                     className="form-control shadow-sm"
@@ -223,7 +223,7 @@ const UserProfile = () => {
                 ) : null}
                 <div className=" col-12 d-flex justify-content-center gap-5 mt-3">
                   <input
-                    className="addBtn addBtn--form"
+                    className="addBtn addBtn--form m-3 p-3"
                     type="submit"
                     value="Editar Perfil"
                   />

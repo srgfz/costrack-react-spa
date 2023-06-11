@@ -1,3 +1,4 @@
+import "./App.css";
 import {
   BrowserRouter,
   Route,
@@ -38,7 +39,16 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={checkTokenValidity() ? <Layout /> : <Login />}>
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            checkTokenValidity() && getUserRol() === 1 ? (
+              <Commercial />
+            ) : (
+              <Home />
+            )
+          }
+        />
 
         {/* Pedidos */}
         <Route path="orders" element={<Order />} />

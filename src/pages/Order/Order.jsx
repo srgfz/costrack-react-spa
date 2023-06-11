@@ -96,8 +96,8 @@ const Order = () => {
             {
               label: `Importe Total de los Pedidos`,
               data: totals.reverse(),
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -143,8 +143,8 @@ const Order = () => {
             {
               label: `Importe Total de los Pedidos`,
               data: pedidos,
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -190,7 +190,7 @@ const Order = () => {
           {type ? <Alert type={type} /> : null}
 
           {getUserRol() === 1 ? (
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between mt-2">
               <h2 className="d-flex  gap-md-3 align-items-baseline col-12 mb-0 fs-3 gap-1 flex-column flex-md-row">
                 <span>Pedidos</span>
                 {getUserRol() === 1 ? (
@@ -218,7 +218,7 @@ const Order = () => {
               ) : null}
             </div>
           ) : (
-            <div className="d-flex justify-content-between justify-content-center ">
+            <div className="d-flex justify-content-between justify-content-center mt-2">
               <h2 className="d-flex gap-md-3 align-items-baseline mb-0 fs-3 gap-1 flex-wrap flex-column flex-md-row gap-3 text-center col-9 col-md-auto col justify-content-center">
                 <span>Pedidos </span>
                 {getUserRol() === 1 ? (
@@ -278,8 +278,10 @@ const Order = () => {
           {!data.pedidos ? (
             <ErrorBD type="date" />
           ) : (
-            <div className=" bg-secondary bg-opacity-25 p-4 my-2 mb-3 rounded">
-              <label htmlFor="graphType">Tipo de gráfico</label>
+            <div className=" bg-secondary bg-opacity-25 p-4 my-2 mb-3 rounded graphic--large mx-auto">
+              <label htmlFor="graphType" className="fw-semibold fs-4">
+                Tipo de gráfico
+              </label>
               <select
                 className="form-select bg-secondary bg-opacity-25"
                 name="graphType"
@@ -304,7 +306,7 @@ const Order = () => {
             </div>
           )}
 
-          <div className="py-3">
+          <div className="py-3 col-12 col-md-10 mx-auto">
             {!data.pedidos ? null : <OrdersTable data={dataSet} />}
           </div>
         </>

@@ -83,13 +83,13 @@ const NewCustomer = () => {
           <form
             action="#"
             method="#"
-            className="d-flex flex-column gap-3 px-5 flex-md-row flex-wrap align-items-center justify-content-center"
+            className="d-flex flex-column gap-3 px-4 px-md-5 flex-md-row flex-wrap align-items-center justify-content-center"
             onSubmit={handleSubmit}
           >
-            <h2 className="text-center col-md-12">
+            <h2 className="text-center col-md-12 my-3 mb-5">
               {customerId ? null : "Registrar"} Cliente
             </h2>
-            <div className="form-floating col-12 col-md-5">
+            <div className="form-floating col-12 col-md-5 m-2">
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -102,7 +102,7 @@ const NewCustomer = () => {
               <label htmlFor="nombreInput">Nombre Cliente</label>
             </div>
 
-            <div className="form-floating col-12 col-md-5">
+            <div className="form-floating col-12 col-md-5 m-2">
               <input
                 type="text"
                 className="form-control shadow-sm"
@@ -114,7 +114,7 @@ const NewCustomer = () => {
               />
               <label htmlFor="cuantiInput">Nombre de contacto</label>
             </div>
-            <div className="form-floating col-12 col-md-5">
+            <div className="form-floating col-12 col-md-5 m-2">
               <input
                 type="email"
                 className="form-control shadow-sm"
@@ -126,7 +126,7 @@ const NewCustomer = () => {
               />
               <label htmlFor="nombreInput">Email</label>
             </div>
-            <div className="form-floating col-12 col-md-5">
+            <div className="form-floating col-12 col-md-5 m-2">
               <input
                 type="tel"
                 className="form-control shadow-sm"
@@ -138,9 +138,9 @@ const NewCustomer = () => {
               />
               <label htmlFor="nombreInput">Teléfono</label>
             </div>
-            <div className="form-floating col-md-10 col-12">
+            <div className="form-floating col-md-10 col-12 m-2">
               <textarea
-                className="form-control shadow-sm"
+                className="form-control shadow-sm textarea"
                 placeholder="Dirección"
                 value={direccion}
                 id="floatingTextarea"
@@ -152,13 +152,13 @@ const NewCustomer = () => {
               {customerId ? (
                 <div className=" d-flex gap-4">
                   <input
-                    className="addBtn p-2 mx-auto"
+                    className="addBtn p-2 mx-auto mx-2 my-3"
                     type="submit"
                     value="Editar Cliente "
                   />
                   {getUserRol() === 1 ? (
                     <button
-                      className="btn dropBtn"
+                      className="btn dropBtn mx-2 my-3"
                       onClick={() => setDeleteItem(true)}
                     >
                       Eliminar Cliente
@@ -167,7 +167,7 @@ const NewCustomer = () => {
                 </div>
               ) : (
                 <input
-                  className="addBtn p-2 mx-auto"
+                  className="addBtn p-2 mx-auto my-3"
                   type="submit"
                   value="Añadir Cliente"
                 />

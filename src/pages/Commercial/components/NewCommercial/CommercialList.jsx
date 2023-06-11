@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import "./../../Commercial.css";
 
 const CommercialList = ({ data }) => {
   console.log(data);
@@ -23,11 +24,11 @@ const CommercialList = ({ data }) => {
         key={index}
         className="d-flex flex-wrap flex-md-row gap-2 align-items-center justify-content-evenly col-10 bg-secondary bg-opacity-25 p-2 py-3 rounded shado-sm flex-column flex-grow-1 flex-md-grow-0"
       >
-        <li className="bg-primary bg-gradient bg-opacity-25 p-3 px-4 rounded col-10 col-md-auto">
+        <li className="bg-primary bg-gradient bg-opacity-25 p-3 px-4 rounded col-10 col-md-auto m-1 commercial">
           <div className="fw-bold">Nombre</div>
           <div className="ps-3">{commercial.nombre}</div>
         </li>
-        <li className="bg-primary bg-gradient bg-opacity-25 p-3 px-4 rounded col-10 col-md-auto">
+        <li className="bg-primary bg-gradient bg-opacity-25 p-3 px-4 rounded col-10 col-md-auto m-1 commercial">
           <div className="fw-bold">Email</div>
           <div className="ps-3">
             <a href={"mailto:" + commercial.user.email} className="text-dark">
@@ -35,25 +36,25 @@ const CommercialList = ({ data }) => {
             </a>
           </div>
         </li>
-        <li className="bg-primary bg-gradient bg-opacity-25 p-3 px-4 rounded col-10 col-md-auto">
+        <li className="bg-primary bg-gradient bg-opacity-25 p-3 px-4 rounded col-10 col-md-auto m-1 commercial">
           <div className="fw-bold">DNI</div>
           <div className="ps-3">{commercial.dni}</div>
         </li>
-        <li className="d-flex flex-md-column gap-3 my-3">
+        <li className="d-flex flex-lg-column gap-3 my-3 text-center flex-wrap justify-content-center">
           <Link
-            className="addBtn addBtn--form px-3 py-1"
+            className="addBtn addBtn--form px-3 py-1 m-2"
             to={"/panel/" + commercial.id}
           >
             Panel Comercial
           </Link>
           <Link
-            className="addBtn addBtn--form px-3 py-1"
+            className="addBtn addBtn--form px-3 py-1 m-2"
             to={"/bills/" + commercial.id}
           >
             Gastos
           </Link>
           <Link
-            className="addBtn addBtn--form px-3 py-1"
+            className="addBtn addBtn--form px-3 py-1 m-2"
             to={"/orders/" + commercial.id}
           >
             Pedidos

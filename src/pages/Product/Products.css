@@ -1,3 +1,18 @@
 .products * {
     max-width: 380px;
 }
+
+.product {
+    min-height: 405px;
+
+}
+
+img {
+    max-height: 300px;
+}
+
+.img--products {
+    max-height: 190px;
+    min-height: 190px;
+
+}

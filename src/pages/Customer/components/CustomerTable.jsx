@@ -3,6 +3,7 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link, useLocation } from "react-router-dom";
 import { getIdCommercial } from "../../../utils/auth";
+import "./../Customer.css";
 
 const CustomerTable = ({ data }) => {
   const location = useLocation();
@@ -48,20 +49,20 @@ const CustomerTable = ({ data }) => {
             <span className="ps-2">({customer.nombre_contacto})</span>
           </Link>
         </td>
-        <td className="">
+        <td className="d-none d-md-table-cell">
           <a href={"mailto:" + customer.email} className="text-dark">
             {customer.email}
           </a>
         </td>
         {location.pathname !== "/new-order" ? (
-          <td>{customer.telefono}</td>
+          <td className="">{customer.telefono}</td>
         ) : null}
 
         {location.pathname === "/new-order" ? (
           <td className="my-1 text-center">
             <Link
               id={customer.id}
-              className=""
+              className="btnOrder"
               to="/products"
               onClick={(ev) => saveCart(ev)}
             >
@@ -81,7 +82,7 @@ const CustomerTable = ({ data }) => {
         <thead>
           <tr className=" align-top">
             <th>Nombre</th>
-            <th className="">Email</th>
+            <th className="d-none d-md-table-cell">Email</th>
             {location.pathname !== "/new-order" ? <th>Teléfono</th> : null}
             {location.pathname === "/new-order" ? (
               <th>Selecciona un Cliente</th>

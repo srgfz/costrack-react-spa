@@ -50,7 +50,7 @@ const Commercial = () => {
         <div>
           {type ? <Alert type={type} /> : null}
 
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mt-3">
             {q ? (
               <h2>Comerciales relacionados con "{q}"</h2>
             ) : (

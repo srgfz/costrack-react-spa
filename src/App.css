@@ -1,0 +1,103 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0 15px;
+}
+
+.pagination li {
+    border: 2px solid var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px 3px;
+}
+
+.pagination a {
+    color: var(--primary-color) !important;
+}
+
+.pagination-active {
+    background-color: var(--primary-color);
+    border-color: var(--tertiary-color) !important;
+}
+
+.pagination-active a {
+    color: var(--secondary-color) !important;
+}
+
+.pagination-disabled {
+    background-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+.addBtn {
+    border: 3px solid var(--primary-color) !important;
+    border-radius: 5px !important;
+    vertical-align: middle !important;
+    color: var(--primary-color) !important;
+    background-color: rgba(124, 121, 121, 0.1) !important;
+    font-weight: bold !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.addBtn--form {
+    background-color: whitesmoke !important;
+
+}
+
+.addBtn:hover {
+    background-color: var(--primary-color) !important;
+    color: var(--tertiary-color) !important;
+    border-color: rgba(202, 209, 207, 0.972) !important;
+}
+
+
+.dropBtn {
+    border: 3px solid var(--primary-color) !important;
+    border-radius: 5px !important;
+    vertical-align: middle !important;
+    color: whitesmoke !important;
+    background-color: var(--primary-color) !important;
+    font-weight: bold !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.dropBtn:hover {
+    background-color: whitesmoke !important;
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.graphic {
+    max-width: 950px !important;
+    min-width: 360px !important;
+
+}
+
+.graphic--large {
+    max-width: 950px !important;
+    min-width: 360px !important;
+}
+
+.graphic--small {
+    max-width: 480px !important;
+    min-width: 160px !important;
+}
+
+.canvasGraph {
+    min-height: 200px;
+    max-height: 350px !important;
+}
+
+.textarea {
+    min-height: 100px !important;
+    background-color: black;
+}
+
+.error {
+    padding: 30px;
+    border: 3px solid var(--primary-color);
+    background-color: var(--tertiary-color);
+    border-radius: 8px;
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 80px auto;
+}

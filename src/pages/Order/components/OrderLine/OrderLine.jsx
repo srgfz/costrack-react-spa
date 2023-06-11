@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./OrderLine.css";
 
 const OrderLine = ({ data }) => {
   const [cantidad, setCantidad] = useState("");
@@ -65,46 +66,47 @@ const OrderLine = ({ data }) => {
   };
 
   return (
-    <li className=" col-10  mx-auto list-group -item my-3 bg-light p-3 border rounded shadow-sm d-flex flex-row justify-content-around align-items-center">
-      <div className="">
+    <li className=" col-md-11  mx-auto list-group -item my-3 bg-light p-3 border rounded shadow-sm d-flex flex-row justify-content-start align-items-center align-items-md-center">
+      <div className="col-md-1 me-3">
         <i
-          className="bi bi-x-lg"
+          className="bi bi-x-lg ms-1 ms-md-3 me-4 me-md-3"
+          type="button"
           onClick={(e) => deleteItem(e, data.articuloId)}
         ></i>
       </div>
-      <h4>{data.data.split("|")[0]}</h4>
-      <div className="">
-        <div className="d-flex">
-          <div className="">
-            <div className="">Stock Disponible: 5</div>
-          </div>
-          <div className="form-floating">
-            <input
-              type="number"
-              className="form-control"
-              id="cantidadInput"
-              placeholder="cantidad"
-              value={cantidad}
-              onChange={(e) => updateCantidad(e, data.articuloId)}
-            />
-            <label htmlFor="cantidadInput">Cantidad</label>
-          </div>
-        </div>
-        <div className="d-flex">
-          <div className="">
-            <div className="">Precio base</div>
-            <div className="">Precio Coste</div>
-          </div>
-          <div className="form-floating">
-            <input
-              type="number"
-              className="form-control"
-              id="precioInput"
-              placeholder="precio"
-              value={precioUnidad}
-              onChange={(e) => updatePrice(e, data.articuloId)}
-            />
-            <label htmlFor="precioInput">Precio</label>
+      <div className="d-flex flex-column flex-md-row justify-content-evenly align-items-md-center col-10">
+        <h4>{data.data.split("|")[0]}</h4>
+        <div className="">
+          <div className="d-flex flex-column flex-md-row">
+            <div className="my-1 d-flex flex-column justify-content-center">
+              <div className="">{data.data.split("|")[3]}</div>
+              <div className="">{data.data.split("|")[1]}</div>
+              <div className="">{data.data.split("|")[2]}</div>
+            </div>
+            <div className="d-flex gap-3 justify-content-center flex-md-column">
+              <div className="form-floating mx-3 my-2 col-5">
+                <input
+                  type="number"
+                  className="form-control"
+                  id="cantidadInput"
+                  placeholder="cantidad"
+                  value={cantidad}
+                  onChange={(e) => updateCantidad(e, data.articuloId)}
+                />
+                <label htmlFor="cantidadInput">Cantidad</label>
+              </div>
+              <div className="form-floating mx-3 my-2 col-5">
+                <input
+                  type="number"
+                  className="form-control"
+                  id="precioInput"
+                  placeholder="precio"
+                  value={precioUnidad}
+                  onChange={(e) => updatePrice(e, data.articuloId)}
+                />
+                <label htmlFor="precioInput">Precio</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,9 @@ import "./NavApp.css";
 import { Link } from "react-router-dom";
 import { logOut } from "./../../utils/auth";
 import InputSearch from "./../InputSearch/InputSearch";
+import logo1 from "./../../assets/images/logo/logo-nobg/logo1.png";
+import logo2 from "./../../assets/images/logo/logo-nobg/logo2.png";
+import perfil from "./../../assets/images/profile.jpg";
 
 function NavApp() {
   return (
@@ -19,12 +22,22 @@ function NavApp() {
                 aria-expanded="false"
               >
                 <img
-                  src="./src/assets/images/profile.jpg"
+                  src={perfil}
                   alt="Imagen de perfil"
                   className="object-fit-contain img-fluid rounded-circle"
                 />
               </a>
               <ul className="dropdown-menu p-0">
+                <li>
+                  <Link to="/order" className="dropdown-item">
+                    Ver Carrito
+                    {JSON.parse(localStorage.getItem("cart")) ? (
+                      <i className="bi bi-cart-check-fill m-3"></i>
+                    ) : (
+                      <i className="bi bi-cart-x-fill ms-2"></i>
+                    )}
+                  </Link>
+                </li>
                 <li>
                   <Link to="/profile" className="dropdown-item">
                     Editar Perfil
@@ -45,12 +58,12 @@ function NavApp() {
         </div>
         <Link to="/" className="col-3 header__logo">
           <img
-            src="./src/assets/images/logo/logo-nobg/logo1.png"
+            src={logo1}
             alt="Logo CosTrack"
             className="d-none d-md-block img-fluid"
           />
           <img
-            src="./src/assets/images/logo/logo-nobg/logo2.png"
+            src={logo2}
             alt="Logo CosTrack"
             className="d-md-none img-fluid"
           />
@@ -246,7 +259,7 @@ function NavApp() {
                   aria-expanded="false"
                 >
                   <img
-                    src="./src/assets/images/profile.jpg"
+                    src={perfil}
                     alt="Imagen de perfil"
                     className="object-fit-contain img-fluid rounded-circle"
                   />
