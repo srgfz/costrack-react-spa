@@ -4,16 +4,22 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line no-unused-vars
-const InputSearch = ({ type }) => {
+const InputSearch = ({ type, newOrder = false }) => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (search.trim) {
-      navigate(`/search-${type}/${search}`);
-      e.target.lastElementChild.value = "";
-      e.target.lastElementChild.blur();
+    if (search) {
+      if (newOrder) {
+        navigate(`/new-order/search-${type}/${search}`);
+        e.target.lastElementChild.value = "";
+        e.target.lastElementChild.blur();
+      } else {
+        navigate(`/search-${type}/${search}`);
+        e.target.lastElementChild.value = "";
+        e.target.lastElementChild.blur();
+      }
     }
   };
 

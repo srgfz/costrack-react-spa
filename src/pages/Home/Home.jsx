@@ -53,6 +53,8 @@ const Home = () => {
   const [chartData1, setChartData1] = useState();
   const [chartData2, setChartData2] = useState();
   const [chartData3, setChartData3] = useState();
+  const [totalGastos, setTotalGastos] = useState(0);
+  const [totalPedidos, setTotalPedidos] = useState(0);
   const [dataSetOrders, setDataSetOrders] = useState([]);
   const [dataSetBills, setDataSetBills] = useState([]);
   const [dataSetBillsFecha, setDataSetBillsFecha] = useState([]);
@@ -182,9 +184,21 @@ const Home = () => {
           dataSetOrders.find(({ fecha: f }) => f === fecha)?.total || 0;
         pedidos.push(pedido);
       });
-
+      const totalGastos = gastos.reduce(
+        (total, totalGastos) => total + totalGastos,
+        0
+      );
+      setTotalGastos(totalGastos);
+      const totalPedidos = pedidos.reduce(
+        (total, totalPedidos) => total + parseFloat(totalPedidos),
+        0
+      );
+      console.log(pedidos);
+      console.log(totalPedidos);
+      setTotalPedidos(totalPedidos);
       const chartData = {
         labels: fechasOrdenadas,
+
         datasets: [
           {
             label: "Gastos",
@@ -216,7 +230,14 @@ const Home = () => {
         // Saco las fechas y los totales del array resultante
         const totals = dataSetOrders.map((order) => parseFloat(order.total));
         const labels = dataSetOrders.map((order) => order.fecha);
-
+        const totalPedidos = totals.reduce(
+          (total, totalPedidos) => total + parseFloat(totalPedidos),
+          0
+        );
+        console.log(totals);
+        console.log(totalPedidos);
+        setTotalPedidos(totalPedidos);
+        setTotalPedidos(totalPedidos);
         const chartData = {
           labels: labels.reverse(),
           datasets: [
@@ -235,17 +256,17 @@ const Home = () => {
       } else {
         // Crear un objeto Map para almacenar los valores únicos y sumatorios
         const uniqueMap = new Map();
-
+        console.log(dataSetOrders);
         // Recorrer el array de JSONs
         dataSetOrders.forEach((order) => {
           const id = order.clienteId;
-          const total = order.total;
+          const total = parseFloat(order.total);
           const nombre = order.cliente;
 
           // Verificar si el ID ya existe en el Map
           if (uniqueMap.has(id)) {
             // Si el ID existe, sumar el valor actual al sumatorio existente
-            const sum = uniqueMap.get(id).sum + total;
+            const sum = parseFloat(uniqueMap.get(id).sum) + total;
             uniqueMap.set(id, { sum, nombre });
           } else {
             // Si el ID no existe, agregar una nueva entrada al Map
@@ -259,11 +280,18 @@ const Home = () => {
           total: data.sum,
           nombre: data.nombre,
         }));
-
+        console.log(result);
         // Obtener arrays separados de nombres y números, manteniendo el orden
         const clientes = result.map((obj) => obj.nombre);
         const pedidos = result.map((obj) => obj.total);
-
+        const totalPedidos = pedidos.reduce(
+          (total, totalPedidos) => total + parseFloat(totalPedidos),
+          0
+        );
+        console.log(pedidos);
+        console.log(totalPedidos);
+        setTotalPedidos(totalPedidos);
+        setTotalPedidos(totalPedidos);
         const chartData = {
           labels: clientes,
           datasets: [
@@ -302,6 +330,12 @@ const Home = () => {
           gastos.push(gasto);
         });
 
+        const totalGastos = gastos.reduce(
+          (total, totalGastos) => total + totalGastos,
+          0
+        );
+        setTotalGastos(totalGastos);
+
         const chartData = {
           labels: fechasOrdenadas,
           datasets: [
@@ -317,6 +351,11 @@ const Home = () => {
         };
         setChartData3(chartData);
       } else {
+        const totalGastos = dataSetBills.sumatorios.reduce(
+          (total, totalGastos) => total + totalGastos,
+          0
+        );
+        setTotalGastos(totalGastos);
         const chartData = {
           labels: dataSetBills.categorias,
           datasets: [
@@ -350,7 +389,11 @@ const Home = () => {
         // Saco las fechas y los totales del array resultante
         const totals = dataSetOrders.map((order) => parseFloat(order.total));
         const labels = dataSetOrders.map((order) => order.fecha);
-
+        const totalGastos = totals.reduce(
+          (total, totalGastos) => total + totalGastos,
+          0
+        );
+        setTotalGastos(totalGastos);
         const chartData = {
           labels: labels.reverse(),
           datasets: [
@@ -373,13 +416,13 @@ const Home = () => {
         // Recorrer el array de JSONs
         dataSetOrders.forEach((order) => {
           const id = order.clienteId;
-          const total = order.total;
+          const total = parseFloat(order.total);
           const nombre = order.cliente;
 
           // Verificar si el ID ya existe en el Map
           if (uniqueMap.has(id)) {
             // Si el ID existe, sumar el valor actual al sumatorio existente
-            const sum = uniqueMap.get(id).sum + total;
+            const sum = parseFloat(uniqueMap.get(id).sum) + total;
             uniqueMap.set(id, { sum, nombre });
           } else {
             // Si el ID no existe, agregar una nueva entrada al Map
@@ -397,7 +440,14 @@ const Home = () => {
         // Obtener arrays separados de nombres y números, manteniendo el orden
         const clientes = result.map((obj) => obj.nombre);
         const pedidos = result.map((obj) => obj.total);
-
+        const totalPedidos = pedidos.reduce(
+          (total, totalPedidos) => total + parseFloat(totalPedidos),
+          0
+        );
+        console.log(pedidos);
+        console.log(totalPedidos);
+        setTotalPedidos(totalPedidos);
+        setTotalPedidos(totalPedidos);
         const chartData = {
           labels: clientes,
           datasets: [
@@ -435,6 +485,11 @@ const Home = () => {
           const gasto = dataSetBillsFecha.find(([f]) => f === fecha)?.[1] || 0;
           gastos.push(gasto);
         });
+        const totalGastos = gastos.reduce(
+          (total, totalGastos) => total + totalGastos,
+          0
+        );
+        setTotalGastos(totalGastos);
 
         const chartData = {
           labels: fechasOrdenadas,
@@ -451,6 +506,11 @@ const Home = () => {
         };
         setChartData3(chartData);
       } else {
+        const totalGastos = dataSetBills.sumatorios.reduce(
+          (total, totalGastos) => total + totalGastos,
+          0
+        );
+        setTotalGastos(totalGastos);
         const chartData = {
           labels: dataSetBills.categorias,
           datasets: [
@@ -556,7 +616,25 @@ const Home = () => {
                     data={chartData1}
                     options={null}
                     chartType={"line"}
-                    title={"Gastos | Ingresos"}
+                    title={`Gastos Totales: ${totalGastos.toLocaleString(
+                      "es-ES",
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        useGrouping: true,
+                        groupingSeparator: ".",
+                        decimalSeparator: ",",
+                      }
+                    )} € | Ingresos Totales: ${totalPedidos.toLocaleString(
+                      "es-ES",
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        useGrouping: true,
+                        groupingSeparator: ".",
+                        decimalSeparator: ",",
+                      }
+                    )} €`}
                     className=""
                   />
                 </div>
@@ -579,25 +657,43 @@ const Home = () => {
                   <option value="radar">Área Hexagonal</option>
                   <option value="polarArea">Area Polar</option>
                 </select>
-                <div className="d-flex justify-content-around">
+                <div className="d-flex flex-column flex-md-row justify-content-around">
                   {dataSetOrders ? (
-                    <div className="col-5 shado-sm bg-secondary bg-opacity-25 gap-2 py-4 rounded px-1 mx-auto graphic--small">
+                    <div className="col-12 col-md-5 shado-sm bg-secondary bg-opacity-25 gap-2 py-4 rounded px-1 mx-auto graphic--small">
                       <Graph
                         data={chartData2}
                         options={null}
                         chartType={chartTypeSmallGraphs}
-                        title={"Importe Total de Pedidos"}
+                        title={`Importe Total de Pedidos: ${totalPedidos.toLocaleString(
+                          "es-ES",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            useGrouping: true,
+                            groupingSeparator: ".",
+                            decimalSeparator: ",",
+                          }
+                        )} €`}
                         className=""
                       />
                     </div>
                   ) : null}
                   {dataSetBills ? (
-                    <div className="col-5 shadow-sm bg-secondary bg-opacity-25 py-2 px-1 rounded mx-auto graphic--small">
+                    <div className="col-12 col-md-5 shadow-sm bg-secondary bg-opacity-25 py-2 px-1 rounded mx-auto graphic--small">
                       <Graph
                         data={chartData3}
                         options={null}
                         chartType={chartTypeSmallGraphs}
-                        title={"Gastos Totales"}
+                        title={`Gastos Totales ${totalGastos.toLocaleString(
+                          "es-ES",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            useGrouping: true,
+                            groupingSeparator: ".",
+                            decimalSeparator: ",",
+                          }
+                        )} €`}
                         className=""
                       />
                     </div>

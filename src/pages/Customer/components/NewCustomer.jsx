@@ -26,11 +26,11 @@ const NewCustomer = () => {
     // Aquí se llamará al servicio apiService para realizar la petición a la API
     let apiEndpoint = "http://localhost:3000/costrack/clientes";
     const requestData = {
-      nombre: nombre.trim(),
+      nombre: nombre,
       nombre_contacto: nombreContacto,
-      email: email.trim(),
-      telefono: telefono.trim(),
-      direccion: direccion.trim(),
+      email: email,
+      telefono: telefono,
+      direccion: direccion,
       empresaId: getIdEmpresa(),
     };
     if (deleteItem) {

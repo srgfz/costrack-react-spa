@@ -175,12 +175,30 @@ const ProductCard = ({ data }) => {
           <div className="d-flex justify-content-between flex-wrap flex-column mx-3">
             <div className="">
               <span className="fw-semibold producttitle">Precio Base: </span>
-              <span>{data.precio_base.toFixed(2)} €</span>
+              <span>
+                {data.precio_base.toLocaleString("es-ES", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                  useGrouping: true,
+                  groupingSeparator: ".",
+                  decimalSeparator: ",",
+                })}{" "}
+                €
+              </span>
               <div className="d-none">|</div>
             </div>
             <div className="">
               <span className="fw-semibold producttitle">Precio Coste: </span>
-              <span>{data.precio_coste.toFixed(2)} €</span>
+              <span>
+                {data.precio_coste.toLocaleString("es-ES", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                  useGrouping: true,
+                  groupingSeparator: ".",
+                  decimalSeparator: ",",
+                })}{" "}
+                €
+              </span>
               <div className="d-none">|</div>
             </div>
           </div>

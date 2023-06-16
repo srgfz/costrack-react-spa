@@ -48,12 +48,12 @@ const NewProduct = () => {
       // Aquí se llamará al servicio apiService para realizar la petición a la API
       const apiEndpoint = "http://localhost:3000/costrack/articulos";
       const requestData = {
-        nombre: nombre.trim(),
+        nombre: nombre,
         proveedorId: idProveedor,
         precio_base: precioBase,
         precio_coste: precioCoste,
         stock: stock,
-        descripcion: descripcion.trim(),
+        descripcion: descripcion,
         empresaId: idEmpresa,
       };
 

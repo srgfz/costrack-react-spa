@@ -164,6 +164,7 @@ function App() {
         {/* Clientes */}
         <Route path="customers" element={<Customer />} />
         <Route path="search-clientes/:q" element={<NewOrder />} />
+        <Route path="new-order/search-clientes/:q" element={<NewOrder />} />
         <Route path="new-customer" element={<NewCustomer />} />
         <Route path="customer/:customerId" element={<NewCustomer />} />
         <Route path="customers/action/:type" element={<Customer />} />

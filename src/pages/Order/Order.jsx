@@ -2,6 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { CSVLink } from "react-csv";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 import Graph from "../../components/shared/Graph/Graph";
 import { getUserRol, getIdCommercial } from "./../../utils/auth";
@@ -30,11 +33,17 @@ const Order = () => {
   };
   const { isLoading, data, error, fetchData } = useFetch();
   const [chartData, setChartData] = useState();
+  const [total, setTotal] = useState(0);
   const [chartOptions, setChartOptions] = useState();
   const [dataSet, setDataSet] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [chartType, setChartType] = useState("line");
   const [date1, setDate1] = useState(formatDate(false));
   const [date2, setDate2] = useState(formatDate());
+  const [selectedClientes, setSelectedClientes] = useState([]);
+
+  const [exportData, setExportData] = useState([]);
+  const [fileName, setFileName] = useState("");
 
   const firstEndpoint = getIdCommercial()
     ? `http://localhost:3000/costrack/comerciales/pedidos/${getIdCommercial()}?date1=${date1}&date2=${date2}`
@@ -61,6 +70,14 @@ const Order = () => {
       };
     });
     setDataSet(dataSet);
+    const clientes = [];
+    dataSet.forEach((pedido) => {
+      if (!clientes.includes(pedido.cliente)) {
+        clientes.push(pedido.cliente);
+      }
+    });
+    setClientes(clientes);
+    console.log(clientes);
   };
 
   //useEffect de llamada a la api
@@ -85,9 +102,16 @@ const Order = () => {
   //UseEffect cada vez que cambian los datos devueltos--> UseEffect del gráfico
   useEffect(() => {
     if (dataSet) {
+      console.log(dataSet);
       if (chartType === "line") {
         // Saco las fechas y los totales del array resultante
         const totals = dataSet.map((order) => parseFloat(order.total));
+        const total = totals.reduce(
+          (total, totalPedido) => total + totalPedido,
+          0
+        );
+
+        setTotal(total);
         const labels = dataSet.map((order) => order.fecha);
 
         const chartData = {
@@ -135,8 +159,15 @@ const Order = () => {
 
         // Obtener arrays separados de nombres y números, manteniendo el orden
         const clientes = result.map((obj) => obj.nombre);
+        setClientes(clientes);
+        console.log(clientes);
         const pedidos = result.map((obj) => obj.total);
-
+        const total = pedidos.reduce(
+          (total, totalPedido) => total + totalPedido,
+          0
+        );
+        setTotal(total);
+        console.log(pedidos);
         const chartData = {
           labels: clientes,
           datasets: [
@@ -175,6 +206,205 @@ const Order = () => {
       colors.push(color);
     }
     return colors;
+  };
+
+  const handleExportCSV = () => {
+    let text =
+      selectedClientes.length > 0
+        ? `Pedidos de entre el ${date1} y el ${date2} de los clientes: `
+        : `Todos los pedidos de entre el ${date1} y el ${date2} `;
+    if (selectedClientes.length > 0) {
+      selectedClientes.forEach((cliente, index) => {
+        if (++index === selectedClientes.length) {
+          text += ` ${cliente}.`;
+        } else {
+          text += ` ${cliente}, `;
+        }
+      });
+    }
+    const csvRows = [];
+    const headers = [
+      "Fecha",
+      "Cliente",
+      "Dirección",
+      "Total_pedido",
+      "Comentarios",
+    ];
+
+    // Agregar encabezados al archivo CSV
+    csvRows.push(text);
+    csvRows.push(headers.join(";"));
+    const dataToExport =
+      selectedClientes.length > 0
+        ? dataSet.filter((pedido) => selectedClientes.includes(pedido.cliente))
+        : dataSet;
+
+    // Recorrer los datos y agregar cada fila al archivo CSV
+    dataToExport.forEach((pedido) => {
+      const row = [
+        pedido.fecha.split("T")[0],
+        pedido.cliente,
+        pedido.direccion,
+        pedido.total.toFixed(2),
+        pedido.comentarios ? pedido.comentarios : " - - - ",
+      ];
+      csvRows.push(row.join(";"));
+    });
+
+    // Crear el contenido del archivo CSV con una BOM al principio
+    const csvContent = "\uFEFF" + csvRows.join("\n");
+
+    // Crear un objeto Blob con el contenido del archivo CSV
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+    // Crear una URL del blob del archivo CSV
+    const csvUrl = URL.createObjectURL(blob);
+
+    // Crear un enlace temporal para descargar el archivo CSV
+    const link = document.createElement("a");
+    link.href = csvUrl;
+    link.download = `pedidos_${data.nombre}${data.apellidos.split(" ")[0]}${
+      data.apellidos.split(" ")[1]
+    }_${date1}-to-${date2}.csv`;
+
+    // Simular un clic en el enlace para iniciar la descarga del archivo CSV
+    link.click();
+  };
+
+  const handleExportPDF = (download = false) => {
+    const doc = new jsPDF();
+
+    const dataToExport =
+      selectedClientes.length > 0
+        ? dataSet.filter((pedido) => selectedClientes.includes(pedido.cliente))
+        : dataSet;
+
+    const title = `Pedidos de ${data.nombre} ${data.apellidos}`;
+    const titleFontSize = 16;
+    const titleX = doc.internal.pageSize.getWidth() / 2; // Centrado horizontalmente
+    const titleY = 15; // 15 unidades hacia abajo desde la parte superior de la página
+
+    doc.setFontSize(titleFontSize);
+    doc.text(title, titleX, titleY, { align: "center" });
+
+    // Agregar el párrafo de información
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    let text =
+      selectedClientes.length > 0
+        ? `Pedidos de entre el ${date1} y el ${date2} de los clientes: `
+        : `Todos los pedidos de entre el ${date1} y el ${date2} `;
+    if (selectedClientes.length > 0) {
+      selectedClientes.forEach((cliente, index) => {
+        if (++index === selectedClientes.length) {
+          text += ` ${cliente}.`;
+        } else {
+          text += ` ${cliente}, `;
+        }
+      });
+    }
+
+    const splitText = doc.splitTextToSize(
+      text,
+      doc.internal.pageSize.getWidth() - 40
+    );
+    doc.text(splitText, 20, 25);
+
+    // Agregar el párrafo del total debajo del párrafo de información
+    const infoTextHeight = doc.getTextDimensions(splitText).h;
+
+    const total = dataToExport.reduce((total, gasto) => total + gasto.total, 0);
+    const totalText = `Importe total de pedidos: ${total.toLocaleString(
+      "es-ES",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        useGrouping: true,
+        groupingSeparator: ".",
+        decimalSeparator: ",",
+      }
+    )}€`;
+    const totalSplitText = doc.splitTextToSize(
+      totalText,
+      doc.internal.pageSize.getWidth() - 40
+    );
+    const totalY = 25 + infoTextHeight + 10; // Ajusta el valor "10" para establecer el espaciado entre los párrafos
+    doc.text(totalSplitText, 20, totalY);
+
+    const headers = [
+      ["Fecha", "Cliente", "Dirección", "Total Pedido", "Comentarios"],
+    ];
+
+    const rows = dataToExport.map((pedido) => [
+      pedido.fecha.split("T")[0],
+      pedido.cliente,
+      pedido.direccion,
+      pedido.total.toLocaleString("es-ES", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        useGrouping: true,
+        groupingSeparator: ".",
+        decimalSeparator: ",",
+      }) + "€",
+      pedido.comentarios ? pedido.comentarios : " - - - ",
+    ]);
+
+    // Restar el ancho del margen derecho para ajustar la posición X
+    const tableConfig = {
+      startY: totalY + 10, // Ajusta el valor "10" para establecer el espaciado entre el párrafo del total y la tabla
+      head: headers,
+      body: rows,
+      theme: "grid",
+      styles: { fontSize: 10, cellPadding: 4 },
+      headStyles: { fillColor: [73, 110, 129] },
+    };
+
+    doc.autoTable(tableConfig);
+
+    // Agregar el número de página al final de cada página
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setTextColor(150);
+      doc.text(
+        `Página ${i} de ${totalPages}`,
+        doc.internal.pageSize.getWidth() - 120,
+        doc.internal.pageSize.getHeight() - 10
+      );
+    }
+
+    const pdfFileName = `pedidos_${data.nombre}${data.apellidos.split(" ")[0]}${
+      data.apellidos.split(" ")[1]
+    }_${date1}-to-${date2}.pdf`;
+    setFileName(pdfFileName);
+
+    if (download) {
+      doc.save(pdfFileName);
+    } else {
+      // Obtener el blob del PDF
+      const pdfBlob = doc.output("blob");
+
+      // Crear una URL del blob del PDF
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      // Abrir una nueva pestaña con la URL del PDF
+      window.open(pdfUrl, "_blank");
+    }
+  };
+
+  const handleClientesSelect = (e) => {
+    const id = e.target.value;
+    if (!selectedClientes.includes(id)) {
+      setSelectedClientes([...selectedClientes, id]);
+    }
+  };
+
+  const handleClientesRemove = (id) => {
+    const updatedClientes = selectedClientes.filter(
+      (selectedId) => selectedId !== id
+    );
+    setSelectedClientes(updatedClientes);
   };
 
   return (
@@ -300,14 +530,161 @@ const Order = () => {
                 data={chartData}
                 options={chartOptions}
                 chartType={chartType}
-                title={"Importe Total de Pedidos"}
+                title={`Importe Total de Pedidos ${total.toLocaleString(
+                  "es-ES",
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    useGrouping: true,
+                    groupingSeparator: ".",
+                    decimalSeparator: ",",
+                  }
+                )} €`}
                 className=""
               />
             </div>
           )}
-
           <div className="py-3 col-12 col-md-10 mx-auto">
-            {!data.pedidos ? null : <OrdersTable data={dataSet} />}
+            <div className="gap-2 mb-3 d-md-flex justify-content-between">
+              <div className="d-flex justify-content-between gap-3 mb-3">
+                <div className="form-floating">
+                  <select
+                    className="form-select"
+                    value=""
+                    onChange={handleClientesSelect}
+                  >
+                    <option value="" disabled>
+                      Seleccione un cliente
+                    </option>
+                    {clientes.map((cliente) => (
+                      <option key={cliente} value={cliente}>
+                        {cliente}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor="categorySelect">Filtrar por categoría</label>
+                </div>
+                <div className="d-flex flex-column gap-1 flex-md-row flex-md-wrap align-items-center">
+                  {selectedClientes.map((category) => (
+                    <span key={category} className="badge bg-primary me-2">
+                      {category}
+                      <span
+                        className="ms-2 text-white cursor-pointer"
+                        onClick={() => handleClientesRemove(category)}
+                      >
+                        &#x2715;
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="">
+                <div className="btn-group mx-auto mx-md-0">
+                  <button
+                    type="button"
+                    className="btn btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Exportar Datos
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <button
+                        className="dropdown-item d-flex justify-content-between"
+                        onClick={() => handleExportPDF()}
+                        disabled={
+                          !(
+                            (selectedClientes.length == 0 && dataSet) ||
+                            (selectedClientes.length > 0 &&
+                              dataSet.filter((pedido) =>
+                                selectedClientes.includes(pedido.cliente)
+                              ).length > 0)
+                          )
+                        }
+                      >
+                        Exportar PDF
+                        <i className="bi bi-box-arrow-up-right"></i>
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="dropdown-item d-flex justify-content-between"
+                        onClick={() => handleExportPDF(true)}
+                        disabled={
+                          !(
+                            (selectedClientes.length == 0 && dataSet) ||
+                            (selectedClientes.length > 0 &&
+                              dataSet.filter((pedido) =>
+                                selectedClientes.includes(pedido.cliente)
+                              ).length > 0)
+                          )
+                        }
+                      >
+                        Exportar PDF
+                        <i className="bi bi-box-arrow-down"></i>
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="dropdown-item d-flex justify-content-between"
+                        onClick={handleExportCSV}
+                        disabled={
+                          !(
+                            (selectedClientes.length == 0 && dataSet) ||
+                            (selectedClientes.length > 0 &&
+                              dataSet.filter((pedido) =>
+                                selectedClientes.includes(pedido.cliente)
+                              ).length > 0)
+                          )
+                        }
+                      >
+                        Exportar CSV
+                        <i className="bi bi-box-arrow-down"></i>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="">
+            Total para las Categorías Seleccionadas:{" "}
+            {selectedClientes.length > 0
+              ? dataSet
+                  .filter((pedido) => selectedClientes.includes(pedido.cliente))
+                  .reduce((total, pedido) => total + pedido.total, 0)
+                  .toLocaleString("es-ES", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    useGrouping: true,
+                    groupingSeparator: ".",
+                    decimalSeparator: ",",
+                  })
+              : dataSet
+                  .reduce((total, pedido) => total + pedido.total, 0)
+                  .toLocaleString("es-ES", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    useGrouping: true,
+                    groupingSeparator: ".",
+                    decimalSeparator: ",",
+                  })}{" "}
+            €
+          </div>
+          <div className="py-3 col-12 col-md-10 mx-auto">
+            {!data.pedidos ? null : (
+              <OrdersTable
+                data={
+                  selectedClientes.length > 0
+                    ? dataSet.filter((pedido) =>
+                        selectedClientes.includes(pedido.cliente)
+                      )
+                    : dataSet
+                }
+                // data={dataSet}
+              />
+            )}
           </div>
         </>
       )}

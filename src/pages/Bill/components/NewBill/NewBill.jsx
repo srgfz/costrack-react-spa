@@ -39,12 +39,12 @@ const NewBill = () => {
       // Aquí se llamará al servicio apiService para realizar la petición a la API
       let apiEndpoint = "http://localhost:3000/costrack/gastos";
       const requestData = {
-        nombre_emisor: nombreEmisor.trim(),
+        nombre_emisor: nombreEmisor,
         cuantia: cuantia,
         foto: "***",
-        categoria: categoria.trim(),
+        categoria: categoria,
         fecha_gasto: fechaGasto,
-        observaciones: observaciones.trim(),
+        observaciones: observaciones,
         comercialId: getIdCommercial(),
       };
       if (billId && !deleteItem) {

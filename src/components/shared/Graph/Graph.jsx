@@ -33,7 +33,7 @@ const Graph = ({ data, options, chartType, title = null }) => {
   return (
     <div>
       <h4 className="text-center">{title}</h4>
-      <canvas ref={chartRef} className="canvasGraph"></canvas>
+      <canvas ref={chartRef} className="canvasGraph" id="graph"></canvas>
     </div>
   );
 };

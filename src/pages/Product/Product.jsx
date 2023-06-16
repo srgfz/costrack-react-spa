@@ -1,6 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getIdEmpresa, getUserRol } from "./../../utils/auth";
@@ -18,11 +15,13 @@ const Product = () => {
   const empresaId = getIdEmpresa();
   const { isLoading, data, error, fetchData } = useFetch();
   const [endpoint, setEndpoint] = useState();
+  const [dataToShow, setDataToShow] = useState([]);
 
-  const itemsPerPage = 12; // Número de elementos por página
+  const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [shouldDisplayPagination, setShouldDisplayPagination] = useState(false);
+  const [sortOption, setSortOption] = useState("asc_name");
 
   const actualizarDatos = () => {
     if (q) {
@@ -41,11 +40,67 @@ const Product = () => {
   }, [q]);
 
   useEffect(() => {
+    actualizarDatos();
+  }, []);
+
+  useEffect(() => {
     if (data && data.articulos) {
-      setTotalPages(Math.ceil(data.articulos.length / itemsPerPage));
-      setShouldDisplayPagination(data.articulos.length > itemsPerPage);
+      // Ordenar los datos alfabéticamente por nombre
+      const sortedData = [...data.articulos].sort((a, b) =>
+        a.nombre.localeCompare(b.nombre)
+      );
+      setDataToShow(sortedData);
+
+      setTotalPages(Math.ceil(sortedData.length / itemsPerPage));
+      setShouldDisplayPagination(sortedData.length > itemsPerPage);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (data && data.articulos) {
+      setTotalPages(Math.ceil(dataToShow.length / itemsPerPage));
+      setShouldDisplayPagination(dataToShow.length > itemsPerPage);
+    }
+  }, [dataToShow]);
+
+  useEffect(() => {
+    sortData();
+  }, [sortOption]);
+
+  const handleSort = (event) => {
+    setSortOption(event.target.value);
+  };
+
+  const sortData = () => {
+    if (data && data.articulos) {
+      const sortedData = [...data.articulos];
+
+      switch (sortOption) {
+        case "asc_name":
+          sortedData.sort((a, b) => a.nombre.localeCompare(b.nombre));
+          break;
+        case "desc_name":
+          sortedData.sort((a, b) => b.nombre.localeCompare(a.nombre));
+          break;
+        case "asc_price":
+          sortedData.sort((a, b) => a.precio_base - b.precio_base);
+          break;
+        case "desc_price":
+          sortedData.sort((a, b) => b.precio_base - a.precio_base);
+          break;
+        case "asc_stock":
+          sortedData.sort((a, b) => a.stock - b.stock);
+          break;
+        case "desc_stock":
+          sortedData.sort((a, b) => b.stock - a.stock);
+          break;
+        default:
+          break;
+      }
+
+      setDataToShow(sortedData);
+    }
+  };
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
@@ -55,7 +110,7 @@ const Product = () => {
     if (data && data.articulos) {
       const startIndex = currentPage * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const slicedData = data.articulos.slice(startIndex, endIndex);
+      const slicedData = dataToShow.slice(startIndex, endIndex);
       return slicedData.map((articulo, index) => (
         <div
           className="col-10 col-md-5 col-lg-3 flex-grow-1 product mx-2 my-3 product"
@@ -100,6 +155,22 @@ const Product = () => {
             <InputSearch type={"productos"} />
           </div>
           <div className="py-3 mx-3">
+            <div className="d-flex justify-content-end mb-3">
+              <select value={sortOption} onChange={handleSort}>
+                <option value="asc_name">Ordenar por nombre ascendente</option>
+                <option value="desc_name">
+                  Ordenar por nombre descendente
+                </option>
+                <option value="asc_price">Ordenar por precio ascendente</option>
+                <option value="desc_price">
+                  Ordenar por precio descendente
+                </option>
+                <option value="asc_stock">Ordenar por stock ascendente</option>
+                <option value="desc_stock">
+                  Ordenar por stock descendente
+                </option>
+              </select>
+            </div>
             <div className="d-flex flex-wrap justify-content-center gap-2 products">
               {renderData()}
             </div>

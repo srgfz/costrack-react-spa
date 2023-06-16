@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { getIdEmpresa } from "./../../utils/auth";
+import { getIdEmpresa, getUserRol } from "./../../utils/auth";
 import useFetch from "./../../hooks/useFetch";
 import Spinner from "../../components/shared/Spinner/Spinner";
 import ErrorBD from "../../components/shared/ErrorBD/ErrorBD";
@@ -13,6 +13,8 @@ import InputSearch from "../../components/InputSearch/InputSearch";
 import Alert from "../../components/shared/Alert/Alert";
 
 const Customer = () => {
+  const location = useLocation();
+
   const { q } = useParams();
   const { type } = useParams();
 
@@ -63,9 +65,20 @@ const Customer = () => {
               Añadir Cliente
             </Link>
           </div>
-          <div className="py-4  mx-auto">
-            <InputSearch type={"clientes"} />
-          </div>
+          {getUserRol === 1 ? (
+            <div className="py-4  mx-auto">
+              <InputSearch type={"clientes"} />
+            </div>
+          ) : location.pathname.includes("new-order") ? (
+            <div className="py-4  mx-auto">
+              <InputSearch type={"clientes"} newOrder={true} />
+            </div>
+          ) : (
+            <div className="py-4  mx-auto">
+              <InputSearch type={"clientes"} />
+            </div>
+          )}
+
           <div className="py-3 mx-3">
             <CustomerTable data={data.clientes} />
           </div>

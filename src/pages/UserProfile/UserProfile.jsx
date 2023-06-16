@@ -73,20 +73,20 @@ const UserProfile = () => {
         apiEndpoint = `http://localhost:3000/costrack/empresas/${userIdOfEchRol}`;
         requestData = {
           idUser: userId,
-          nombre: nombre.trim(),
-          cif: dniOrCif.trim(),
-          email: email.trim(),
-          password: password.trim(),
+          nombre: nombre,
+          cif: dniOrCif,
+          email: email,
+          password: password,
         };
       } else {
         apiEndpoint = `http://localhost:3000/costrack/comerciales/${userIdOfEchRol}`;
         requestData = {
           idUser: userId,
-          nombre: nombre.trim(),
-          apellidos: apellidos.trim(),
-          dni: dniOrCif.trim(),
-          email: email.trim(),
-          password: password.trim(),
+          nombre: nombre,
+          apellidos: apellidos,
+          dni: dniOrCif,
+          email: email,
+          password: password,
         };
       }
       await fetchData(apiEndpoint, requestData, "PATCH");
