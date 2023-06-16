@@ -209,10 +209,11 @@ const Order = () => {
   };
 
   const handleExportCSV = () => {
+    const csvRows = [];
     let text =
       selectedClientes.length > 0
-        ? `Pedidos de entre el ${date1} y el ${date2} de los clientes: `
-        : `Todos los pedidos de entre el ${date1} y el ${date2} `;
+        ? `Pedidos entre el ${date1} y el ${date2} de los clientes: `
+        : `Todos los pedidos entre el ${date1} y el ${date2} `;
     if (selectedClientes.length > 0) {
       selectedClientes.forEach((cliente, index) => {
         if (++index === selectedClientes.length) {
@@ -222,7 +223,6 @@ const Order = () => {
         }
       });
     }
-    const csvRows = [];
     const headers = [
       "Fecha",
       "Cliente",
@@ -292,8 +292,8 @@ const Order = () => {
     doc.setTextColor(0);
     let text =
       selectedClientes.length > 0
-        ? `Pedidos de entre el ${date1} y el ${date2} de los clientes: `
-        : `Todos los pedidos de entre el ${date1} y el ${date2} `;
+        ? `Pedidos entre el ${date1} y el ${date2} de los clientes: `
+        : `Todos los pedidos entre el ${date1} y el ${date2} `;
     if (selectedClientes.length > 0) {
       selectedClientes.forEach((cliente, index) => {
         if (++index === selectedClientes.length) {
