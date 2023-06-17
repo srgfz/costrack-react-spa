@@ -25,9 +25,12 @@ const CustomerTable = ({ data }) => {
       nombre:
         ev.target.parentElement.parentElement.firstElementChild
           .firstElementChild.textContent,
-      nombre_contacto:
+      email:
         ev.target.parentElement.parentElement.firstElementChild
           .nextElementSibling.textContent,
+      direccion:
+        ev.target.parentElement.parentElement.firstElementChild
+          .nextElementSibling.nextElementSibling.textContent,
       articulos: [],
     };
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -54,6 +57,7 @@ const CustomerTable = ({ data }) => {
             {customer.email}
           </a>
         </td>
+        <td className="d-none d-lg-table-cell">{customer.direccion}</td>
         {!location.pathname.includes("new-order") ? (
           <td className="">{customer.telefono}</td>
         ) : null}
@@ -139,6 +143,7 @@ const CustomerTable = ({ data }) => {
             >
               Email {getSortIndicator("email")}
             </th>
+            <th className="d-none d-lg-table-cell">Dirección</th>
             {location.pathname !== "/new-order" ? (
               <th>Teléfono {getSortIndicator("telefono")}</th>
             ) : null}

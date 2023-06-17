@@ -54,9 +54,6 @@ const Bill = () => {
   const [date2, setDate2] = useState(formatDate());
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-  const [exportData, setExportData] = useState([]);
-  const [fileName, setFileName] = useState("");
-
   const firstEndpoint = getIdCommercial()
     ? `http://localhost:3000/costrack/comerciales/gastos/${getIdCommercial()}?date1=${date1}&date2=${date2}`
     : `http://localhost:3000/costrack/comerciales/gastos/${commercialId}?date1=${date1}&date2=${date2}`;
@@ -387,7 +384,6 @@ const Bill = () => {
     const pdfFileName = `gastos_${data.nombre}${data.apellidos.split(" ")[0]}${
       data.apellidos.split(" ")[1]
     }_${date1}-to-${date2}.pdf`;
-    setFileName(pdfFileName);
 
     if (download) {
       doc.save(pdfFileName);

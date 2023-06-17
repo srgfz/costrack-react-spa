@@ -13,6 +13,7 @@ import InputSearch from "../../components/InputSearch/InputSearch";
 import Alert from "../../components/shared/Alert/Alert";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import emailjs from "emailjs-com";
 
 const Customer = () => {
   const location = useLocation();
@@ -114,16 +115,66 @@ const Customer = () => {
 
     if (download) {
       doc.save(pdfFileName);
+      sendEmail();
     } else {
       // Obtener el blob del PDF
       const pdfBlob = doc.output("blob");
 
       // Crear una URL del blob del PDF
       const pdfUrl = URL.createObjectURL(pdfBlob);
-
       // Abrir una nueva pestaña con la URL del PDF
-      window.open(pdfUrl, "_blank");
+      window.open(pdfUrl, "_blank", "noopener,noreferrer");
+      sendEmail();
     }
+  };
+
+  const sendEmail = () => {
+    const serviceId = "service_jxl2pdg";
+    const templateId = "template_mmrpnmv";
+    const userId = "E3oIy59hSx3HibBkc";
+
+    const dataToSend = {
+      to_email: "fernandezsergio10@gmail.com", // Cambia esto por tu dirección de correo electrónico
+      from_name: "Tu Nombre",
+      message_html: `
+        <h2>Tabla de datos:</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Nombre Contacto</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Dirección</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.clientes
+              .map(
+                (cliente) => `
+                <tr>
+                  <td>${cliente.nombre}</td>
+                  <td>${cliente.nombre_contacto}</td>
+                  <td>${cliente.email}</td>
+                  <td>${cliente.telefono}</td>
+                  <td>${cliente.direccion}</td>
+                </tr>
+              `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `,
+    };
+
+    emailjs.send(serviceId, templateId, dataToSend, userId).then(
+      (response) => {
+        console.log("Correo electrónico enviado con éxito", response);
+      },
+      (error) => {
+        console.log("Error al enviar el correo electrónico", error);
+      }
+    );
   };
 
   return (

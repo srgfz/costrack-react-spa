@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import useFetch from "./../../../../hooks/useFetch";
 import OrderLine from "../OrderLine/OrderLine";
 import emptyCart from "./../../../../assets/images/emptyCart.png";
+import emailjs from "emailjs-com";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -46,9 +47,99 @@ const OrderDetails = () => {
       await fetchData(apiEndpoint, cart, "PATCH");
     } else {
       await fetchData(apiEndpoint, cart, "POST");
+      console.log(cart);
+      sendEmail(cart);
       localStorage.removeItem("cart");
       navigate("/orders/action/post");
     }
+  };
+
+  const sendEmail = (cart) => {
+    const serviceId = "service_g9lzr9t";
+    const templateId = "template_18wnqtl";
+    const userId = "2OpIBaT1vhIePYJVs";
+
+    let total = 0;
+
+    const dataToSend = {
+      to_email: "fernandezsergio10@gmail.com", // Cambia esto por tu dirección de correo electrónico
+      from_name: "Costrack",
+      subject: "Pedido Procesado Correctamente",
+      message_html: `
+      <p>Hola,<strong> ${cart.nombre.split(" (")[1].split(")")[0]} (${
+        cart.nombre.split(" (")[0]
+      })</strong></p>
+      <p>Tu pedido se ha procesado correctamente y lo recibirá en un plazo máximo de 48 horas en <strong>${
+        cart.direccion
+      }</strong></p>
+      <br>
+        <h2>Información del pedido realizado:</h2>
+        <table cellspacing="0" border="1" cellpadding="10">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Precio Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cart.articulos
+              .map(
+                (articulo) => `
+                <tr>
+                  <td>${articulo.data.split("|")[0]}</td>
+                  <td>${articulo.cantidad}</td>
+                  <td>${parseFloat(articulo.precio_unidad).toLocaleString(
+                    "es-ES",
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                      useGrouping: true,
+                      groupingSeparator: ".",
+                      decimalSeparator: ",",
+                    }
+                  )} €</td>
+                  <td>${(
+                    parseFloat(articulo.precio_unidad) *
+                    parseInt(articulo.cantidad)
+                  ).toLocaleString("es-ES", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    useGrouping: true,
+                    groupingSeparator: ".",
+                    decimalSeparator: ",",
+                  })} €</td>
+                </tr>
+              `
+              )
+              .join("")}
+              <tr>
+              <td colspan='2'><strong>Total del pedido</strong></td>
+              <td colspan='2'><strong>Totalpedido</strong></td>
+              </tr>
+          </tbody>
+        </table>
+        <br>
+
+        <p>Si no ha realizado usted este pedido, desea hacer alguna modificación o tiene alguna consulta, por favor contacte con nosotros a través de <strong><a href="emaildelcomercial@gmail.com">Email de contacto<a></strong>.</p>
+        <br>
+        <p>Muchas Gracias por su confianza.</p>
+        <p>Atentamente,<strong> nombre de la empresa</strong></p>
+        <br>
+        <br>
+        <p>*Nota: este es un mensaje enviado de forma automática. No responda directamente a este correo electrónico.</p>
+      `,
+    };
+
+    emailjs.send(serviceId, templateId, dataToSend, userId).then(
+      (response) => {
+        console.log("Correo electrónico enviado con éxito", response);
+      },
+      (error) => {
+        console.log("Error al enviar el correo electrónico", error);
+      }
+    );
   };
 
   return (
