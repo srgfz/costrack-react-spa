@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import useFetch from "./../../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import { getIdEmpresa } from "./../../../../utils/auth";
+import emailjs from "emailjs-com";
+import logo1 from "./../../../../assets/images/logo/logo-nobg/logo1.png";
+
 const NewCommercial = () => {
   const idEmpresa = getIdEmpresa();
   const navigate = useNavigate();
@@ -32,7 +35,8 @@ const NewCommercial = () => {
     };
 
     await fetchData(apiEndpoint, requestData, "POST");
-    //Redireccionar a la nueva ruta si el inicio de sesión es exitoso
+    sendEmail(requestData);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -40,6 +44,43 @@ const NewCommercial = () => {
       navigate(`/commercial/action/post`);
     }
   }, [data]);
+
+  const sendEmail = (data) => {
+    const serviceId = "service_g9lzr9t";
+    const templateId = "template_18wnqtl";
+    const userId = "2OpIBaT1vhIePYJVs";
+
+    const dataToSend = {
+      to_email: "fernandezsergio10@gmail.com", // Cambia esto por tu dirección de correo electrónico
+      from_name: "Costrack",
+      subject: "Alta en Costrack como comercial",
+      message_html: `
+      <p>Hola,<strong> ${data.nombre} ${data.apellidos}.</strong></p>
+      <p>La empresa <strong>Nombre Empresa</strong> le ha dado de alta en Costrack como su comercial.</p>
+      <br>
+      <p>Sus credenciales para iniciar sesión son:</p>
+      <ul>
+      <li><strong>Email: </strong>${data.email}</li>
+      <li><strong>Contraseña: </strong>${data.password}</li>
+      </ul>
+      <br>
+      <p>Por favor, <a href="http://localhost:5173" target="_blank">Inicie Sesión</a> con estas credenciales y cambie la contraseña por una propia.</p>
+      <p>Para cualquier duda contacte con su empresa.</p>
+      <br>
+      <br>
+      <p>* Nota: este es un mensaje enviado de forma automática. No responda directamente a este correo electrónico.</p>
+      `,
+    };
+
+    emailjs.send(serviceId, templateId, dataToSend, userId).then(
+      (response) => {
+        console.log("Correo electrónico enviado con éxito", response);
+      },
+      (error) => {
+        console.log("Error al enviar el correo electrónico", error);
+      }
+    );
+  };
 
   return (
     <div className="m-5 bg-secondary py-4 bg-opacity-25 shadow-sm rounded">

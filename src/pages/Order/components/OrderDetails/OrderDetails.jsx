@@ -68,10 +68,10 @@ const OrderDetails = () => {
       message_html: `
       <p>Hola,<strong> ${cart.nombre.split(" (")[1].split(")")[0]} (${
         cart.nombre.split(" (")[0]
-      })</strong></p>
+      })</strong>.</p>
       <p>Tu pedido se ha procesado correctamente y lo recibirá en un plazo máximo de 48 horas en <strong>${
         cart.direccion
-      }</strong></p>
+      }</strong>.</p>
       <br>
         <h2>Información del pedido realizado:</h2>
         <table cellspacing="0" border="1" cellpadding="10">
@@ -125,10 +125,10 @@ const OrderDetails = () => {
         <p>Si no ha realizado usted este pedido, desea hacer alguna modificación o tiene alguna consulta, por favor contacte con nosotros a través de <strong><a href="emaildelcomercial@gmail.com">Email de contacto<a></strong>.</p>
         <br>
         <p>Muchas Gracias por su confianza.</p>
-        <p>Atentamente,<strong> nombre de la empresa</strong></p>
+        <p>Atentamente,<strong> nombre de la empresa</strong>.</p>
         <br>
         <br>
-        <p>*Nota: este es un mensaje enviado de forma automática. No responda directamente a este correo electrónico.</p>
+        <p>* Nota: este es un mensaje enviado de forma automática. No responda directamente a este correo electrónico.</p>
       `,
     };
 
