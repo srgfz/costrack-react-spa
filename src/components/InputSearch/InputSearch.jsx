@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// eslint-disable-next-line no-unused-vars
 const InputSearch = ({ type, newOrder = false }) => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -12,10 +11,12 @@ const InputSearch = ({ type, newOrder = false }) => {
     e.preventDefault();
     if (search) {
       if (newOrder) {
+        // Navega a la ruta correspondiente para realizar una búsqueda dentro del proceso de nuevo pedido
         navigate(`/new-order/search-${type}/${search}`);
         e.target.lastElementChild.value = "";
         e.target.lastElementChild.blur();
       } else {
+        // Navega a la ruta correspondiente para realizar una búsqueda general, determinada por el valor de type
         navigate(`/search-${type}/${search}`);
         e.target.lastElementChild.value = "";
         e.target.lastElementChild.blur();
@@ -33,7 +34,7 @@ const InputSearch = ({ type, newOrder = false }) => {
       <input
         className="border-0 search__input"
         type="search"
-        placeholder={`Buscar ` + type}
+        placeholder={`Buscar ${type}`}
         aria-label="Search"
         onChange={(e) => setSearch(e.target.value)}
       ></input>

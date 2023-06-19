@@ -180,7 +180,7 @@ const NewBill = () => {
             <label htmlFor="floatingTextarea">Observaciones</label>
           </div>
           <div className="d-flex justify-content-center col-12 my-3 mt-4">
-            {billId ? (
+            {billId && getUserRol() === 0 ? (
               <div className=" d-flex gap-4">
                 <input
                   className="addBtn p-2 mx-2"
@@ -194,13 +194,13 @@ const NewBill = () => {
                   Eliminar Gasto
                 </button>
               </div>
-            ) : (
+            ) : getUserRol() === 0 ? (
               <input
                 className="addBtn p-2 mx-auto"
                 type="submit"
                 value="Añadir Gasto"
               />
-            )}
+            ) : null}
           </div>
         </form>
       )}

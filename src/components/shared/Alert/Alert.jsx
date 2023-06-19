@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
+
+// Componente de alerta reutilizable
 const Alert = ({ type }) => {
   return (
     <div className="">
       {type === "deleted" ? (
+        // Alerta de eliminación exitosa
         <div
           className="alert alert-danger alert-dismissible fade show fw-semibold"
           role="alert"
@@ -16,6 +19,7 @@ const Alert = ({ type }) => {
           ></button>
         </div>
       ) : type === "updated" ? (
+        // Alerta de actualización exitosa
         <div
           className="alert alert-info alert-dismissible fade show  fw-semibold"
           role="alert"
@@ -29,6 +33,7 @@ const Alert = ({ type }) => {
           ></button>
         </div>
       ) : type === "post" ? (
+        // Alerta de inserción exitosa
         <div
           className="alert alert-success alert-dismissible fade show  fw-semibold"
           role="alert"

@@ -16,6 +16,7 @@ const Graph = ({ data, options, chartType, title = null }) => {
     // Crear un nuevo gráfico
     const ctx = chartRef.current.getContext("2d");
     if (chartType == "line") {
+      // Crear gráfico de línea
       chartInstance = new Chart(ctx, {
         type: chartType,
         data: data,
@@ -28,6 +29,7 @@ const Graph = ({ data, options, chartType, title = null }) => {
         },
       });
     } else {
+      // Crear otro tipo de gráfico
       chartInstance = new Chart(ctx, {
         type: chartType,
         data: data,
