@@ -529,149 +529,155 @@ const Bill = () => {
               />
             </div>
           )}
-
-          <div className="py-3 col-12 col-md-10 mx-auto">
-            <div className="gap-2 mb-3 d-md-flex justify-content-between">
-              <div className="d-flex justify-content-between gap-3 mb-3">
-                <div className="form-floating">
-                  <select
-                    className="form-select"
-                    value=""
-                    onChange={handleCategorySelect}
-                  >
-                    <option value="" disabled>
-                      Seleccione una categoría
-                    </option>
-                    {colors.map((color) => (
-                      <option key={color.categoria} value={color.categoria}>
-                        {color.categoria}
+          {!data.gastos ? null : (
+            <div className="py-3 col-12 col-md-10 mx-auto">
+              <div className="gap-2 mb-3 d-md-flex justify-content-between">
+                <div className="d-flex justify-content-between gap-3 mb-3 flex-column flex-md-row">
+                  <div className="form-floating">
+                    <select
+                      className="form-select"
+                      value=""
+                      onChange={handleCategorySelect}
+                    >
+                      <option value="" disabled>
+                        Seleccione una categoría
                       </option>
-                    ))}
-                  </select>
-                  <label htmlFor="categorySelect">Filtrar por categoría</label>
-                </div>
-                <div className="d-flex flex-column gap-1 flex-md-row flex-md-wrap align-items-center">
-                  {selectedCategories.map((category) => (
-                    <span key={category} className="badge bg-primary me-2">
-                      {category}
+                      {colors.map((color) => (
+                        <option key={color.categoria} value={color.categoria}>
+                          {color.categoria}
+                        </option>
+                      ))}
+                    </select>
+                    <label htmlFor="categorySelect">Filtrar gastos</label>
+                  </div>
+                  <div className="d-flex gap-1 flex-md-row flex-md-wrap flex-wrap align-items-center">
+                    {selectedCategories.map((category) => (
                       <span
-                        className="ms-2 text-white cursor-pointer"
-                        onClick={() => handleCategoryRemove(category)}
+                        key={category}
+                        className="badge rounded-pill p-2 me-2 pill"
                       >
-                        &#x2715;
+                        {category}
+                        <span
+                          className="ms-2 cursor-pointer"
+                          onClick={() => handleCategoryRemove(category)}
+                        >
+                          <i className="bi bi-x-lg"></i>
+                        </span>
                       </span>
-                    </span>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+                <div className="">
+                  <div className="btn-group mx-auto mx-md-0">
+                    <button
+                      type="button"
+                      className="btn btn-primary dropdown-toggle btnDropdown"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Exportar Datos
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <button
+                          className="dropdown-item d-flex justify-content-between"
+                          onClick={() => handleExportPDF()}
+                          disabled={
+                            !(
+                              (selectedCategories.length == 0 && data.gastos) ||
+                              (selectedCategories.length > 0 &&
+                                data.gastos.filter((gasto) =>
+                                  selectedCategories.includes(gasto.categoria)
+                                ).length > 0)
+                            )
+                          }
+                        >
+                          Exportar PDF
+                          <i className="bi bi-box-arrow-up-right"></i>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item d-flex justify-content-between"
+                          onClick={() => handleExportPDF(true)}
+                          disabled={
+                            !(
+                              (selectedCategories.length == 0 && data.gastos) ||
+                              (selectedCategories.length > 0 &&
+                                data.gastos.filter((gasto) =>
+                                  selectedCategories.includes(gasto.categoria)
+                                ).length > 0)
+                            )
+                          }
+                        >
+                          Exportar PDF
+                          <i className="bi bi-box-arrow-down"></i>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item d-flex justify-content-between"
+                          onClick={handleExportCSV}
+                          disabled={
+                            !(
+                              (selectedCategories.length == 0 && data.gastos) ||
+                              (selectedCategories.length > 0 &&
+                                data.gastos.filter((gasto) =>
+                                  selectedCategories.includes(gasto.categoria)
+                                ).length > 0)
+                            )
+                          }
+                        >
+                          Exportar CSV
+                          <i className="bi bi-box-arrow-down"></i>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <div className="">
-                <div className="btn-group mx-auto mx-md-0">
-                  <button
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Exportar Datos
-                  </button>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <button
-                        className="dropdown-item d-flex justify-content-between"
-                        onClick={() => handleExportPDF()}
-                        disabled={
-                          !(
-                            (selectedCategories.length == 0 && data.gastos) ||
-                            (selectedCategories.length > 0 &&
-                              data.gastos.filter((gasto) =>
-                                selectedCategories.includes(gasto.categoria)
-                              ).length > 0)
-                          )
-                        }
-                      >
-                        Exportar PDF
-                        <i className="bi bi-box-arrow-up-right"></i>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item d-flex justify-content-between"
-                        onClick={() => handleExportPDF(true)}
-                        disabled={
-                          !(
-                            (selectedCategories.length == 0 && data.gastos) ||
-                            (selectedCategories.length > 0 &&
-                              data.gastos.filter((gasto) =>
-                                selectedCategories.includes(gasto.categoria)
-                              ).length > 0)
-                          )
-                        }
-                      >
-                        Exportar PDF
-                        <i className="bi bi-box-arrow-down"></i>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item d-flex justify-content-between"
-                        onClick={handleExportCSV}
-                        disabled={
-                          !(
-                            (selectedCategories.length == 0 && data.gastos) ||
-                            (selectedCategories.length > 0 &&
-                              data.gastos.filter((gasto) =>
-                                selectedCategories.includes(gasto.categoria)
-                              ).length > 0)
-                          )
-                        }
-                      >
-                        Exportar CSV
-                        <i className="bi bi-box-arrow-down"></i>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="">
-              Total para las Categorías Seleccionadas:{" "}
-              {selectedCategories.length > 0
-                ? data.gastos
-                    .filter((gasto) =>
-                      selectedCategories.includes(gasto.categoria)
-                    )
-                    .reduce((total, gasto) => total + gasto.cuantia, 0)
-                    .toLocaleString("es-ES", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                      useGrouping: true,
-                      groupingSeparator: ".",
-                      decimalSeparator: ",",
-                    })
-                : data.gastos
-                    .reduce((total, gasto) => total + gasto.cuantia, 0)
-                    .toLocaleString("es-ES", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                      useGrouping: true,
-                      groupingSeparator: ".",
-                      decimalSeparator: ",",
-                    })}{" "}
-              €
-            </div>
-
-            {!data.gastos ? null : (
-              <BillsTable
-                data={
-                  selectedCategories.length > 0
-                    ? data.gastos.filter((gasto) =>
+              <h4 className=" my-3">
+                Gastos totales:{" "}
+                {data.gastos && selectedCategories.length > 0
+                  ? data.gastos
+                      .filter((gasto) =>
                         selectedCategories.includes(gasto.categoria)
                       )
-                    : data.gastos
-                }
-              />
-            )}
-          </div>
+                      .reduce((total, gasto) => total + gasto.cuantia, 0)
+                      .toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        useGrouping: true,
+                        groupingSeparator: ".",
+                        decimalSeparator: ",",
+                      })
+                  : data.gastos
+                  ? data.gastos
+                      .reduce((total, gasto) => total + gasto.cuantia, 0)
+                      .toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        useGrouping: true,
+                        groupingSeparator: ".",
+                        decimalSeparator: ",",
+                      })
+                  : null}{" "}
+                €
+              </h4>
+
+              {!data.gastos ? null : (
+                <BillsTable
+                  data={
+                    selectedCategories.length > 0
+                      ? data.gastos.filter((gasto) =>
+                          selectedCategories.includes(gasto.categoria)
+                        )
+                      : data.gastos
+                  }
+                />
+              )}
+            </div>
+          )}
         </>
       )}
     </div>

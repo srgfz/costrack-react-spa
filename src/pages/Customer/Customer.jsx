@@ -166,7 +166,7 @@ const Customer = () => {
             <div className="btn-group mx-auto mx-md-0">
               <button
                 type="button"
-                className="btn btn-primary dropdown-toggle"
+                className="btn btn-primary dropdown-toggle btnDropdown"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >

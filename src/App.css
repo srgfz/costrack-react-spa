@@ -57,6 +57,16 @@ h5 {
     border-color: rgba(202, 209, 207, 0.972) !important;
 }
 
+.btnDropdown {
+    border: 3px solid var(--primary-color) !important;
+    border-radius: 5px !important;
+    vertical-align: middle !important;
+    color: var(--secondary-color) !important;
+    background-color: var(--primary-color) !important;
+    font-weight: bold !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
 
 .dropBtn {
     border: 3px solid var(--primary-color) !important;
@@ -108,4 +118,19 @@ h5 {
     font-size: 1.3rem;
     text-align: center;
     margin: 80px auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.pill {
+    background-color: var(--tertiary-color) !important;
+    color: var(--primary-color) !important;
+    border: 2px solid var(--primary-color);
+}
+
+.pill * {
+    color: var(--primary-color) !important;
+
 }

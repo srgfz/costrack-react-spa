@@ -155,8 +155,12 @@ const Product = () => {
             <InputSearch type={"productos"} />
           </div>
           <div className="py-3 mx-3">
-            <div className="d-flex justify-content-end mb-3">
-              <select value={sortOption} onChange={handleSort}>
+            <div className="d-flex justify-content-end mb-3 form-floating col-md-4">
+              <select
+                value={sortOption}
+                onChange={handleSort}
+                className="form-select"
+              >
                 <option value="asc_name">Ordenar por nombre ascendente</option>
                 <option value="desc_name">
                   Ordenar por nombre descendente
@@ -170,6 +174,7 @@ const Product = () => {
                   Ordenar por stock descendente
                 </option>
               </select>
+              <label htmlFor="categorySelect">Ordenar Artículos</label>
             </div>
             <div className="d-flex flex-wrap justify-content-center gap-2 products">
               {renderData()}

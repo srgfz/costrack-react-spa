@@ -161,7 +161,11 @@ const ProductCard = ({ data }) => {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
-      <div className="card-body">
+      <div
+        className={
+          data.stock == 0 ? "bg-secondary bg-opacity-50 card-body" : "card-body"
+        }
+      >
         <h5 className="">
           <Link
             to={"/products/" + data.id}
@@ -224,7 +228,7 @@ const ProductCard = ({ data }) => {
                   className="form-control"
                   id="cantidadInput"
                   placeholder="cantidad"
-                  min={0}
+                  min={1}
                   required
                   value={cantidad}
                   max={data.stock}

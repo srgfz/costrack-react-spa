@@ -126,34 +126,30 @@ const BillsTable = ({ data }) => {
         <thead>
           <tr className="align-top">
             <th
-              className="w-25"
+              className="w-25 cursor-pointer"
               data-id="fecha"
               onClick={() => handleSort("fecha_gasto")}
-              style={{ cursor: "pointer" }}
             >
               Fecha {getSortIndicator("fecha_gasto")}
             </th>
             <th
-              className="d-none d-md-table-cell w-25"
+              className="d-none d-md-table-cell w-25 cursor-pointer"
               data-id="emisora"
               onClick={() => handleSort("nombre_emisor")}
-              style={{ cursor: "pointer" }}
             >
               Entidad Emisora {getSortIndicator("nombre_emisor")}
             </th>
             <th
-              className="w-25"
+              className="w-25 cursor-pointer"
               data-id="categoria"
               onClick={() => handleSort("categoria")}
-              style={{ cursor: "pointer" }}
             >
               Categoría {getSortIndicator("categoria")}
             </th>
             <th
-              className="w-25"
+              className="w-25 cursor-pointer"
               data-id="cuantia"
               onClick={() => handleSort("cuantia")}
-              style={{ cursor: "pointer" }}
             >
               Cuantía {getSortIndicator("cuantia")}
             </th>

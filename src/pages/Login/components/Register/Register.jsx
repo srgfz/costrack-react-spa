@@ -110,6 +110,8 @@ const Register = () => {
         id="password"
         autoComplete="current-password"
         className="login__input"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$"
+        title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra minúscula, una letra mayúscula, un número y un carácter especial"
         required
         value={password}
         onChange={(e) => setPassword(e.target.value)}

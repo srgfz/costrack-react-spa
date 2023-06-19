@@ -195,6 +195,8 @@ const UserProfile = () => {
                     id="passwordInput"
                     placeholder="Contraseña"
                     autoComplete="current-password"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$"
+                    title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra minúscula, una letra mayúscula, un número y un carácter especial"
                     onChange={(e) => {
                       setPassword(e.target.value);
                       setPassError(false);
@@ -209,6 +211,8 @@ const UserProfile = () => {
                     id="passwordInput2"
                     placeholder="Contraseña"
                     autoComplete="current-password"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$"
+                    title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra minúscula, una letra mayúscula, un número y un carácter especial"
                     onChange={(e) => {
                       setPassword2(e.target.value);
                       setPassError(false);

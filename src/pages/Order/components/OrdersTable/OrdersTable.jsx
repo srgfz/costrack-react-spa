@@ -111,13 +111,16 @@ const OrdersTable = ({ data }) => {
       <table className="table table-striped table-hover">
         <thead>
           <tr className=" align-top">
-            <th onClick={() => handleSort("fecha")}>
+            <th onClick={() => handleSort("fecha")} className="cursor-pointer">
               Fecha {getSortIndicator("fecha")}
             </th>
-            <th onClick={() => handleSort("cliente")}>
+            <th
+              onClick={() => handleSort("cliente")}
+              className="cursor-pointer"
+            >
               Cliente {getSortIndicator("cliente")}
             </th>
-            <th onClick={() => handleSort("total")}>
+            <th onClick={() => handleSort("total")} className="cursor-pointer">
               Total {getSortIndicator("total")}
             </th>
             <th className="d-none d-md-table-cell">Dirección</th>

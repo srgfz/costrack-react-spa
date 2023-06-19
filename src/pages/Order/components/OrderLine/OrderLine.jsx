@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OrderLine.css";
 
-const OrderLine = ({ data }) => {
+const OrderLine = ({ data, cart }) => {
   const [cantidad, setCantidad] = useState("");
+  const [cartInfo, setCartInfo] = useState(cart);
+
   const [precioUnidad, setPrecioUnidad] = useState("");
   const navigate = useNavigate();
 
@@ -56,12 +58,14 @@ const OrderLine = ({ data }) => {
       }
       return articulo;
     });
+    setCartInfo(cart);
 
+    console.log(cartInfo);
     localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   return (
-    <li className=" col-md-11  mx-auto list-group -item my-3 bg-light p-3 border rounded shadow-sm d-flex flex-row justify-content-start align-items-center align-items-md-center">
+    <li className=" col-md-11  mx-auto list-group -item my-3 p-3 border rounded shadow-sm d-flex flex-row justify-content-start align-items-center align-items-md-center bg-secondary bg-opacity-25 flex-wrap">
       <div className="col-md-1 me-3">
         <i
           className="bi bi-x-lg ms-1 ms-md-3 me-4 me-md-3"
@@ -73,28 +77,33 @@ const OrderLine = ({ data }) => {
         <h4>{data.data.split("|")[0]}</h4>
         <div className="">
           <div className="d-flex flex-column flex-md-row">
-            <div className="my-1 d-flex flex-column justify-content-center">
+            <div className="my-1 d-flex flex-md-column justify-content-center gap-2 gap-lg-1">
               <div className="">{data.data.split("|")[3]}</div>
               <div className="">{data.data.split("|")[1]}</div>
               <div className="">{data.data.split("|")[2]}</div>
             </div>
-            <div className="d-flex gap-3 justify-content-center flex-md-column">
-              <div className="form-floating mx-3 my-2 col-5">
+            <div className="d-flex gap-3 justify-content-center">
+              <div className="form-floating mx-3 my-2 col-4">
                 <input
                   type="number"
                   className="form-control"
                   id="cantidadInput"
                   placeholder="cantidad"
                   value={cantidad}
+                  min={1}
+                  step={1}
+                  max={data.data.split("|")[3].split(" ")[1]}
                   onChange={(e) => updateCantidad(e, data.articuloId)}
                 />
                 <label htmlFor="cantidadInput">Cantidad</label>
               </div>
-              <div className="form-floating mx-3 my-2 col-5">
+              <div className="form-floating mx-3 my-2 col-4">
                 <input
                   type="number"
                   className="form-control"
                   id="precioInput"
+                  min={0}
+                  step={0.01}
                   placeholder="precio"
                   value={precioUnidad}
                   onChange={(e) => updatePrice(e, data.articuloId)}

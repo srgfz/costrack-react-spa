@@ -21,11 +21,19 @@ function NavApp() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <img
-                  src={perfil}
-                  alt="Imagen de perfil"
-                  className="object-fit-contain img-fluid rounded-circle"
-                />
+                {JSON.parse(localStorage.getItem("cart")) ? (
+                  <img
+                    src={perfil}
+                    alt="Imagen de perfil"
+                    className="object-fit-contain img-fluid rounded-circle border border-3 border-info-subtle"
+                  />
+                ) : (
+                  <img
+                    src={perfil}
+                    alt="Imagen de perfil"
+                    className="object-fit-contain img-fluid rounded-circle border border-3"
+                  />
+                )}
               </a>
               <ul className="dropdown-menu p-0">
                 <li>
@@ -258,11 +266,19 @@ function NavApp() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <img
-                    src={perfil}
-                    alt="Imagen de perfil"
-                    className="object-fit-contain img-fluid rounded-circle"
-                  />
+                  {JSON.parse(localStorage.getItem("cart")) ? (
+                    <img
+                      src={perfil}
+                      alt="Imagen de perfil"
+                      className="object-fit-contain img-fluid rounded-circle border border-3 border-info-subtle"
+                    />
+                  ) : (
+                    <img
+                      src={perfil}
+                      alt="Imagen de perfil"
+                      className="object-fit-contain img-fluid rounded-circle border border-3"
+                    />
+                  )}
                 </a>
                 <ul className="dropdown-menu p-0 position-absolute profile__items">
                   <li>

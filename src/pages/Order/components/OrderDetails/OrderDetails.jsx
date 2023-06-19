@@ -39,6 +39,10 @@ const OrderDetails = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -174,53 +178,63 @@ const OrderDetails = () => {
       ) : (
         <form className="my-3" action="#" method="#" onSubmit={handleSubmit}>
           <h2>{cart.nombre}</h2>
-          <div className="">
-            <ul className="list-group">
-              {cart.articulos.map((articulo, index) => (
-                <OrderLine data={articulo} key={index} />
-              ))}
-            </ul>
-          </div>
-          <div className="">
-            <div className="form-floating col-10 mx-auto">
-              <textarea
-                className="form-control textarea"
-                placeholder="Comentarios"
-                id="comentariosTextarea"
-                value={comentarios}
-                onChange={(e) => setComentarios(e.target.value)}
-              ></textarea>
-              <label htmlFor="comentariosTextarea">Comentarios</label>
+          {cart.articulos.length ? (
+            <div className="">
+              <div className="">
+                <ul className="list-group">
+                  {cart.articulos.map((articulo, index) => (
+                    <OrderLine data={articulo} cart={cart} key={index} />
+                  ))}
+                </ul>
+              </div>
+              <div className="">
+                <div className="form-floating col-10 mx-auto">
+                  <textarea
+                    className="form-control textarea"
+                    placeholder="Comentarios"
+                    id="comentariosTextarea"
+                    value={comentarios}
+                    onChange={(e) => setComentarios(e.target.value)}
+                  ></textarea>
+                  <label htmlFor="comentariosTextarea">Comentarios</label>
+                </div>
+              </div>
+              <div className="d-flex justify-content-center gap-5 my-4 flex-wrap">
+                {orderId ? (
+                  <input
+                    type="submit"
+                    className="dropBtn p-3 px-4 mx-2"
+                    value={"Actualizar Pedido"}
+                  />
+                ) : (
+                  <input
+                    type="submit"
+                    className="dropBtn p-3 px-4 mx-2"
+                    value={"Realizar Pedido"}
+                  />
+                )}
+                {orderId ? (
+                  <button className="dropBtn px-4">Eliminar Pedido</button>
+                ) : (
+                  <button
+                    className="dropBtn px-4 mx-2"
+                    onClick={() => {
+                      setCart();
+                      localStorage.removeItem("cart");
+                    }}
+                  >
+                    Vaciar Carrito
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="d-flex justify-content-center gap-5 my-4 flex-wrap">
-            {orderId ? (
-              <input
-                type="submit"
-                className="dropBtn p-3 px-4 mx-2"
-                value={"Actualizar Pedido"}
-              />
-            ) : (
-              <input
-                type="submit"
-                className="dropBtn p-3 px-4 mx-2"
-                value={"Realizar Pedido"}
-              />
-            )}
-            {orderId ? (
-              <button className="dropBtn px-4">Eliminar Pedido</button>
-            ) : (
-              <button
-                className="dropBtn px-4 mx-2"
-                onClick={() => {
-                  setCart();
-                  localStorage.removeItem("cart");
-                }}
-              >
-                Vaciar Carrito
-              </button>
-            )}
-          </div>
+          ) : (
+            <div className="fs-5 text-center py-5">
+              - - - El carrito está vacío.
+              <Link to={"/products"}> Añada artículos</Link> para poder procesar
+              el pedido - - -
+            </div>
+          )}
         </form>
       )}
     </div>

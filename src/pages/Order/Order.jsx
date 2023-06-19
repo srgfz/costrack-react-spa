@@ -560,148 +560,157 @@ const Order = () => {
               />
             </div>
           )}
-          <div className="py-3 col-12 col-md-10 mx-auto">
-            <div className="gap-2 mb-3 d-md-flex justify-content-between">
-              <div className="d-flex justify-content-between gap-3 mb-3">
-                <div className="form-floating">
-                  <select
-                    className="form-select"
-                    value=""
-                    onChange={handleClientesSelect}
-                  >
-                    <option value="" disabled>
-                      Seleccione un cliente
-                    </option>
-                    {clientes.map((cliente) => (
-                      <option key={cliente} value={cliente}>
-                        {cliente}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor="categorySelect">Filtrar por categoría</label>
-                </div>
-                <div className="d-flex flex-column gap-1 flex-md-row flex-md-wrap align-items-center">
-                  {selectedClientes.map((category) => (
-                    <span key={category} className="badge bg-primary me-2">
-                      {category}
-                      <span
-                        className="ms-2 text-white cursor-pointer"
-                        onClick={() => handleClientesRemove(category)}
+          {!data.pedidos ? null : (
+            <div className="">
+              <div className="py-3 col-12 col-md-10 mx-auto">
+                <div className="gap-2 mb-3 d-md-flex justify-content-between">
+                  <div className="d-flex justify-content-between gap-3 flex-column flex-md-row">
+                    <div className="form-floating">
+                      <select
+                        className="form-select"
+                        value=""
+                        onChange={handleClientesSelect}
                       >
-                        &#x2715;
-                      </span>
-                    </span>
-                  ))}
+                        <option value="" disabled>
+                          Seleccione un cliente
+                        </option>
+                        {clientes.map((cliente) => (
+                          <option key={cliente} value={cliente}>
+                            {cliente}
+                          </option>
+                        ))}
+                      </select>
+                      <label htmlFor="categorySelect">Filtrar pedidos</label>
+                    </div>
+                    <div className="d-flex gap-1 flex-md-row flex-md-wrap flex-wrap align-items-center">
+                      {selectedClientes.map((category) => (
+                        <span
+                          key={category}
+                          className="badge rounded-pill p-2 me-2 pill"
+                        >
+                          {category}
+                          <span
+                            className="ms-2 cursor-pointer"
+                            onClick={() => handleClientesRemove(category)}
+                          >
+                            <i className="bi bi-x-lg"></i>
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="btn-group mx-auto mx-md-0">
+                      <button
+                        type="button"
+                        className="btn btn-primary dropdown-toggle btnDropdown"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Exportar Datos
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <button
+                            className="dropdown-item d-flex justify-content-between"
+                            onClick={() => handleExportPDF()}
+                            disabled={
+                              !(
+                                (selectedClientes.length == 0 && dataSet) ||
+                                (selectedClientes.length > 0 &&
+                                  dataSet.filter((pedido) =>
+                                    selectedClientes.includes(pedido.cliente)
+                                  ).length > 0)
+                              )
+                            }
+                          >
+                            Exportar PDF
+                            <i className="bi bi-box-arrow-up-right"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item d-flex justify-content-between"
+                            onClick={() => handleExportPDF(true)}
+                            disabled={
+                              !(
+                                (selectedClientes.length == 0 && dataSet) ||
+                                (selectedClientes.length > 0 &&
+                                  dataSet.filter((pedido) =>
+                                    selectedClientes.includes(pedido.cliente)
+                                  ).length > 0)
+                              )
+                            }
+                          >
+                            Exportar PDF
+                            <i className="bi bi-box-arrow-down"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item d-flex justify-content-between"
+                            onClick={handleExportCSV}
+                            disabled={
+                              !(
+                                (selectedClientes.length == 0 && dataSet) ||
+                                (selectedClientes.length > 0 &&
+                                  dataSet.filter((pedido) =>
+                                    selectedClientes.includes(pedido.cliente)
+                                  ).length > 0)
+                              )
+                            }
+                          >
+                            Exportar CSV
+                            <i className="bi bi-box-arrow-down"></i>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="">
-                <div className="btn-group mx-auto mx-md-0">
-                  <button
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Exportar Datos
-                  </button>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <button
-                        className="dropdown-item d-flex justify-content-between"
-                        onClick={() => handleExportPDF()}
-                        disabled={
-                          !(
-                            (selectedClientes.length == 0 && dataSet) ||
-                            (selectedClientes.length > 0 &&
-                              dataSet.filter((pedido) =>
-                                selectedClientes.includes(pedido.cliente)
-                              ).length > 0)
-                          )
-                        }
-                      >
-                        Exportar PDF
-                        <i className="bi bi-box-arrow-up-right"></i>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item d-flex justify-content-between"
-                        onClick={() => handleExportPDF(true)}
-                        disabled={
-                          !(
-                            (selectedClientes.length == 0 && dataSet) ||
-                            (selectedClientes.length > 0 &&
-                              dataSet.filter((pedido) =>
-                                selectedClientes.includes(pedido.cliente)
-                              ).length > 0)
-                          )
-                        }
-                      >
-                        Exportar PDF
-                        <i className="bi bi-box-arrow-down"></i>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item d-flex justify-content-between"
-                        onClick={handleExportCSV}
-                        disabled={
-                          !(
-                            (selectedClientes.length == 0 && dataSet) ||
-                            (selectedClientes.length > 0 &&
-                              dataSet.filter((pedido) =>
-                                selectedClientes.includes(pedido.cliente)
-                              ).length > 0)
-                          )
-                        }
-                      >
-                        Exportar CSV
-                        <i className="bi bi-box-arrow-down"></i>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="">
-            Total para las Categorías Seleccionadas:{" "}
-            {selectedClientes.length > 0
-              ? dataSet
-                  .filter((pedido) => selectedClientes.includes(pedido.cliente))
-                  .reduce((total, pedido) => total + pedido.total, 0)
-                  .toLocaleString("es-ES", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                    useGrouping: true,
-                    groupingSeparator: ".",
-                    decimalSeparator: ",",
-                  })
-              : dataSet
-                  .reduce((total, pedido) => total + pedido.total, 0)
-                  .toLocaleString("es-ES", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                    useGrouping: true,
-                    groupingSeparator: ".",
-                    decimalSeparator: ",",
-                  })}{" "}
-            €
-          </div>
-          <div className="py-3 col-12 col-md-10 mx-auto">
-            {!data.pedidos ? null : (
-              <OrdersTable
-                data={
-                  selectedClientes.length > 0
-                    ? dataSet.filter((pedido) =>
+              <h4 className="col-12 col-md-10 mx-auto m-0">
+                Importe Total:{" "}
+                {selectedClientes.length > 0
+                  ? dataSet
+                      .filter((pedido) =>
                         selectedClientes.includes(pedido.cliente)
                       )
-                    : dataSet
-                }
-                // data={dataSet}
-              />
-            )}
-          </div>
+                      .reduce((total, pedido) => total + pedido.total, 0)
+                      .toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        useGrouping: true,
+                        groupingSeparator: ".",
+                        decimalSeparator: ",",
+                      })
+                  : dataSet
+                      .reduce((total, pedido) => total + pedido.total, 0)
+                      .toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        useGrouping: true,
+                        groupingSeparator: ".",
+                        decimalSeparator: ",",
+                      })}{" "}
+                €
+              </h4>
+              <div className="py-3 col-12 col-md-10 mx-auto">
+                {!data.pedidos ? null : (
+                  <OrdersTable
+                    data={
+                      selectedClientes.length > 0
+                        ? dataSet.filter((pedido) =>
+                            selectedClientes.includes(pedido.cliente)
+                          )
+                        : dataSet
+                    }
+                    // data={dataSet}
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
