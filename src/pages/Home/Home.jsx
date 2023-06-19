@@ -173,32 +173,46 @@ const Home = () => {
       const gastos = [];
       const pedidos = [];
 
+      // Calcular acumulado por fecha
+      const acumuladoPorFecha = fechasOrdenadas.reduce((acumulador, fecha) => {
+        const totalFecha = dataSetOrders
+          .filter((order) => order.fecha === fecha)
+          .reduce((total, order) => total + parseFloat(order.total), 0);
+
+        acumulador[fecha] = totalFecha;
+        return acumulador;
+      }, {});
+
       // Recorrer las fechas ordenadas y obtener las cuantías correspondientes
       fechasOrdenadas.forEach((fecha) => {
-        // Obtener cuantía de la primera estructura (array de arrays)
+        // Obtener cuantía de la primera estructura
         const gasto = dataSetBillsFecha.find(([f]) => f === fecha)?.[1] || 0;
         gastos.push(gasto);
 
-        // Obtener cuantía de la segunda estructura (array de objetos)
+        // Obtener cuantía de la segunda estructura
         const pedido =
           dataSetOrders.find(({ fecha: f }) => f === fecha)?.total || 0;
         pedidos.push(pedido);
       });
+
       const totalGastos = gastos.reduce(
         (total, totalGastos) => total + totalGastos,
         0
       );
       setTotalGastos(totalGastos);
+
       const totalPedidos = pedidos.reduce(
         (total, totalPedidos) => total + parseFloat(totalPedidos),
         0
       );
-      console.log(pedidos);
-      console.log(totalPedidos);
       setTotalPedidos(totalPedidos);
+
+      const arrayOrders = fechasOrdenadas.map(
+        (fecha) => acumuladoPorFecha[fecha] || 0
+      );
+
       const chartData = {
         labels: fechasOrdenadas,
-
         datasets: [
           {
             label: "Gastos",
@@ -206,25 +220,26 @@ const Home = () => {
             backgroundColor: "#ffffc355",
             borderColor: "#ffffc3e0",
             fill: true,
-            spanGaps: true, // Omitir los segmentos de línea entre los puntos de datos faltantes (cero)
-            pointRadius: 1, // Si no deseas mostrar los puntos en los picos
-            borderCapStyle: "round", // Establecer los picos redondeados
+            spanGaps: true,
+            pointRadius: 1,
+            borderCapStyle: "round",
           },
           {
             label: "Importe Pedidos",
-            data: pedidos,
+            data: arrayOrders,
             backgroundColor: "#496e81ae",
             borderColor: "#496e81e2",
             fill: true,
-            pointRadius: 1, // Si no deseas mostrar los puntos en los picos
-            borderCapStyle: "round", // Establecer los picos redondeados
-            spanGaps: true, // Omitir los segmentos de línea entre los puntos de datos faltantes (cero)
+            pointRadius: 1,
+            borderCapStyle: "round",
+            spanGaps: true,
           },
         ],
       };
 
       setChartData1(chartData);
     }
+
     if (dataSetOrders) {
       if (chartTypeSmallGraphs === "line") {
         // Saco las fechas y los totales del array resultante
@@ -234,16 +249,38 @@ const Home = () => {
           (total, totalPedidos) => total + parseFloat(totalPedidos),
           0
         );
+        //Obtener fechas distintas
+        const fechasDistintas = [
+          ...new Set(dataSetOrders.map((objeto) => objeto.fecha)),
+        ];
+
+        //Ordenar fechas de más antiguo a más reciente
+        fechasDistintas.sort(
+          (fecha1, fecha2) => new Date(fecha1) - new Date(fecha2)
+        );
+
+        //Calcular acumulado por fecha
+        const acumuladoPorFecha = fechasDistintas.reduce(
+          (acumulador, fecha) => {
+            const totalFecha = dataSetOrders
+              .filter((order) => order.fecha === fecha)
+              .reduce((total, order) => total + parseFloat(order.total), 0);
+
+            acumulador[fecha] = totalFecha;
+            return acumulador;
+          },
+          {}
+        );
         console.log(totals);
         console.log(totalPedidos);
         setTotalPedidos(totalPedidos);
         setTotalPedidos(totalPedidos);
         const chartData = {
-          labels: labels.reverse(),
+          labels: fechasDistintas,
           datasets: [
             {
               label: `Importe Total de los Pedidos`,
-              data: totals.reverse(),
+              data: acumuladoPorFecha,
               backgroundColor: "#496e81ae",
               borderColor: "#496e81e2",
               borderWidth: 1,
@@ -393,13 +430,39 @@ const Home = () => {
           (total, totalGastos) => total + totalGastos,
           0
         );
+
+        //Obtener fechas distintas
+        const fechasDistintas = [
+          ...new Set(dataSetOrders.map((objeto) => objeto.fecha)),
+        ];
+
+        //Ordenar fechas de más antiguo a más reciente
+        fechasDistintas.sort(
+          (fecha1, fecha2) => new Date(fecha1) - new Date(fecha2)
+        );
+
+        //Calcular acumulado por fecha
+        const acumuladoPorFecha = fechasDistintas.reduce(
+          (acumulador, fecha) => {
+            const totalFecha = dataSetOrders
+              .filter((order) => order.fecha === fecha)
+              .reduce((total, order) => total + parseFloat(order.total), 0);
+
+            acumulador[fecha] = totalFecha;
+            return acumulador;
+          },
+          {}
+        );
+        console.log(fechasDistintas);
+        console.log(acumuladoPorFecha);
+
         setTotalGastos(totalGastos);
         const chartData = {
-          labels: labels.reverse(),
+          labels: fechasDistintas,
           datasets: [
             {
               label: `Importe Total de los Pedidos`,
-              data: totals.reverse(),
+              data: acumuladoPorFecha,
               backgroundColor: "#496e81ae",
               borderColor: "#496e81e2",
               borderWidth: 1,
@@ -454,8 +517,8 @@ const Home = () => {
             {
               label: `Importe Total de los Pedidos`,
               data: pedidos,
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -497,8 +560,8 @@ const Home = () => {
             {
               label: `Gastos Totales`,
               data: gastos,
-              backgroundColor: "#496E81",
-              borderColor: "#496E81",
+              backgroundColor: "#496e81ae",
+              borderColor: "#496e81e2",
               borderWidth: 1,
               fill: true,
             },
@@ -654,8 +717,6 @@ const Home = () => {
                   <option value="pie">Circular</option>
                   <option value="line">Lineal (cronológico)</option>
                   <option value="bar">Barras</option>
-                  <option value="radar">Área Hexagonal</option>
-                  <option value="polarArea">Area Polar</option>
                 </select>
                 <div className="d-flex flex-column flex-md-row justify-content-around">
                   {dataSetOrders ? (

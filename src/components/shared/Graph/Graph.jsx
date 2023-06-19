@@ -15,11 +15,25 @@ const Graph = ({ data, options, chartType, title = null }) => {
 
     // Crear un nuevo gráfico
     const ctx = chartRef.current.getContext("2d");
-    chartInstance = new Chart(ctx, {
-      type: chartType,
-      data: data,
-      options: {},
-    });
+    if (chartType == "line") {
+      chartInstance = new Chart(ctx, {
+        type: chartType,
+        data: data,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    } else {
+      chartInstance = new Chart(ctx, {
+        type: chartType,
+        data: data,
+        options: {},
+      });
+    }
 
     // Limpieza al desmontar el componente
     return () => {

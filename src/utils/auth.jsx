@@ -47,6 +47,11 @@ export const getUserId = () => {
   return jwt_decode(token).userId;
 };
 
+export const getUserEmail = () => {
+  const token = localStorage.getItem("token");
+  return jwt_decode(token).email;
+};
+
 export const getIdCommercial = () => {
   const token = localStorage.getItem("token");
   if (getUserRol() === 0) {

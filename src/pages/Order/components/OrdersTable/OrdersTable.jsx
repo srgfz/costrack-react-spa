@@ -7,7 +7,7 @@ const OrdersTable = ({ data }) => {
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
   const [sortColumn, setSortColumn] = useState("fecha");
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortDirection, setSortDirection] = useState("desc");
   const [dataToShow, setDataToShow] = useState(data);
 
   const totalPages = Math.ceil(dataToShow.length / itemsPerPage);

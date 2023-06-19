@@ -109,14 +109,36 @@ const Order = () => {
         );
 
         setTotal(total);
-        const labels = dataSet.map((order) => order.fecha);
+
+        //Obtener fechas distintas
+        const fechasDistintas = [
+          ...new Set(dataSet.map((objeto) => objeto.fecha)),
+        ];
+
+        //Ordenar fechas de más antiguo a más reciente
+        fechasDistintas.sort(
+          (fecha1, fecha2) => new Date(fecha1) - new Date(fecha2)
+        );
+
+        //Calcular acumulado por fecha
+        const acumuladoPorFecha = fechasDistintas.reduce(
+          (acumulador, fecha) => {
+            const totalFecha = dataSet
+              .filter((order) => order.fecha === fecha)
+              .reduce((total, order) => total + parseFloat(order.total), 0);
+
+            acumulador[fecha] = totalFecha;
+            return acumulador;
+          },
+          {}
+        );
 
         const chartData = {
-          labels: labels.reverse(),
+          labels: fechasDistintas,
           datasets: [
             {
               label: `Importe Total de los Pedidos`,
-              data: totals.reverse(),
+              data: acumuladoPorFecha,
               backgroundColor: "#496e81ae",
               borderColor: "#496e81e2",
               borderWidth: 1,
@@ -519,8 +541,6 @@ const Order = () => {
                 <option value="doughnut">Cilíndrico</option>
                 <option value="pie">Circular</option>
                 <option value="bar">Barras</option>
-                <option value="radar">Área Hexagonal</option>
-                <option value="polarArea">Area Polar</option>
               </select>
               <Graph
                 data={chartData}

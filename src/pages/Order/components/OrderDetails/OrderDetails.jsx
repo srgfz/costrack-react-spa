@@ -7,6 +7,7 @@ import useFetch from "./../../../../hooks/useFetch";
 import OrderLine from "../OrderLine/OrderLine";
 import emptyCart from "./../../../../assets/images/emptyCart.png";
 import emailjs from "emailjs-com";
+import { getUserEmail } from "./../../../../utils/auth";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const OrderDetails = () => {
   const [comentarios, setComentarios] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [precioUnidad, setPrecioUnidad] = useState("");
+  const [total, setTotal] = useState(0);
 
   const { isLoading, data, fetchData } = useFetch();
 
@@ -59,7 +61,12 @@ const OrderDetails = () => {
     const templateId = "template_18wnqtl";
     const userId = "2OpIBaT1vhIePYJVs";
 
-    let total = 0;
+    const total = cart.articulos.reduce((acum, articulo) => {
+      return (
+        acum +
+        parseFloat(articulo.cantidad) * parseFloat(articulo.precio_unidad)
+      );
+    }, 0);
 
     const dataToSend = {
       to_email: "fernandezsergio10@gmail.com", // Cambia esto por tu dirección de correo electrónico
@@ -116,16 +123,21 @@ const OrderDetails = () => {
               .join("")}
               <tr>
               <td colspan='2'><strong>Total del pedido</strong></td>
-              <td colspan='2'><strong>Totalpedido</strong></td>
+              <td colspan='2'><strong>${total.toLocaleString("es-ES", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+                useGrouping: true,
+                groupingSeparator: ".",
+                decimalSeparator: ",",
+              })} €</strong></td>
               </tr>
           </tbody>
         </table>
         <br>
 
-        <p>Si no ha realizado usted este pedido, desea hacer alguna modificación o tiene alguna consulta, por favor contacte con nosotros a través de <strong><a href="emaildelcomercial@gmail.com">Email de contacto<a></strong>.</p>
+        <p>Si no ha realizado usted este pedido, desea hacer alguna modificación o tiene alguna consulta, por favor contacte con nosotros a través de <strong><a href="mailto:${getUserEmail()}">Email de contacto<a></strong>.</p>
         <br>
         <p>Muchas Gracias por su confianza.</p>
-        <p>Atentamente,<strong> nombre de la empresa</strong>.</p>
         <br>
         <br>
         <p>* Nota: este es un mensaje enviado de forma automática. No responda directamente a este correo electrónico.</p>

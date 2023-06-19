@@ -133,7 +133,7 @@ const Bill = () => {
   useEffect(() => {
     if (dataSet.categorias != undefined) {
       const total = dataSet.sumatorios.reduce(
-        (total, totalPedido) => total + totalPedido,
+        (total, totalGasto) => total + parseFloat(totalGasto),
         0
       );
       setTotal(total);
@@ -513,8 +513,6 @@ const Bill = () => {
                 <option value="pie">Circular</option>
                 <option value="line">Lineal (cronológico)</option>
                 <option value="bar">Barras</option>
-                <option value="radar">Área Hexagonal</option>
-                <option value="polarArea">Area Polar</option>
               </select>
               <Graph
                 data={chartData}
