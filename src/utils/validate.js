@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-vars */
 const validateDni = (dni) => {
-  console.log(dni)
   const validChars = "TRWAGMYFPDXBNJZSQVHLCKET";
   const nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
   const str = dni.toString().toUpperCase();
@@ -47,7 +46,6 @@ const validatePasswordModerate = (password) => {
 };
 
 const validateUsername = (username) => {
-  console.log(username)
   //Alphanumeric string that may include _ and – having a length of 3 to 16 characters –
   const usernameRegex = /^[a-z0-9_-]{3,16}$/;
   if (usernameRegex.test(username)) return true;

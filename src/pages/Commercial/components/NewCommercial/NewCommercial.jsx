@@ -51,7 +51,7 @@ const NewCommercial = () => {
     const userId = "2OpIBaT1vhIePYJVs";
 
     const dataToSend = {
-      to_email: "fernandezsergio10@gmail.com", // Cambia esto por tu dirección de correo electrónico
+      to_email: data.email,
       from_name: "Costrack",
       subject: "Alta en Costrack como comercial",
       message_html: `

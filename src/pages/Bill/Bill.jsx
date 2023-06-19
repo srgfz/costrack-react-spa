@@ -190,7 +190,6 @@ const Bill = () => {
         );
         setChartData(chartData);
       }
-      console.log(dataSet);
     }
   }, [dataSet, chartType]);
 

@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 
 const BillsTable = ({ data }) => {
-  console.log(data);
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
   const [dataToShow, setDataToShow] = useState(data);
@@ -156,7 +156,6 @@ const BillsTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {console.log(dataToShow)}
           {dataToShow.length > 0 ? (
             renderData()
           ) : (

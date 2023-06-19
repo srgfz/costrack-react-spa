@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
 const OrdersTable = ({ data }) => {
-  console.log(data);
   const itemsPerPage = 10; // Número de elementos por página
   const [currentPage, setCurrentPage] = useState(0);
   const [sortColumn, setSortColumn] = useState("fecha");
@@ -127,7 +127,6 @@ const OrdersTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {console.log(dataToShow)}
           {dataToShow.length > 0 ? (
             renderData()
           ) : (

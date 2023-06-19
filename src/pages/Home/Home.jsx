@@ -271,8 +271,6 @@ const Home = () => {
           },
           {}
         );
-        console.log(totals);
-        console.log(totalPedidos);
         setTotalPedidos(totalPedidos);
         setTotalPedidos(totalPedidos);
         const chartData = {
@@ -293,7 +291,6 @@ const Home = () => {
       } else {
         // Crear un objeto Map para almacenar los valores únicos y sumatorios
         const uniqueMap = new Map();
-        console.log(dataSetOrders);
         // Recorrer el array de JSONs
         dataSetOrders.forEach((order) => {
           const id = order.clienteId;
@@ -317,7 +314,6 @@ const Home = () => {
           total: data.sum,
           nombre: data.nombre,
         }));
-        console.log(result);
         // Obtener arrays separados de nombres y números, manteniendo el orden
         const clientes = result.map((obj) => obj.nombre);
         const pedidos = result.map((obj) => obj.total);
@@ -325,8 +321,6 @@ const Home = () => {
           (total, totalPedidos) => total + parseFloat(totalPedidos),
           0
         );
-        console.log(pedidos);
-        console.log(totalPedidos);
         setTotalPedidos(totalPedidos);
         setTotalPedidos(totalPedidos);
         const chartData = {
@@ -453,8 +447,6 @@ const Home = () => {
           },
           {}
         );
-        console.log(fechasDistintas);
-        console.log(acumuladoPorFecha);
 
         setTotalGastos(totalGastos);
         const chartData = {
@@ -507,8 +499,6 @@ const Home = () => {
           (total, totalPedidos) => total + parseFloat(totalPedidos),
           0
         );
-        console.log(pedidos);
-        console.log(totalPedidos);
         setTotalPedidos(totalPedidos);
         setTotalPedidos(totalPedidos);
         const chartData = {

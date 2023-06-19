@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OrderLine.css";
 
-const OrderLine = ({ data, cart }) => {
+const OrderLine = ({ data }) => {
   const [cantidad, setCantidad] = useState("");
-  const [cartInfo, setCartInfo] = useState(cart);
 
   const [precioUnidad, setPrecioUnidad] = useState("");
   const navigate = useNavigate();
@@ -58,9 +57,7 @@ const OrderLine = ({ data, cart }) => {
       }
       return articulo;
     });
-    setCartInfo(cart);
 
-    console.log(cartInfo);
     localStorage.setItem("cart", JSON.stringify(cart));
   };
 

@@ -139,7 +139,9 @@ const NewBill = () => {
               value={categoria}
               required
             >
-              <option defaultValue>Seleccione una categoría</option>
+              <option value="" disabled>
+                Seleccione una categoría
+              </option>
               <option value="Transporte">Transporte</option>
               <option value="Alojamiento">Alojamiento</option>
               <option value="Alimentación">Alimentación</option>

@@ -74,7 +74,6 @@ const Order = () => {
       }
     });
     setClientes(clientes);
-    console.log(clientes);
   };
 
   //useEffect de llamada a la api
@@ -99,7 +98,6 @@ const Order = () => {
   //UseEffect cada vez que cambian los datos devueltos--> UseEffect del gráfico
   useEffect(() => {
     if (dataSet) {
-      console.log(dataSet);
       if (chartType === "line") {
         // Saco las fechas y los totales del array resultante
         const totals = dataSet.map((order) => parseFloat(order.total));
@@ -179,14 +177,12 @@ const Order = () => {
         // Obtener arrays separados de nombres y números, manteniendo el orden
         const clientes = result.map((obj) => obj.nombre);
         setClientes(clientes);
-        console.log(clientes);
         const pedidos = result.map((obj) => obj.total);
         const total = pedidos.reduce(
           (total, totalPedido) => total + totalPedido,
           0
         );
         setTotal(total);
-        console.log(pedidos);
         const chartData = {
           labels: clientes,
           datasets: [

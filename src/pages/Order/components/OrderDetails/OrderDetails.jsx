@@ -39,10 +39,6 @@ const OrderDetails = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -53,7 +49,6 @@ const OrderDetails = () => {
       await fetchData(apiEndpoint, cart, "PATCH");
     } else {
       await fetchData(apiEndpoint, cart, "POST");
-      console.log(cart);
       sendEmail(cart);
       localStorage.removeItem("cart");
       navigate("/orders/action/post");
@@ -73,7 +68,7 @@ const OrderDetails = () => {
     }, 0);
 
     const dataToSend = {
-      to_email: "fernandezsergio10@gmail.com", // Cambia esto por tu dirección de correo electrónico
+      to_email: cart.email,
       from_name: "Costrack",
       subject: "Pedido Procesado Correctamente",
       message_html: `
@@ -183,7 +178,7 @@ const OrderDetails = () => {
               <div className="">
                 <ul className="list-group">
                   {cart.articulos.map((articulo, index) => (
-                    <OrderLine data={articulo} cart={cart} key={index} />
+                    <OrderLine data={articulo} key={index} />
                   ))}
                 </ul>
               </div>

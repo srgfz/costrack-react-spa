@@ -47,7 +47,6 @@ const Customer = () => {
     const doc = new jsPDF();
 
     const dataToExport = data.clientes;
-    console.log(dataToExport);
 
     const title = `Clientes de ${data.nombre}`;
     const titleFontSize = 16;
