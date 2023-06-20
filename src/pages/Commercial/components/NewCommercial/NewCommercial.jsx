@@ -46,9 +46,9 @@ const NewCommercial = () => {
   }, [data]);
 
   const sendEmail = (data) => {
-    const serviceId = "service_g9lzr9t";
-    const templateId = "template_18wnqtl";
-    const userId = "2OpIBaT1vhIePYJVs";
+    const serviceId = "#";
+    const templateId = "#";
+    const userId = "#";
 
     const dataToSend = {
       to_email: data.email,
